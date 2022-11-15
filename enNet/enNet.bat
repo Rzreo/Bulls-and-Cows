@@ -1,0 +1,1 @@
+nuget pack enNet.csproj -Prop Platform="x64" -Prop Configuration="Release" -IncludeReferencedProjects -build
