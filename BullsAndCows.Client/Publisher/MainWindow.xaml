@@ -1,0 +1,18 @@
+﻿<Window x:Class="Publisher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:infra="clr-namespace:Test.Infrastructure.Utils.Regions;assembly=Test.Infrastructure.Utils"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="250" Width="500">
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static infra:MyRegion.SenderRegion}" HorizontalAlignment="Stretch"/>
+        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static infra:MyRegion.ReceiverRegion}"/>
+    </Grid>
+</Window>
