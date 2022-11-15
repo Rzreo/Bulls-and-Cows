@@ -16,6 +16,8 @@ namespace BullsAndCows.Client
     using BullsAndCows.Infrastructure.Utils.Regions;
     using BullsAndCows.Client.Views;
     using BullsAndCows.Client.ViewModels;
+    using BullsAndCows.Infrastructure.OperationManagement;
+    using BullsAndCows.Client.Services;
 
     public partial class App : PrismApplication
     {
@@ -27,6 +29,8 @@ namespace BullsAndCows.Client
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             ViewModelLocationProvider.Register<MainWindow, MainWindowVM>();
+
+            containerRegistry.RegisterSingleton<IConfigService, ConfigService>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {

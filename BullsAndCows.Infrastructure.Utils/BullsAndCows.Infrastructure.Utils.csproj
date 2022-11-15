@@ -43,6 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IniParser.cs" />
     <Compile Include="Regions\MyRegion.cs" />
     <Compile Include="UIThreadHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
