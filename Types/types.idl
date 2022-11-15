@@ -15,6 +15,13 @@ const string CHOCOLATE_TEMPERATURE_TOPIC = "ChocolateTemperature";
 
 const uint32 MAX_STRING_LEN = 256;
 
+struct BAC_CONNECT
+{
+    @key
+    string<MAX_STRING_LEN> ID;
+};
+
+
 struct Message {
     string<256> msg;
 };

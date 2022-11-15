@@ -20,6 +20,168 @@ using namespace DDS;
 /* ========================================================================= */
 
 // ---------------------------------------------------------------------------
+// BAC_CONNECTDataWriter
+// ---------------------------------------------------------------------------
+
+BAC_CONNECTDataWriter::BAC_CONNECTDataWriter(
+    System::IntPtr impl) : DDS::TypedDataWriter<BAC_CONNECT^>(impl) {
+    // empty
+}
+
+// ---------------------------------------------------------------------------
+// BAC_CONNECTDataReader
+// ---------------------------------------------------------------------------
+
+BAC_CONNECTDataReader::BAC_CONNECTDataReader(
+    System::IntPtr impl) : DDS::TypedDataReader<BAC_CONNECT^>(impl) {
+    // empty
+}
+
+// ---------------------------------------------------------------------------
+// BAC_CONNECTTypeSupport
+// ---------------------------------------------------------------------------
+
+BAC_CONNECTTypeSupport::BAC_CONNECTTypeSupport()
+: DDS::TypedTypeSupport<BAC_CONNECT^>(
+    BAC_CONNECTPlugin::get_instance()) {
+
+    _type_plugin = BAC_CONNECTPlugin::get_instance();
+}
+
+void BAC_CONNECTTypeSupport::register_type(
+    DDS::DomainParticipant^ participant,
+    System::String^ type_name) {
+
+    get_instance()->register_type_untyped(participant, type_name);
+}
+
+void BAC_CONNECTTypeSupport::unregister_type(
+    DDS::DomainParticipant^ participant,
+    System::String^ type_name) {
+
+    get_instance()->unregister_type_untyped(participant, type_name);
+}
+
+BAC_CONNECT^ BAC_CONNECTTypeSupport::create_data() {
+    return gcnew BAC_CONNECT();
+}
+
+BAC_CONNECT^ BAC_CONNECTTypeSupport::create_data_untyped() {
+    return create_data();
+}
+
+void BAC_CONNECTTypeSupport::delete_data(
+    BAC_CONNECT^ a_data) {
+    /* If the generated type does not implement IDisposable (the default),
+    * the following will no a no-op.
+    */
+    delete a_data;
+}
+
+void BAC_CONNECTTypeSupport::print_data(BAC_CONNECT^ a_data) {
+    get_instance()->_type_plugin->print_data(a_data, nullptr, 0);
+}
+
+void BAC_CONNECTTypeSupport::copy_data(
+    BAC_CONNECT^ dst, BAC_CONNECT^ src) {
+
+    get_instance()->copy_data_untyped(dst, src);
+}
+
+void BAC_CONNECTTypeSupport::serialize_data_to_cdr_buffer(
+    array<System::Byte>^ buffer,
+    System::UInt32% length,
+    BAC_CONNECT^ a_data,
+    System::Int16 representation)
+{
+    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(
+        buffer,
+        length,
+        a_data,
+        representation)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+void BAC_CONNECTTypeSupport::serialize_data_to_cdr_buffer(
+    array<System::Byte>^ buffer,
+    System::UInt32% length,
+    BAC_CONNECT^ a_data)
+{
+    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(buffer,length,a_data)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+void BAC_CONNECTTypeSupport::deserialize_data_from_cdr_buffer(
+    BAC_CONNECT^ a_data,
+    array<System::Byte>^ buffer,
+    System::UInt32 length)
+{
+    if (!get_instance()->_type_plugin->deserialize_from_cdr_buffer(a_data,buffer,length)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+#ifndef NDDS_STANDALONE_TYPE
+System::String^ BAC_CONNECTTypeSupport::data_to_string(
+    BAC_CONNECT ^sample, 
+    PrintFormatProperty ^formatProperty)
+{
+    return get_instance()->_type_plugin->data_to_string(
+        sample, 
+        formatProperty);
+}
+
+System::String^ BAC_CONNECTTypeSupport::data_to_string(
+    BAC_CONNECT ^sample)
+{
+    PrintFormatProperty ^formatProperty = gcnew PrintFormatProperty();
+    return get_instance()->_type_plugin->data_to_string(
+        sample, 
+        formatProperty);
+}
+#endif
+
+DDS::TypeCode^ BAC_CONNECTTypeSupport::get_typecode() {
+    #ifndef NDDS_STANDALONE_TYPE
+    return  BAC_CONNECT::get_typecode();
+    #else
+    return nullptr;
+    #endif
+}
+
+System::String^ BAC_CONNECTTypeSupport::get_type_name() {
+    return TYPENAME;
+}
+
+System::String^ BAC_CONNECTTypeSupport::get_type_name_untyped() {
+    return TYPENAME;
+}
+
+DDS::DataReader^ BAC_CONNECTTypeSupport::create_datareaderI(
+    System::IntPtr impl) {
+
+    return gcnew BAC_CONNECTDataReader(impl);
+}
+
+DDS::DataWriter^ BAC_CONNECTTypeSupport::create_datawriterI(
+    System::IntPtr impl) {
+
+    return gcnew BAC_CONNECTDataWriter(impl);
+}
+
+BAC_CONNECTTypeSupport^
+BAC_CONNECTTypeSupport::get_instance() {
+    if (_singleton == nullptr) {
+        _singleton = gcnew BAC_CONNECTTypeSupport();
+    }
+    return _singleton;
+}
+
+/* ========================================================================= */
+
+// ---------------------------------------------------------------------------
 // MessageDataWriter
 // ---------------------------------------------------------------------------
 

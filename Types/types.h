@@ -42,6 +42,62 @@ public ref class MAX_STRING_LEN sealed {
     MAX_STRING_LEN() {}
 };
 
+public ref struct BAC_CONNECT
+:  public DDS::ICopyable<BAC_CONNECT^> {
+    // --- Declared members: -------------------------------------------------
+  public: 
+
+    System::String^ ID;
+
+    // --- Static constants: -------------------------------------    
+  public:
+
+    // --- Constructors and destructors: -------------------------------------
+  public:
+    BAC_CONNECT();
+
+    // --- Utility methods: --------------------------------------------------
+  public:
+
+    virtual void clear() ;
+
+    virtual System::Boolean copy_from(BAC_CONNECT^ src);
+
+    virtual System::Boolean Equals(System::Object^ other) override;
+    #ifndef NDDS_STANDALONE_TYPE
+    static DDS::TypeCode^ get_typecode();
+
+  private:
+    static DDS::TypeCode^ _typecode;
+    #endif
+
+}; // class BAC_CONNECT
+
+public ref class BAC_CONNECTSeq sealed
+: public DDS::UserRefSequence<BAC_CONNECT^> {
+  public:
+    BAC_CONNECTSeq() :
+        DDS::UserRefSequence<BAC_CONNECT^>() {
+            // empty
+    }
+    BAC_CONNECTSeq(System::Int32 max) :
+        DDS::UserRefSequence<BAC_CONNECT^>(max) {
+            // empty
+    }
+    BAC_CONNECTSeq(BAC_CONNECTSeq^ src) :
+        DDS::UserRefSequence<BAC_CONNECT^>(src) {
+            // empty
+    }
+};
+
+#ifndef NDDS_STANDALONE_TYPE
+
+#define NDDSUSERDllExport
+
+NDDSUSERDllExport DDS_TypeCode* BAC_CONNECT_get_typecode();
+
+#endif
+
 public ref struct Message
 :  public DDS::ICopyable<Message^> {
     // --- Declared members: -------------------------------------------------

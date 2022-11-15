@@ -19,6 +19,119 @@ using namespace DDS;
 #include "types.h"
 
 /* ========================================================================= */
+BAC_CONNECT::BAC_CONNECT() {
+    ID = "";
+}
+
+void BAC_CONNECT::clear(){
+    ID = "";
+}
+
+System::Boolean BAC_CONNECT::copy_from(BAC_CONNECT^ src) {
+
+    BAC_CONNECT^ dst = this;
+
+    dst->ID = src->ID;
+    return true;
+}
+
+Boolean BAC_CONNECT::Equals(Object^ other) {
+    if (other == nullptr) {
+        return false;
+    }        
+    if (this == other) {
+        return true;
+    }
+    BAC_CONNECT^ otherObj =
+    dynamic_cast<BAC_CONNECT^>(other);
+    if (otherObj == nullptr) {
+        return false;
+    }
+
+    if (!ID->Equals(otherObj->ID)) {
+        return false;
+    }
+    return true;
+}
+
+#ifndef NDDS_STANDALONE_TYPE
+DDS::TypeCode^ BAC_CONNECT::get_typecode() {
+    if (_typecode == nullptr) {
+        _typecode = gcnew DDS::TypeCode(BAC_CONNECT_get_typecode());
+    }
+    return _typecode;
+}
+#endif
+
+#ifndef NDDS_STANDALONE_TYPE
+DDS_TypeCode* BAC_CONNECT_get_typecode()
+{
+    static RTIBool is_initialized = RTI_FALSE;
+
+    static DDS_TypeCode BAC_CONNECT_g_tc_ID_string = DDS_INITIALIZE_STRING_TYPECODE(((MAX_STRING_LEN::VALUE)));
+
+    static DDS_TypeCode_Member BAC_CONNECT_g_tc_members[1]=
+    {
+
+        {
+            (char *)"ID",/* Member name */
+            {
+                0,/* Representation ID */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            0, /* Ignored */
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_KEY_MEMBER , /* Is a key? */
+            DDS_PUBLIC_MEMBER,/* Member visibility */
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
+        }
+    };
+
+    static DDS_TypeCode BAC_CONNECT_g_tc =
+    {{
+            DDS_TK_STRUCT, /* Kind */
+            DDS_BOOLEAN_FALSE, /* Ignored */
+            -1, /*Ignored*/
+            (char *)"BAC_CONNECT", /* Name */
+            NULL, /* Ignored */      
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            1, /* Number of members */
+            BAC_CONNECT_g_tc_members, /* Members */
+            DDS_VM_NONE, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER,
+            DDS_BOOLEAN_TRUE, /* _isCopyable */
+            NULL, /* _sampleAccessInfo: assigned later */
+            NULL /* _typePlugin: assigned later */
+        }}; /* Type code for BAC_CONNECT*/
+
+    if (is_initialized) {
+        return &BAC_CONNECT_g_tc;
+    }
+
+    BAC_CONNECT_g_tc._data._annotations._allowedDataRepresentationMask = 5;
+
+    BAC_CONNECT_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&BAC_CONNECT_g_tc_ID_string;
+
+    /* Initialize the values for member annotations. */
+    BAC_CONNECT_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_STRING;
+    BAC_CONNECT_g_tc_members[0]._annotations._defaultValue._u.string_value = (DDS_Char *) "";
+
+    BAC_CONNECT_g_tc._data._sampleAccessInfo = NULL;
+
+    is_initialized = RTI_TRUE;
+
+    return &BAC_CONNECT_g_tc;
+}
+#endif
+/* ========================================================================= */
 Message::Message() {
     msg = "";
 }
