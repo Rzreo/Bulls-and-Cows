@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BullsAndCows.Client.Views
+namespace BullsAndCows.Client.ViewModels
 {
-    public class Class1
+    using BullsAndCows.Infrastructure;
+    class MainWindowVM : ViewModelBase
     {
     }
 }

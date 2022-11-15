@@ -13,8 +13,9 @@ namespace BullsAndCows.Client
     using Prism.Modularity;
     using Prism.Mvvm;
     using Prism.Regions;
-    using Test.Infrastructure.Utils.Regions;
-    using Test.Views.Views;
+    using BullsAndCows.Infrastructure.Utils.Regions;
+    using BullsAndCows.Client.Views;
+    using BullsAndCows.Client.ViewModels;
 
     public partial class App : PrismApplication
     {
@@ -25,20 +26,20 @@ namespace BullsAndCows.Client
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            ViewModelLocationProvider.Register<MainWindow, MainWindowViewModel>();
+            ViewModelLocationProvider.Register<MainWindow, MainWindowVM>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<Test.Net.NetModule>();
-            moduleCatalog.AddModule<Test.Views.ViewsModule>();
+            moduleCatalog.AddModule<BullsAndCows.Client.Net.NetModule>();
+            moduleCatalog.AddModule<BullsAndCows.Client.Views.ViewsModule>();
         }
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
             var regionManager = this.Container.Resolve<IRegionManager>();
-            regionManager.RequestNavigate(MyRegion.ReceiverRegion, nameof(MessageList));
-            regionManager.RequestNavigate(MyRegion.SenderRegion, nameof(MessageSender));
+            //regionManager.RequestNavigate(MyRegion.ReceiverRegion, nameof(MessageList));
+            //regionManager.RequestNavigate(MyRegion.SenderRegion, nameof(MessageSender));
         }
     }
 }

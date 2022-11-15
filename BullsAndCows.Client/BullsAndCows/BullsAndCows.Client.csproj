@@ -71,6 +71,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\MainWindowVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -115,6 +116,14 @@
     <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Utils\BullsAndCows.Infrastructure.Utils.csproj">
       <Project>{f3957b95-008f-4eee-b28e-b61614d171a9}</Project>
       <Name>BullsAndCows.Infrastructure.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure\BullsAndCows.Infrastructure.csproj">
+      <Project>{6c694380-4b17-4956-b4df-e3f7f0d5219d}</Project>
+      <Name>BullsAndCows.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BullsAndCows.Client.Net\BullsAndCows.Client.Net.csproj">
+      <Project>{266c4335-b887-4ccf-bd50-bffe253e2eec}</Project>
+      <Name>BullsAndCows.Client.Net</Name>
     </ProjectReference>
     <ProjectReference Include="..\BullsAndCows.Client.Views\BullsAndCows.Client.Views.csproj">
       <Project>{a7a4e6c2-11ce-470b-9f02-fee17a25e319}</Project>
