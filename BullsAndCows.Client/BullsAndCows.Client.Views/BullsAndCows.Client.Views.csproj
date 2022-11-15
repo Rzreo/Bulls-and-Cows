@@ -96,6 +96,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Style\BullsAndCows.Infrastructure.Style.csproj">
+      <Project>{5c247225-c2f7-4c9f-803d-1d78db601a5b}</Project>
+      <Name>BullsAndCows.Infrastructure.Style</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Utils\BullsAndCows.Infrastructure.Utils.csproj">
       <Project>{f3957b95-008f-4eee-b28e-b61614d171a9}</Project>
       <Name>BullsAndCows.Infrastructure.Utils</Name>

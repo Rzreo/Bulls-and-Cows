@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BullsAndCows.Client.Views"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:ctrl="clr-namespace:BullsAndCows.Infrastructure.Controls;assembly=BullsAndCows.Infrastructure"
+             xmlns:ctrl="clr-namespace:BullsAndCows.Infrastructure.Style.Controls;assembly=BullsAndCows.Infrastructure.Style"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              prism:ViewModelLocator.AutoWireViewModel="True">
