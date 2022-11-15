@@ -1,4 +1,4 @@
-﻿namespace Test.Infrastructure.Utils
+﻿namespace BullsAndCows.Infrastructure.Utils
 {
     using System;
     using System.Windows;
