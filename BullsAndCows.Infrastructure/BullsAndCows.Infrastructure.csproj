@@ -7,8 +7,8 @@
     <ProjectGuid>{6C694380-4B17-4956-B4DF-E3F7F0D5219D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test.Infrastructure</RootNamespace>
-    <AssemblyName>Test.Infrastructure</AssemblyName>
+    <RootNamespace>BullsAndCows.Infrastructure</RootNamespace>
+    <AssemblyName>BullsAndCows.Infrastructure</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
