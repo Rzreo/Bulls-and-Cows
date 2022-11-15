@@ -14,13 +14,19 @@ const string CHOCOLATE_LOT_STATE_TOPIC = "ChocolateLotState";
 const string CHOCOLATE_TEMPERATURE_TOPIC = "ChocolateTemperature";
 
 const uint32 MAX_STRING_LEN = 256;
+const uint32 ID_STRING_LEN = 24;
 
-struct BAC_CONNECT
+struct BAC_AVAILABLE_IDs
 {
-    @key
-    string<MAX_STRING_LEN> ID;
+    string<ID_STRING_LEN> ID1;
+    string<ID_STRING_LEN> ID2;
+    string<ID_STRING_LEN> ID3;
 };
 
+struct BAC_CREATE_ROOM
+{
+    string<ID_STRING_LEN> ID;
+};
 
 struct Message {
     string<256> msg;
