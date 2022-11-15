@@ -13,12 +13,12 @@ namespace BullsAndCows.Infrastructure.Net
         /// </summary>
         //DebugModel DebugModel { get; }
 
-        bool DeleteDataReader(Type type);
+        bool DeleteDataReader(Type type, string topic);
 
-        void RegisterEvent(Type type, Action<object> readerAction);
+        void RegisterEvent(Type type, string topic, Action<object> readerAction);
 
-        void RegisterEvent(Type type, Action callbackFunc);
+        void RegisterEvent(Type type, string topic, Action callbackFunc);
 
-        bool Write(Type type, object message);
+        bool Write(Type type, string topic, object message);
     }
 }

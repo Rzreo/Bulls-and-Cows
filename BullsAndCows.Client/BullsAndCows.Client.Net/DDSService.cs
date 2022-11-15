@@ -21,18 +21,18 @@
             }
         }
 
-        public bool DeleteDataReader(Type type)
+        public bool DeleteDataReader(Type type, string topic)
         {
             this.SubscribedDDSObservable[type].ForEach(disposable => disposable.Dispose());
 
             this.SubscribedDDSObservable[type].Clear();
 
-            return this.ddsManagement.DeleteDataReader(type);
+            return this.ddsManagement.DeleteDataReader(type, topic);
         }
 
-        public void RegisterEvent(Type type, Action<object> readerAction)
+        public void RegisterEvent(Type type, string topic, Action<object> readerAction)
         {
-            var disposable = this.ddsManagement.GetDataReader(type).Samples.Subscribe(data =>
+            var disposable = this.ddsManagement.GetDataReader(type, topic).Samples.Subscribe(data =>
             {
                 //if (this.DebugModel.IsPopupOpened)
                 //{
@@ -48,9 +48,9 @@
             this.SubscribedDDSObservable[type].Add(disposable);
         }
 
-        public void RegisterEvent(Type type, Action callbackFunc)
+        public void RegisterEvent(Type type, string topic, Action callbackFunc)
         {
-            var disposable = this.ddsManagement.GetDataReader(type).Samples.Subscribe(_ =>
+            var disposable = this.ddsManagement.GetDataReader(type, topic).Samples.Subscribe(_ =>
             {
 
                 //if (this.DebugModel.IsPopupOpened)
@@ -67,9 +67,9 @@
             this.SubscribedDDSObservable[type].Add(disposable);
         }
 
-        public bool Write(Type type, object message)
+        public bool Write(Type type, string topic, object message)
         {
-            var writer = this.ddsManagement.GetDataWriter(type);
+            var writer = this.ddsManagement.GetDataWriter(type, topic);
             if (writer is null)
             {
                 return false;

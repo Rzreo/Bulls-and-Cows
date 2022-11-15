@@ -46,38 +46,31 @@ namespace BullsAndCows.Client.Net
             this.defaultPublisher = this.defaultParticipant.CreatePublisher();
 
             IsEnabled = true;
-            InitializeDataWriter();
         }
 
         public bool IsEnabled { get; set; }
-        public void InitializeDataWriter()
-        {
-            foreach (var t in this.DataWriterQoSDic)
-            {
-                this.GetDataWriter(t.Key);
-            }
-        }
 
         #region DataWriter
-        private readonly ConcurrentDictionary<Type, IDataWriter> dataWriterDictionary = new ConcurrentDictionary<Type, IDataWriter>();
-        public IDataWriter GetDataWriter(Type type)
+        private readonly ConcurrentDictionary<(Type,string), IDataWriter> dataWriterDictionary = new ConcurrentDictionary<(Type,string), IDataWriter>();
+        public IDataWriter GetDataWriter(Type type, string topic)
         {
-            if (type == null)
+            if (type == null || topic == null)
             {
                 return null;
             }
+            var tp = ValueTuple.Create(type, topic);
 
-            if (!this.dataWriterDictionary.ContainsKey(type))
+            if (!this.dataWriterDictionary.ContainsKey(tp))
             {
-                var dataWriter = this.CreateDataWriter(type);
-                this.dataWriterDictionary[type] = dataWriter;
+                var dataWriter = this.CreateDataWriter(type, topic);
+                this.dataWriterDictionary[tp] = dataWriter;
             }
 
-            return this.dataWriterDictionary[type];
+            return this.dataWriterDictionary[tp];
         }
-        private IDataWriter CreateDataWriter(Type type)
+        private IDataWriter CreateDataWriter(Type type, string topicName)
         {
-            var topic = this.defaultParticipant.CreateTopic(type);
+            var topic = this.defaultParticipant.CreateTopic(type, topicName);
 
             DDS.DataWriter dataWriter;
 
@@ -107,11 +100,13 @@ namespace BullsAndCows.Client.Net
         #endregion
 
         #region DataReader
-        private readonly ConcurrentDictionary<Type, IDataReader> dataReaderDictionary = new ConcurrentDictionary<Type, IDataReader>();
+        private readonly ConcurrentDictionary<(Type, string), IDataReader> dataReaderDictionary = new ConcurrentDictionary<(Type, string), IDataReader>();
 
-        public bool DeleteDataReader(Type type)
+        public bool DeleteDataReader(Type type, string topic)
         {
-            if (this.dataReaderDictionary.TryRemove(type, out IDataReader reader))
+            var tp = ValueTuple.Create(type, topic);
+
+            if (this.dataReaderDictionary.TryRemove(tp, out IDataReader reader))
             {
                 reader.Dispose();
                 return true;
@@ -121,24 +116,25 @@ namespace BullsAndCows.Client.Net
                 return false;
             }
         }
-        public IDataReader GetDataReader(Type type)
+        public IDataReader GetDataReader(Type type, string topic)
         {
-            if (type == null)
+            if (type == null || topic == null)
             {
                 return null;
             }
+            var tp = ValueTuple.Create(type, topic);
 
-            if (!this.dataReaderDictionary.ContainsKey(type))
+            if (!this.dataReaderDictionary.ContainsKey(tp))
             {
-                var dataReader = this.CreateDataReader(type);
-                this.dataReaderDictionary[type] = dataReader;
+                var dataReader = this.CreateDataReader(type, topic);
+                this.dataReaderDictionary[tp] = dataReader;
             }
 
-            return this.dataReaderDictionary[type];
+            return this.dataReaderDictionary[tp];
         }
-        private IDataReader CreateDataReader(Type type)
+        private IDataReader CreateDataReader(Type type, string topicName)
         {
-            var topic = this.defaultParticipant.CreateTopic(type);
+            var topic = this.defaultParticipant.CreateTopic(type, topicName);
 
             if (this.isLibraryApplied)
             {
