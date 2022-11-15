@@ -7,9 +7,11 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace BullsAndCows.Play.ViewModels
+namespace BullsAndCows.Client.Views.ViewModels
 {
     using BullsAndCows.Infrastructure.BaseClass;
+    using BullsAndCows.Infrastructure.Net;
+
     //using BullsAndCows.Models;
 
     class PlayVM : ViewModelBase
@@ -20,7 +22,7 @@ namespace BullsAndCows.Play.ViewModels
         //    set { SetProperty(ref _gameOutput, value); }
         //}
         public List<int> Numbers { get; private set; } = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        public PlayVM()
+        public PlayVM(IDDSService dds)
         {
         }
     }

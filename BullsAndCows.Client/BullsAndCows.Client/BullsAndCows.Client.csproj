@@ -93,7 +93,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Services\ConfigService.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\MainWindowVM.cs" />
+    <Compile Include="Views\LoginView.xaml.cs">
+      <DependentUpon>LoginView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -106,6 +110,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -135,6 +143,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Style\BullsAndCows.Infrastructure.Style.csproj">
+      <Project>{5c247225-c2f7-4c9f-803d-1d78db601a5b}</Project>
+      <Name>BullsAndCows.Infrastructure.Style</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Utils\BullsAndCows.Infrastructure.Utils.csproj">
       <Project>{f3957b95-008f-4eee-b28e-b61614d171a9}</Project>
       <Name>BullsAndCows.Infrastructure.Utils</Name>
@@ -153,4 +165,19 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>IF NOT EXIST "$(TargetDir)..\Config" mkdir "$(TargetDir)..\Config"
+xcopy /y  /e  "$(SolutionDir)BullsAndCows.Client.Configuration\Config\*.*" "$(TargetDir)..\Config"
+xcopy /y  /e  "$(SolutionDir)BullsAndCows.Client.Configuration\Data\*.*" "$(TargetDir)"
+
+xcopy /y  "$(NDDSHOME)\lib\x64Win64VS2017\nddsdotnet461.dll"  "$(TargetDir)"
+xcopy /y  "$(NDDSHOME)\lib\x64Win64VS2017\nddsc.dll"  "$(TargetDir)"
+xcopy /y  "$(NDDSHOME)\lib\x64Win64VS2017\nddscore.dll"  "$(TargetDir)"
+xcopy /y  "$(NDDSHOME)\lib\x64Win64VS2017\nddscpp.dll"  "$(TargetDir)"
+if $(ConfigurationName) == Debug (
+xcopy /y  "$(NDDSHOME)\lib\x64Win64VS2017\nddscd.dll"  "$(TargetDir)"
+xcopy /y  "$(NDDSHOME)\lib\x64Win64VS2017\nddscored.dll"  "$(TargetDir)"
+xcopy /y  "$(NDDSHOME)\lib\x64Win64VS2017\nddscppd.dll"  "$(TargetDir)"
+)</PostBuildEvent>
+  </PropertyGroup>
 </Project>

@@ -20,78 +20,78 @@ using namespace DDS;
 /* ========================================================================= */
 
 // ---------------------------------------------------------------------------
-// BAC_CONNECTDataWriter
+// BAC_AVAILABLE_IDsDataWriter
 // ---------------------------------------------------------------------------
 
-BAC_CONNECTDataWriter::BAC_CONNECTDataWriter(
-    System::IntPtr impl) : DDS::TypedDataWriter<BAC_CONNECT^>(impl) {
+BAC_AVAILABLE_IDsDataWriter::BAC_AVAILABLE_IDsDataWriter(
+    System::IntPtr impl) : DDS::TypedDataWriter<BAC_AVAILABLE_IDs^>(impl) {
     // empty
 }
 
 // ---------------------------------------------------------------------------
-// BAC_CONNECTDataReader
+// BAC_AVAILABLE_IDsDataReader
 // ---------------------------------------------------------------------------
 
-BAC_CONNECTDataReader::BAC_CONNECTDataReader(
-    System::IntPtr impl) : DDS::TypedDataReader<BAC_CONNECT^>(impl) {
+BAC_AVAILABLE_IDsDataReader::BAC_AVAILABLE_IDsDataReader(
+    System::IntPtr impl) : DDS::TypedDataReader<BAC_AVAILABLE_IDs^>(impl) {
     // empty
 }
 
 // ---------------------------------------------------------------------------
-// BAC_CONNECTTypeSupport
+// BAC_AVAILABLE_IDsTypeSupport
 // ---------------------------------------------------------------------------
 
-BAC_CONNECTTypeSupport::BAC_CONNECTTypeSupport()
-: DDS::TypedTypeSupport<BAC_CONNECT^>(
-    BAC_CONNECTPlugin::get_instance()) {
+BAC_AVAILABLE_IDsTypeSupport::BAC_AVAILABLE_IDsTypeSupport()
+: DDS::TypedTypeSupport<BAC_AVAILABLE_IDs^>(
+    BAC_AVAILABLE_IDsPlugin::get_instance()) {
 
-    _type_plugin = BAC_CONNECTPlugin::get_instance();
+    _type_plugin = BAC_AVAILABLE_IDsPlugin::get_instance();
 }
 
-void BAC_CONNECTTypeSupport::register_type(
+void BAC_AVAILABLE_IDsTypeSupport::register_type(
     DDS::DomainParticipant^ participant,
     System::String^ type_name) {
 
     get_instance()->register_type_untyped(participant, type_name);
 }
 
-void BAC_CONNECTTypeSupport::unregister_type(
+void BAC_AVAILABLE_IDsTypeSupport::unregister_type(
     DDS::DomainParticipant^ participant,
     System::String^ type_name) {
 
     get_instance()->unregister_type_untyped(participant, type_name);
 }
 
-BAC_CONNECT^ BAC_CONNECTTypeSupport::create_data() {
-    return gcnew BAC_CONNECT();
+BAC_AVAILABLE_IDs^ BAC_AVAILABLE_IDsTypeSupport::create_data() {
+    return gcnew BAC_AVAILABLE_IDs();
 }
 
-BAC_CONNECT^ BAC_CONNECTTypeSupport::create_data_untyped() {
+BAC_AVAILABLE_IDs^ BAC_AVAILABLE_IDsTypeSupport::create_data_untyped() {
     return create_data();
 }
 
-void BAC_CONNECTTypeSupport::delete_data(
-    BAC_CONNECT^ a_data) {
+void BAC_AVAILABLE_IDsTypeSupport::delete_data(
+    BAC_AVAILABLE_IDs^ a_data) {
     /* If the generated type does not implement IDisposable (the default),
     * the following will no a no-op.
     */
     delete a_data;
 }
 
-void BAC_CONNECTTypeSupport::print_data(BAC_CONNECT^ a_data) {
+void BAC_AVAILABLE_IDsTypeSupport::print_data(BAC_AVAILABLE_IDs^ a_data) {
     get_instance()->_type_plugin->print_data(a_data, nullptr, 0);
 }
 
-void BAC_CONNECTTypeSupport::copy_data(
-    BAC_CONNECT^ dst, BAC_CONNECT^ src) {
+void BAC_AVAILABLE_IDsTypeSupport::copy_data(
+    BAC_AVAILABLE_IDs^ dst, BAC_AVAILABLE_IDs^ src) {
 
     get_instance()->copy_data_untyped(dst, src);
 }
 
-void BAC_CONNECTTypeSupport::serialize_data_to_cdr_buffer(
+void BAC_AVAILABLE_IDsTypeSupport::serialize_data_to_cdr_buffer(
     array<System::Byte>^ buffer,
     System::UInt32% length,
-    BAC_CONNECT^ a_data,
+    BAC_AVAILABLE_IDs^ a_data,
     System::Int16 representation)
 {
     if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(
@@ -103,18 +103,18 @@ void BAC_CONNECTTypeSupport::serialize_data_to_cdr_buffer(
     }
 }
 
-void BAC_CONNECTTypeSupport::serialize_data_to_cdr_buffer(
+void BAC_AVAILABLE_IDsTypeSupport::serialize_data_to_cdr_buffer(
     array<System::Byte>^ buffer,
     System::UInt32% length,
-    BAC_CONNECT^ a_data)
+    BAC_AVAILABLE_IDs^ a_data)
 {
     if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(buffer,length,a_data)) {
         throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
     }
 }
 
-void BAC_CONNECTTypeSupport::deserialize_data_from_cdr_buffer(
-    BAC_CONNECT^ a_data,
+void BAC_AVAILABLE_IDsTypeSupport::deserialize_data_from_cdr_buffer(
+    BAC_AVAILABLE_IDs^ a_data,
     array<System::Byte>^ buffer,
     System::UInt32 length)
 {
@@ -124,8 +124,8 @@ void BAC_CONNECTTypeSupport::deserialize_data_from_cdr_buffer(
 }
 
 #ifndef NDDS_STANDALONE_TYPE
-System::String^ BAC_CONNECTTypeSupport::data_to_string(
-    BAC_CONNECT ^sample, 
+System::String^ BAC_AVAILABLE_IDsTypeSupport::data_to_string(
+    BAC_AVAILABLE_IDs ^sample, 
     PrintFormatProperty ^formatProperty)
 {
     return get_instance()->_type_plugin->data_to_string(
@@ -133,8 +133,8 @@ System::String^ BAC_CONNECTTypeSupport::data_to_string(
         formatProperty);
 }
 
-System::String^ BAC_CONNECTTypeSupport::data_to_string(
-    BAC_CONNECT ^sample)
+System::String^ BAC_AVAILABLE_IDsTypeSupport::data_to_string(
+    BAC_AVAILABLE_IDs ^sample)
 {
     PrintFormatProperty ^formatProperty = gcnew PrintFormatProperty();
     return get_instance()->_type_plugin->data_to_string(
@@ -143,38 +143,200 @@ System::String^ BAC_CONNECTTypeSupport::data_to_string(
 }
 #endif
 
-DDS::TypeCode^ BAC_CONNECTTypeSupport::get_typecode() {
+DDS::TypeCode^ BAC_AVAILABLE_IDsTypeSupport::get_typecode() {
     #ifndef NDDS_STANDALONE_TYPE
-    return  BAC_CONNECT::get_typecode();
+    return  BAC_AVAILABLE_IDs::get_typecode();
     #else
     return nullptr;
     #endif
 }
 
-System::String^ BAC_CONNECTTypeSupport::get_type_name() {
+System::String^ BAC_AVAILABLE_IDsTypeSupport::get_type_name() {
     return TYPENAME;
 }
 
-System::String^ BAC_CONNECTTypeSupport::get_type_name_untyped() {
+System::String^ BAC_AVAILABLE_IDsTypeSupport::get_type_name_untyped() {
     return TYPENAME;
 }
 
-DDS::DataReader^ BAC_CONNECTTypeSupport::create_datareaderI(
+DDS::DataReader^ BAC_AVAILABLE_IDsTypeSupport::create_datareaderI(
     System::IntPtr impl) {
 
-    return gcnew BAC_CONNECTDataReader(impl);
+    return gcnew BAC_AVAILABLE_IDsDataReader(impl);
 }
 
-DDS::DataWriter^ BAC_CONNECTTypeSupport::create_datawriterI(
+DDS::DataWriter^ BAC_AVAILABLE_IDsTypeSupport::create_datawriterI(
     System::IntPtr impl) {
 
-    return gcnew BAC_CONNECTDataWriter(impl);
+    return gcnew BAC_AVAILABLE_IDsDataWriter(impl);
 }
 
-BAC_CONNECTTypeSupport^
-BAC_CONNECTTypeSupport::get_instance() {
+BAC_AVAILABLE_IDsTypeSupport^
+BAC_AVAILABLE_IDsTypeSupport::get_instance() {
     if (_singleton == nullptr) {
-        _singleton = gcnew BAC_CONNECTTypeSupport();
+        _singleton = gcnew BAC_AVAILABLE_IDsTypeSupport();
+    }
+    return _singleton;
+}
+
+/* ========================================================================= */
+
+// ---------------------------------------------------------------------------
+// BAC_CREATE_ROOMDataWriter
+// ---------------------------------------------------------------------------
+
+BAC_CREATE_ROOMDataWriter::BAC_CREATE_ROOMDataWriter(
+    System::IntPtr impl) : DDS::TypedDataWriter<BAC_CREATE_ROOM^>(impl) {
+    // empty
+}
+
+// ---------------------------------------------------------------------------
+// BAC_CREATE_ROOMDataReader
+// ---------------------------------------------------------------------------
+
+BAC_CREATE_ROOMDataReader::BAC_CREATE_ROOMDataReader(
+    System::IntPtr impl) : DDS::TypedDataReader<BAC_CREATE_ROOM^>(impl) {
+    // empty
+}
+
+// ---------------------------------------------------------------------------
+// BAC_CREATE_ROOMTypeSupport
+// ---------------------------------------------------------------------------
+
+BAC_CREATE_ROOMTypeSupport::BAC_CREATE_ROOMTypeSupport()
+: DDS::TypedTypeSupport<BAC_CREATE_ROOM^>(
+    BAC_CREATE_ROOMPlugin::get_instance()) {
+
+    _type_plugin = BAC_CREATE_ROOMPlugin::get_instance();
+}
+
+void BAC_CREATE_ROOMTypeSupport::register_type(
+    DDS::DomainParticipant^ participant,
+    System::String^ type_name) {
+
+    get_instance()->register_type_untyped(participant, type_name);
+}
+
+void BAC_CREATE_ROOMTypeSupport::unregister_type(
+    DDS::DomainParticipant^ participant,
+    System::String^ type_name) {
+
+    get_instance()->unregister_type_untyped(participant, type_name);
+}
+
+BAC_CREATE_ROOM^ BAC_CREATE_ROOMTypeSupport::create_data() {
+    return gcnew BAC_CREATE_ROOM();
+}
+
+BAC_CREATE_ROOM^ BAC_CREATE_ROOMTypeSupport::create_data_untyped() {
+    return create_data();
+}
+
+void BAC_CREATE_ROOMTypeSupport::delete_data(
+    BAC_CREATE_ROOM^ a_data) {
+    /* If the generated type does not implement IDisposable (the default),
+    * the following will no a no-op.
+    */
+    delete a_data;
+}
+
+void BAC_CREATE_ROOMTypeSupport::print_data(BAC_CREATE_ROOM^ a_data) {
+    get_instance()->_type_plugin->print_data(a_data, nullptr, 0);
+}
+
+void BAC_CREATE_ROOMTypeSupport::copy_data(
+    BAC_CREATE_ROOM^ dst, BAC_CREATE_ROOM^ src) {
+
+    get_instance()->copy_data_untyped(dst, src);
+}
+
+void BAC_CREATE_ROOMTypeSupport::serialize_data_to_cdr_buffer(
+    array<System::Byte>^ buffer,
+    System::UInt32% length,
+    BAC_CREATE_ROOM^ a_data,
+    System::Int16 representation)
+{
+    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(
+        buffer,
+        length,
+        a_data,
+        representation)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+void BAC_CREATE_ROOMTypeSupport::serialize_data_to_cdr_buffer(
+    array<System::Byte>^ buffer,
+    System::UInt32% length,
+    BAC_CREATE_ROOM^ a_data)
+{
+    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(buffer,length,a_data)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+void BAC_CREATE_ROOMTypeSupport::deserialize_data_from_cdr_buffer(
+    BAC_CREATE_ROOM^ a_data,
+    array<System::Byte>^ buffer,
+    System::UInt32 length)
+{
+    if (!get_instance()->_type_plugin->deserialize_from_cdr_buffer(a_data,buffer,length)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+#ifndef NDDS_STANDALONE_TYPE
+System::String^ BAC_CREATE_ROOMTypeSupport::data_to_string(
+    BAC_CREATE_ROOM ^sample, 
+    PrintFormatProperty ^formatProperty)
+{
+    return get_instance()->_type_plugin->data_to_string(
+        sample, 
+        formatProperty);
+}
+
+System::String^ BAC_CREATE_ROOMTypeSupport::data_to_string(
+    BAC_CREATE_ROOM ^sample)
+{
+    PrintFormatProperty ^formatProperty = gcnew PrintFormatProperty();
+    return get_instance()->_type_plugin->data_to_string(
+        sample, 
+        formatProperty);
+}
+#endif
+
+DDS::TypeCode^ BAC_CREATE_ROOMTypeSupport::get_typecode() {
+    #ifndef NDDS_STANDALONE_TYPE
+    return  BAC_CREATE_ROOM::get_typecode();
+    #else
+    return nullptr;
+    #endif
+}
+
+System::String^ BAC_CREATE_ROOMTypeSupport::get_type_name() {
+    return TYPENAME;
+}
+
+System::String^ BAC_CREATE_ROOMTypeSupport::get_type_name_untyped() {
+    return TYPENAME;
+}
+
+DDS::DataReader^ BAC_CREATE_ROOMTypeSupport::create_datareaderI(
+    System::IntPtr impl) {
+
+    return gcnew BAC_CREATE_ROOMDataReader(impl);
+}
+
+DDS::DataWriter^ BAC_CREATE_ROOMTypeSupport::create_datawriterI(
+    System::IntPtr impl) {
+
+    return gcnew BAC_CREATE_ROOMDataWriter(impl);
+}
+
+BAC_CREATE_ROOMTypeSupport^
+BAC_CREATE_ROOMTypeSupport::get_instance() {
+    if (_singleton == nullptr) {
+        _singleton = gcnew BAC_CREATE_ROOMTypeSupport();
     }
     return _singleton;
 }

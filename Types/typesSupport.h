@@ -15,19 +15,19 @@ class DDSDataWriter;
 class DDSDataReader;
 
 // ---------------------------------------------------------------------------
-// BAC_CONNECTTypeSupport
+// BAC_AVAILABLE_IDsTypeSupport
 // ---------------------------------------------------------------------------
 
-ref class BAC_CONNECTPlugin;
+ref class BAC_AVAILABLE_IDsPlugin;
 
 /* A collection of useful methods for dealing with objects of type
-* BAC_CONNECT.
+* BAC_AVAILABLE_IDs.
 */
-public ref class BAC_CONNECTTypeSupport
-: public DDS::TypedTypeSupport<BAC_CONNECT^> {
+public ref class BAC_AVAILABLE_IDsTypeSupport
+: public DDS::TypedTypeSupport<BAC_AVAILABLE_IDs^> {
     // --- Type name: --------------------------------------------------------
   public:
-    static System::String^ TYPENAME = "BAC_CONNECT";
+    static System::String^ TYPENAME = "BAC_AVAILABLE_IDs";
 
     // --- Public Methods: ---------------------------------------------------
   public:
@@ -56,49 +56,49 @@ public ref class BAC_CONNECTTypeSupport
         DDS::DomainParticipant^ participant,
         System::String^ type_name);
 
-    /* Create an instance of the BAC_CONNECT type.
+    /* Create an instance of the BAC_AVAILABLE_IDs type.
     */
-    static BAC_CONNECT^ create_data();
+    static BAC_AVAILABLE_IDs^ create_data();
 
-    /* If instances of the BAC_CONNECT type require any
+    /* If instances of the BAC_AVAILABLE_IDs type require any
     * explicit finalization, perform it now on the given sample.
     */
-    static void delete_data(BAC_CONNECT^ data);
+    static void delete_data(BAC_AVAILABLE_IDs^ data);
 
     /* Write the contents of the data sample to standard out.
     */
-    static void print_data(BAC_CONNECT^ a_data);
+    static void print_data(BAC_AVAILABLE_IDs^ a_data);
 
     /* Perform a deep copy of the contents of one data sample over those of
     * another, overwriting it.
     */
     static void copy_data(
-        BAC_CONNECT^ dst_data,
-        BAC_CONNECT^ src_data);
+        BAC_AVAILABLE_IDs^ dst_data,
+        BAC_AVAILABLE_IDs^ src_data);
 
     static void serialize_data_to_cdr_buffer(
         array<System::Byte>^ buffer,
         System::UInt32% length,
-        BAC_CONNECT^ a_data,
+        BAC_AVAILABLE_IDs^ a_data,
         System::Int16 representation);
 
     static void serialize_data_to_cdr_buffer(
         array<System::Byte>^ buffer,
         System::UInt32% length,
-        BAC_CONNECT^ a_data);
+        BAC_AVAILABLE_IDs^ a_data);
 
     static void deserialize_data_from_cdr_buffer(
-        BAC_CONNECT^ a_data,
+        BAC_AVAILABLE_IDs^ a_data,
         array<System::Byte>^ buffer,
         System::UInt32 length);
 
     #ifndef NDDS_STANDALONE_TYPE
     static System::String^ data_to_string(
-        BAC_CONNECT ^sample,
+        BAC_AVAILABLE_IDs ^sample,
         PrintFormatProperty ^property);
 
     static System::String^ data_to_string(
-        BAC_CONNECT ^sample);
+        BAC_AVAILABLE_IDs ^sample);
     #endif
 
     static DDS::TypeCode^ get_typecode();
@@ -114,48 +114,191 @@ public ref class BAC_CONNECTTypeSupport
     virtual DDS::DataWriter^ create_datawriterI(
         System::IntPtr impl) override;
 
-    virtual BAC_CONNECT^ create_data_untyped() override;
+    virtual BAC_AVAILABLE_IDs^ create_data_untyped() override;
 
   public:
-    static BAC_CONNECTTypeSupport^ get_instance();
+    static BAC_AVAILABLE_IDsTypeSupport^ get_instance();
 
-    BAC_CONNECTTypeSupport();
+    BAC_AVAILABLE_IDsTypeSupport();
 
   private:
-    static BAC_CONNECTTypeSupport^ _singleton;
-    BAC_CONNECTPlugin^ _type_plugin;
+    static BAC_AVAILABLE_IDsTypeSupport^ _singleton;
+    BAC_AVAILABLE_IDsPlugin^ _type_plugin;
 };
 
 // ---------------------------------------------------------------------------
-// BAC_CONNECTDataReader
+// BAC_AVAILABLE_IDsDataReader
 // ---------------------------------------------------------------------------
 
 /**
-* A reader for the BAC_CONNECT type.
+* A reader for the BAC_AVAILABLE_IDs type.
 */
-public ref class BAC_CONNECTDataReader :
-public DDS::TypedDataReader<BAC_CONNECT^> {
+public ref class BAC_AVAILABLE_IDsDataReader :
+public DDS::TypedDataReader<BAC_AVAILABLE_IDs^> {
     /* The following code is for the use of the middleware infrastructure.
     * Applications are not expected to call it directly.
     */
     internal:
-    BAC_CONNECTDataReader(System::IntPtr impl);
+    BAC_AVAILABLE_IDsDataReader(System::IntPtr impl);
 };
 
 // ---------------------------------------------------------------------------
-// BAC_CONNECTDataWriter
+// BAC_AVAILABLE_IDsDataWriter
 // ---------------------------------------------------------------------------
 
 /**
-* A writer for the BAC_CONNECT user type.
+* A writer for the BAC_AVAILABLE_IDs user type.
 */
-public ref class BAC_CONNECTDataWriter :
-public DDS::TypedDataWriter<BAC_CONNECT^> {
+public ref class BAC_AVAILABLE_IDsDataWriter :
+public DDS::TypedDataWriter<BAC_AVAILABLE_IDs^> {
     /* The following code is for the use of the middleware infrastructure.
     * Applications are not expected to call it directly.
     */
     internal:
-    BAC_CONNECTDataWriter(System::IntPtr impl);
+    BAC_AVAILABLE_IDsDataWriter(System::IntPtr impl);
+};
+// ---------------------------------------------------------------------------
+// BAC_CREATE_ROOMTypeSupport
+// ---------------------------------------------------------------------------
+
+ref class BAC_CREATE_ROOMPlugin;
+
+/* A collection of useful methods for dealing with objects of type
+* BAC_CREATE_ROOM.
+*/
+public ref class BAC_CREATE_ROOMTypeSupport
+: public DDS::TypedTypeSupport<BAC_CREATE_ROOM^> {
+    // --- Type name: --------------------------------------------------------
+  public:
+    static System::String^ TYPENAME = "BAC_CREATE_ROOM";
+
+    // --- Public Methods: ---------------------------------------------------
+  public:
+    /* Get the default name of this type.
+    *
+    * An application can choose to register a type under any name, so
+    * calling this method is strictly optional.
+    */
+    static System::String^ get_type_name();
+
+    /* Register this type with the given participant under the given logical
+    * name. This type must be registered before a Topic can be created that
+    * uses it.
+    */
+    static void register_type(
+        DDS::DomainParticipant^ participant,
+        System::String^ type_name);
+
+    /* Unregister this type from the given participant, where it was
+    * previously registered under the given name. No further Topic creation
+    * using this type will be possible.
+    *
+    * Unregistration allows some middleware resources to be reclaimed.
+    */
+    static void unregister_type(
+        DDS::DomainParticipant^ participant,
+        System::String^ type_name);
+
+    /* Create an instance of the BAC_CREATE_ROOM type.
+    */
+    static BAC_CREATE_ROOM^ create_data();
+
+    /* If instances of the BAC_CREATE_ROOM type require any
+    * explicit finalization, perform it now on the given sample.
+    */
+    static void delete_data(BAC_CREATE_ROOM^ data);
+
+    /* Write the contents of the data sample to standard out.
+    */
+    static void print_data(BAC_CREATE_ROOM^ a_data);
+
+    /* Perform a deep copy of the contents of one data sample over those of
+    * another, overwriting it.
+    */
+    static void copy_data(
+        BAC_CREATE_ROOM^ dst_data,
+        BAC_CREATE_ROOM^ src_data);
+
+    static void serialize_data_to_cdr_buffer(
+        array<System::Byte>^ buffer,
+        System::UInt32% length,
+        BAC_CREATE_ROOM^ a_data,
+        System::Int16 representation);
+
+    static void serialize_data_to_cdr_buffer(
+        array<System::Byte>^ buffer,
+        System::UInt32% length,
+        BAC_CREATE_ROOM^ a_data);
+
+    static void deserialize_data_from_cdr_buffer(
+        BAC_CREATE_ROOM^ a_data,
+        array<System::Byte>^ buffer,
+        System::UInt32 length);
+
+    #ifndef NDDS_STANDALONE_TYPE
+    static System::String^ data_to_string(
+        BAC_CREATE_ROOM ^sample,
+        PrintFormatProperty ^property);
+
+    static System::String^ data_to_string(
+        BAC_CREATE_ROOM ^sample);
+    #endif
+
+    static DDS::TypeCode^ get_typecode();
+
+    // --- Implementation: ---------------------------------------------------
+    /* The following code is for the use of the middleware infrastructure.
+    * Applications are not expected to call it directly.
+    */
+  public:
+    virtual System::String^ get_type_name_untyped() override;
+    virtual DDS::DataReader^ create_datareaderI(
+        System::IntPtr impl) override;
+    virtual DDS::DataWriter^ create_datawriterI(
+        System::IntPtr impl) override;
+
+    virtual BAC_CREATE_ROOM^ create_data_untyped() override;
+
+  public:
+    static BAC_CREATE_ROOMTypeSupport^ get_instance();
+
+    BAC_CREATE_ROOMTypeSupport();
+
+  private:
+    static BAC_CREATE_ROOMTypeSupport^ _singleton;
+    BAC_CREATE_ROOMPlugin^ _type_plugin;
+};
+
+// ---------------------------------------------------------------------------
+// BAC_CREATE_ROOMDataReader
+// ---------------------------------------------------------------------------
+
+/**
+* A reader for the BAC_CREATE_ROOM type.
+*/
+public ref class BAC_CREATE_ROOMDataReader :
+public DDS::TypedDataReader<BAC_CREATE_ROOM^> {
+    /* The following code is for the use of the middleware infrastructure.
+    * Applications are not expected to call it directly.
+    */
+    internal:
+    BAC_CREATE_ROOMDataReader(System::IntPtr impl);
+};
+
+// ---------------------------------------------------------------------------
+// BAC_CREATE_ROOMDataWriter
+// ---------------------------------------------------------------------------
+
+/**
+* A writer for the BAC_CREATE_ROOM user type.
+*/
+public ref class BAC_CREATE_ROOMDataWriter :
+public DDS::TypedDataWriter<BAC_CREATE_ROOM^> {
+    /* The following code is for the use of the middleware infrastructure.
+    * Applications are not expected to call it directly.
+    */
+    internal:
+    BAC_CREATE_ROOMDataWriter(System::IntPtr impl);
 };
 // ---------------------------------------------------------------------------
 // MessageTypeSupport

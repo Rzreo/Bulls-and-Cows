@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BullsAndCows.Client.Views
+﻿namespace BullsAndCows.Client.Views
 {
     using Prism.Ioc;
     using Prism.Modularity;
@@ -18,10 +12,12 @@ namespace BullsAndCows.Client.Views
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            //ViewModelLocationProvider.Register<Views.MessageList, ViewModels.MessageListViewModel>();
+            ViewModelLocationProvider.Register<Views.PlayView, ViewModels.PlayVM>();
+            ViewModelLocationProvider.Register<Views.LoginMain, ViewModels.LoginMainViewModel>();
             //ViewModelLocationProvider.Register<Views.MessageSender, ViewModels.MessageSenderViewModel>();
-            //
-            //containerRegistry.RegisterForNavigation<Views.MessageList>();
+            
+            containerRegistry.RegisterForNavigation<Views.PlayView>();
+            containerRegistry.RegisterForNavigation<Views.LoginMain>();
             //containerRegistry.RegisterForNavigation<Views.MessageSender>();
         }
     }

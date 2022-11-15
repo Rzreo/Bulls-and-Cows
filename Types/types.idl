@@ -12,6 +12,7 @@
 
 const string CHOCOLATE_LOT_STATE_TOPIC = "ChocolateLotState";
 const string CHOCOLATE_TEMPERATURE_TOPIC = "ChocolateTemperature";
+const string ROOM_ID_CLIENT_REQUIRE = "GiveMeRoom";
 
 const uint32 MAX_STRING_LEN = 256;
 const uint32 ID_STRING_LEN = 24;
@@ -25,7 +26,8 @@ struct BAC_AVAILABLE_IDs
 
 struct BAC_CREATE_ROOM
 {
-    string<ID_STRING_LEN> ID;
+    string<ID_STRING_LEN> ROOM_ID;
+    string<ID_STRING_LEN> CLIENT_ID;
 };
 
 struct Message {

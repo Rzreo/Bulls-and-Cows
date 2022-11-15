@@ -21,6 +21,7 @@ namespace BullsAndCows.Client.Services
             var computerNumber = baseInfo["OCC"]["COMPUTER_NUMBER"];
             this.ComputerNumber = new ReactiveProperty<int>(int.Parse(computerNumber));
             this.ComputerNumber.AddTo(this.Disposables);
+            this.ProcessID = new ReactiveProperty<int>(System.Diagnostics.Process.GetCurrentProcess().Id);
         }
 
         public ReactiveProperty<int> ComputerNumber { get; } = new ReactiveProperty<int>();

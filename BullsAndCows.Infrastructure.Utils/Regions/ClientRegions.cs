@@ -9,16 +9,16 @@ namespace BullsAndCows.Infrastructure.Utils.Regions
     /// <summary>
     /// 얘 왜 Defines.RegionNames 에도 있고 그럼?
     /// </summary>
-    public static class MyRegion
+    public static class ClientRegions
     {
         /// <summary>
         /// Input Region.
         /// </summary>
-        public const string ReceiverRegion = "ReceiverRegion";
+        public const string MainRegion = "MainRegion";
 
         /// <summary>
         /// Output Region
         /// </summary>
-        public const string SenderRegion = "SenderRegion";
+        public const string Login_PART1 = "Login_PART1";
     }
 }

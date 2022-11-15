@@ -127,7 +127,7 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
 
         A QoS library is a named set of QoS profiles.
     -->
-    <qos_library name="chocolate_factory_Library">
+    <qos_library name="BullsAndCows_Library">
 
         <qos_profile name="chocolate_factory_Profile" base_name="BuiltinQosLib::Generic.StrictReliable" is_default_qos="true">
             <!-- QoS used to configure the data writer created in the example code -->                

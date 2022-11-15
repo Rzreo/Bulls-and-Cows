@@ -19,62 +19,76 @@ using namespace DDS;
 #include "types.h"
 
 /* ========================================================================= */
-BAC_CONNECT::BAC_CONNECT() {
-    ID = "";
+BAC_AVAILABLE_IDs::BAC_AVAILABLE_IDs() {
+    ID1 = "";
+    ID2 = "";
+    ID3 = "";
 }
 
-void BAC_CONNECT::clear(){
-    ID = "";
+void BAC_AVAILABLE_IDs::clear(){
+    ID1 = "";
+    ID2 = "";
+    ID3 = "";
 }
 
-System::Boolean BAC_CONNECT::copy_from(BAC_CONNECT^ src) {
+System::Boolean BAC_AVAILABLE_IDs::copy_from(BAC_AVAILABLE_IDs^ src) {
 
-    BAC_CONNECT^ dst = this;
+    BAC_AVAILABLE_IDs^ dst = this;
 
-    dst->ID = src->ID;
+    dst->ID1 = src->ID1;
+    dst->ID2 = src->ID2;
+    dst->ID3 = src->ID3;
     return true;
 }
 
-Boolean BAC_CONNECT::Equals(Object^ other) {
+Boolean BAC_AVAILABLE_IDs::Equals(Object^ other) {
     if (other == nullptr) {
         return false;
     }        
     if (this == other) {
         return true;
     }
-    BAC_CONNECT^ otherObj =
-    dynamic_cast<BAC_CONNECT^>(other);
+    BAC_AVAILABLE_IDs^ otherObj =
+    dynamic_cast<BAC_AVAILABLE_IDs^>(other);
     if (otherObj == nullptr) {
         return false;
     }
 
-    if (!ID->Equals(otherObj->ID)) {
+    if (!ID1->Equals(otherObj->ID1)) {
+        return false;
+    }
+    if (!ID2->Equals(otherObj->ID2)) {
+        return false;
+    }
+    if (!ID3->Equals(otherObj->ID3)) {
         return false;
     }
     return true;
 }
 
 #ifndef NDDS_STANDALONE_TYPE
-DDS::TypeCode^ BAC_CONNECT::get_typecode() {
+DDS::TypeCode^ BAC_AVAILABLE_IDs::get_typecode() {
     if (_typecode == nullptr) {
-        _typecode = gcnew DDS::TypeCode(BAC_CONNECT_get_typecode());
+        _typecode = gcnew DDS::TypeCode(BAC_AVAILABLE_IDs_get_typecode());
     }
     return _typecode;
 }
 #endif
 
 #ifndef NDDS_STANDALONE_TYPE
-DDS_TypeCode* BAC_CONNECT_get_typecode()
+DDS_TypeCode* BAC_AVAILABLE_IDs_get_typecode()
 {
     static RTIBool is_initialized = RTI_FALSE;
 
-    static DDS_TypeCode BAC_CONNECT_g_tc_ID_string = DDS_INITIALIZE_STRING_TYPECODE(((MAX_STRING_LEN::VALUE)));
+    static DDS_TypeCode BAC_AVAILABLE_IDs_g_tc_ID1_string = DDS_INITIALIZE_STRING_TYPECODE(((ID_STRING_LEN::VALUE)));
+    static DDS_TypeCode BAC_AVAILABLE_IDs_g_tc_ID2_string = DDS_INITIALIZE_STRING_TYPECODE(((ID_STRING_LEN::VALUE)));
+    static DDS_TypeCode BAC_AVAILABLE_IDs_g_tc_ID3_string = DDS_INITIALIZE_STRING_TYPECODE(((ID_STRING_LEN::VALUE)));
 
-    static DDS_TypeCode_Member BAC_CONNECT_g_tc_members[1]=
+    static DDS_TypeCode_Member BAC_AVAILABLE_IDs_g_tc_members[3]=
     {
 
         {
-            (char *)"ID",/* Member name */
+            (char *)"ID1",/* Member name */
             {
                 0,/* Representation ID */
                 DDS_BOOLEAN_FALSE,/* Is a pointer? */
@@ -85,7 +99,43 @@ DDS_TypeCode* BAC_CONNECT_get_typecode()
             0, /* Ignored */
             0, /* Ignored */
             NULL, /* Ignored */
-            RTI_CDR_KEY_MEMBER , /* Is a key? */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PUBLIC_MEMBER,/* Member visibility */
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
+        }, 
+        {
+            (char *)"ID2",/* Member name */
+            {
+                1,/* Representation ID */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            0, /* Ignored */
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PUBLIC_MEMBER,/* Member visibility */
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
+        }, 
+        {
+            (char *)"ID3",/* Member name */
+            {
+                2,/* Representation ID */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            0, /* Ignored */
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
             DDS_PUBLIC_MEMBER,/* Member visibility */
             1,
             NULL, /* Ignored */
@@ -93,42 +143,192 @@ DDS_TypeCode* BAC_CONNECT_get_typecode()
         }
     };
 
-    static DDS_TypeCode BAC_CONNECT_g_tc =
+    static DDS_TypeCode BAC_AVAILABLE_IDs_g_tc =
     {{
             DDS_TK_STRUCT, /* Kind */
             DDS_BOOLEAN_FALSE, /* Ignored */
             -1, /*Ignored*/
-            (char *)"BAC_CONNECT", /* Name */
+            (char *)"BAC_AVAILABLE_IDs", /* Name */
             NULL, /* Ignored */      
             0, /* Ignored */
             0, /* Ignored */
             NULL, /* Ignored */
-            1, /* Number of members */
-            BAC_CONNECT_g_tc_members, /* Members */
+            3, /* Number of members */
+            BAC_AVAILABLE_IDs_g_tc_members, /* Members */
             DDS_VM_NONE, /* Ignored */
             RTICdrTypeCodeAnnotations_INITIALIZER,
             DDS_BOOLEAN_TRUE, /* _isCopyable */
             NULL, /* _sampleAccessInfo: assigned later */
             NULL /* _typePlugin: assigned later */
-        }}; /* Type code for BAC_CONNECT*/
+        }}; /* Type code for BAC_AVAILABLE_IDs*/
 
     if (is_initialized) {
-        return &BAC_CONNECT_g_tc;
+        return &BAC_AVAILABLE_IDs_g_tc;
     }
 
-    BAC_CONNECT_g_tc._data._annotations._allowedDataRepresentationMask = 5;
+    BAC_AVAILABLE_IDs_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
-    BAC_CONNECT_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&BAC_CONNECT_g_tc_ID_string;
+    BAC_AVAILABLE_IDs_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&BAC_AVAILABLE_IDs_g_tc_ID1_string;
+    BAC_AVAILABLE_IDs_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&BAC_AVAILABLE_IDs_g_tc_ID2_string;
+    BAC_AVAILABLE_IDs_g_tc_members[2]._representation._typeCode = (RTICdrTypeCode *)&BAC_AVAILABLE_IDs_g_tc_ID3_string;
 
     /* Initialize the values for member annotations. */
-    BAC_CONNECT_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_STRING;
-    BAC_CONNECT_g_tc_members[0]._annotations._defaultValue._u.string_value = (DDS_Char *) "";
+    BAC_AVAILABLE_IDs_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_STRING;
+    BAC_AVAILABLE_IDs_g_tc_members[0]._annotations._defaultValue._u.string_value = (DDS_Char *) "";
 
-    BAC_CONNECT_g_tc._data._sampleAccessInfo = NULL;
+    BAC_AVAILABLE_IDs_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_STRING;
+    BAC_AVAILABLE_IDs_g_tc_members[1]._annotations._defaultValue._u.string_value = (DDS_Char *) "";
+
+    BAC_AVAILABLE_IDs_g_tc_members[2]._annotations._defaultValue._d = RTI_XCDR_TK_STRING;
+    BAC_AVAILABLE_IDs_g_tc_members[2]._annotations._defaultValue._u.string_value = (DDS_Char *) "";
+
+    BAC_AVAILABLE_IDs_g_tc._data._sampleAccessInfo = NULL;
 
     is_initialized = RTI_TRUE;
 
-    return &BAC_CONNECT_g_tc;
+    return &BAC_AVAILABLE_IDs_g_tc;
+}
+#endif
+/* ========================================================================= */
+BAC_CREATE_ROOM::BAC_CREATE_ROOM() {
+    ROOM_ID = "";
+    CLIENT_ID = "";
+}
+
+void BAC_CREATE_ROOM::clear(){
+    ROOM_ID = "";
+    CLIENT_ID = "";
+}
+
+System::Boolean BAC_CREATE_ROOM::copy_from(BAC_CREATE_ROOM^ src) {
+
+    BAC_CREATE_ROOM^ dst = this;
+
+    dst->ROOM_ID = src->ROOM_ID;
+    dst->CLIENT_ID = src->CLIENT_ID;
+    return true;
+}
+
+Boolean BAC_CREATE_ROOM::Equals(Object^ other) {
+    if (other == nullptr) {
+        return false;
+    }        
+    if (this == other) {
+        return true;
+    }
+    BAC_CREATE_ROOM^ otherObj =
+    dynamic_cast<BAC_CREATE_ROOM^>(other);
+    if (otherObj == nullptr) {
+        return false;
+    }
+
+    if (!ROOM_ID->Equals(otherObj->ROOM_ID)) {
+        return false;
+    }
+    if (!CLIENT_ID->Equals(otherObj->CLIENT_ID)) {
+        return false;
+    }
+    return true;
+}
+
+#ifndef NDDS_STANDALONE_TYPE
+DDS::TypeCode^ BAC_CREATE_ROOM::get_typecode() {
+    if (_typecode == nullptr) {
+        _typecode = gcnew DDS::TypeCode(BAC_CREATE_ROOM_get_typecode());
+    }
+    return _typecode;
+}
+#endif
+
+#ifndef NDDS_STANDALONE_TYPE
+DDS_TypeCode* BAC_CREATE_ROOM_get_typecode()
+{
+    static RTIBool is_initialized = RTI_FALSE;
+
+    static DDS_TypeCode BAC_CREATE_ROOM_g_tc_ROOM_ID_string = DDS_INITIALIZE_STRING_TYPECODE(((ID_STRING_LEN::VALUE)));
+    static DDS_TypeCode BAC_CREATE_ROOM_g_tc_CLIENT_ID_string = DDS_INITIALIZE_STRING_TYPECODE(((ID_STRING_LEN::VALUE)));
+
+    static DDS_TypeCode_Member BAC_CREATE_ROOM_g_tc_members[2]=
+    {
+
+        {
+            (char *)"ROOM_ID",/* Member name */
+            {
+                0,/* Representation ID */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            0, /* Ignored */
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PUBLIC_MEMBER,/* Member visibility */
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
+        }, 
+        {
+            (char *)"CLIENT_ID",/* Member name */
+            {
+                1,/* Representation ID */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            0, /* Ignored */
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PUBLIC_MEMBER,/* Member visibility */
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
+        }
+    };
+
+    static DDS_TypeCode BAC_CREATE_ROOM_g_tc =
+    {{
+            DDS_TK_STRUCT, /* Kind */
+            DDS_BOOLEAN_FALSE, /* Ignored */
+            -1, /*Ignored*/
+            (char *)"BAC_CREATE_ROOM", /* Name */
+            NULL, /* Ignored */      
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            2, /* Number of members */
+            BAC_CREATE_ROOM_g_tc_members, /* Members */
+            DDS_VM_NONE, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER,
+            DDS_BOOLEAN_TRUE, /* _isCopyable */
+            NULL, /* _sampleAccessInfo: assigned later */
+            NULL /* _typePlugin: assigned later */
+        }}; /* Type code for BAC_CREATE_ROOM*/
+
+    if (is_initialized) {
+        return &BAC_CREATE_ROOM_g_tc;
+    }
+
+    BAC_CREATE_ROOM_g_tc._data._annotations._allowedDataRepresentationMask = 5;
+
+    BAC_CREATE_ROOM_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&BAC_CREATE_ROOM_g_tc_ROOM_ID_string;
+    BAC_CREATE_ROOM_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&BAC_CREATE_ROOM_g_tc_CLIENT_ID_string;
+
+    /* Initialize the values for member annotations. */
+    BAC_CREATE_ROOM_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_STRING;
+    BAC_CREATE_ROOM_g_tc_members[0]._annotations._defaultValue._u.string_value = (DDS_Char *) "";
+
+    BAC_CREATE_ROOM_g_tc_members[1]._annotations._defaultValue._d = RTI_XCDR_TK_STRING;
+    BAC_CREATE_ROOM_g_tc_members[1]._annotations._defaultValue._u.string_value = (DDS_Char *) "";
+
+    BAC_CREATE_ROOM_g_tc._data._sampleAccessInfo = NULL;
+
+    is_initialized = RTI_TRUE;
+
+    return &BAC_CREATE_ROOM_g_tc;
 }
 #endif
 /* ========================================================================= */

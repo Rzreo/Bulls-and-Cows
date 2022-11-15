@@ -17,9 +17,7 @@ namespace BullsAndCows.Client.Net
         {
             var temp = new Dictionary<Type, string>();
 
-            temp.Add(typeof(Temperature), RReader);
-            temp.Add(typeof(ChocolateLotState), RReader);
-            temp.Add(typeof(Message), RReader);
+            temp.Add(typeof(BAC_CREATE_ROOM), RReader);
 
             return temp;
         }
@@ -27,9 +25,7 @@ namespace BullsAndCows.Client.Net
         {
             var temp = new Dictionary<Type, string>();
 
-            temp.Add(typeof(Temperature), RWriter);
-            temp.Add(typeof(ChocolateLotState), RWriter);
-            temp.Add(typeof(Message), RWriter);
+            temp.Add(typeof(BAC_CREATE_ROOM), RWriter);
 
             return temp;
         }

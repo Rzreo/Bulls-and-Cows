@@ -12,17 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Prism.Regions;
 
 namespace BullsAndCows.Client.Views.Views
 {
-    using BullsAndCows.Infrastructure.Utils.Regions;
     /// <summary>
-    /// Interaction logic for NumberInputsView.xaml
+    /// Interaction logic for LoginMain.xaml
     /// </summary>
-    public partial class NumberInputsView : UserControl
+    public partial class LoginMain : UserControl
     {
-        public NumberInputsView()
+        public LoginMain()
         {
             InitializeComponent();
         }

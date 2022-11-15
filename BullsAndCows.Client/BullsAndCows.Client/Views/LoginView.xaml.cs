@@ -12,19 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Prism.Regions;
 
-namespace BullsAndCows.Client.Views.Views
+namespace BullsAndCows.Client.Views
 {
+    using BullsAndCows.Infrastructure.BaseClass;
     using BullsAndCows.Infrastructure.Utils.Regions;
-    /// <summary>
-    /// Interaction logic for NumberInputsView.xaml
-    /// </summary>
-    public partial class NumberInputsView : UserControl
+    using Prism.Ioc;
+    using Prism.Regions;
+
+    public partial class LoginView : UserControl
     {
-        public NumberInputsView()
+        public LoginView(IContainerProvider ioc)
         {
             InitializeComponent();
+
+            Loaded += (s, e) =>
+            {
+                var regionManager = ioc.Resolve<IRegionManager>();
+                regionManager.RequestNavigate(ClientRegions.Login_PART1, nameof(Views.LoginMain));
+            };
         }
     }
 }

@@ -8,11 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="250" Width="500">
     <Grid>
-        <Grid.RowDefinitions >
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <!--ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static infra:MyRegion.SenderRegion}" HorizontalAlignment="Stretch"/>
-        <ContentControl Grid.Row="1" prism:RegionManager.RegionName="{x:Static infra:MyRegion.ReceiverRegion}"/-->
+        <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static infra:ClientRegions.MainRegion}" HorizontalAlignment="Stretch"/>
     </Grid>
 </Window>

@@ -7,7 +7,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace BullsAndCows.Play.ViewModels
+namespace BullsAndCows.Client.Views.ViewModels
 {
     using BullsAndCows.Infrastructure.BaseClass;
 

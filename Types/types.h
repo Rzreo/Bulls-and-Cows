@@ -33,6 +33,15 @@ public ref class CHOCOLATE_TEMPERATURE_TOPIC sealed {
     CHOCOLATE_TEMPERATURE_TOPIC() {}
 };
 
+public ref class ROOM_ID_CLIENT_REQUIRE sealed {
+  public:
+    static const System::String^ VALUE =
+    "GiveMeRoom";
+
+  private:
+    ROOM_ID_CLIENT_REQUIRE() {}
+};
+
 public ref class MAX_STRING_LEN sealed {
   public:
     static const System::UInt32 VALUE =
@@ -42,26 +51,37 @@ public ref class MAX_STRING_LEN sealed {
     MAX_STRING_LEN() {}
 };
 
-public ref struct BAC_CONNECT
-:  public DDS::ICopyable<BAC_CONNECT^> {
+public ref class ID_STRING_LEN sealed {
+  public:
+    static const System::UInt32 VALUE =
+    24;
+
+  private:
+    ID_STRING_LEN() {}
+};
+
+public ref struct BAC_AVAILABLE_IDs
+:  public DDS::ICopyable<BAC_AVAILABLE_IDs^> {
     // --- Declared members: -------------------------------------------------
   public: 
 
-    System::String^ ID;
+    System::String^ ID1;
+    System::String^ ID2;
+    System::String^ ID3;
 
     // --- Static constants: -------------------------------------    
   public:
 
     // --- Constructors and destructors: -------------------------------------
   public:
-    BAC_CONNECT();
+    BAC_AVAILABLE_IDs();
 
     // --- Utility methods: --------------------------------------------------
   public:
 
     virtual void clear() ;
 
-    virtual System::Boolean copy_from(BAC_CONNECT^ src);
+    virtual System::Boolean copy_from(BAC_AVAILABLE_IDs^ src);
 
     virtual System::Boolean Equals(System::Object^ other) override;
     #ifndef NDDS_STANDALONE_TYPE
@@ -71,21 +91,21 @@ public ref struct BAC_CONNECT
     static DDS::TypeCode^ _typecode;
     #endif
 
-}; // class BAC_CONNECT
+}; // class BAC_AVAILABLE_IDs
 
-public ref class BAC_CONNECTSeq sealed
-: public DDS::UserRefSequence<BAC_CONNECT^> {
+public ref class BAC_AVAILABLE_IDsSeq sealed
+: public DDS::UserRefSequence<BAC_AVAILABLE_IDs^> {
   public:
-    BAC_CONNECTSeq() :
-        DDS::UserRefSequence<BAC_CONNECT^>() {
+    BAC_AVAILABLE_IDsSeq() :
+        DDS::UserRefSequence<BAC_AVAILABLE_IDs^>() {
             // empty
     }
-    BAC_CONNECTSeq(System::Int32 max) :
-        DDS::UserRefSequence<BAC_CONNECT^>(max) {
+    BAC_AVAILABLE_IDsSeq(System::Int32 max) :
+        DDS::UserRefSequence<BAC_AVAILABLE_IDs^>(max) {
             // empty
     }
-    BAC_CONNECTSeq(BAC_CONNECTSeq^ src) :
-        DDS::UserRefSequence<BAC_CONNECT^>(src) {
+    BAC_AVAILABLE_IDsSeq(BAC_AVAILABLE_IDsSeq^ src) :
+        DDS::UserRefSequence<BAC_AVAILABLE_IDs^>(src) {
             // empty
     }
 };
@@ -94,7 +114,64 @@ public ref class BAC_CONNECTSeq sealed
 
 #define NDDSUSERDllExport
 
-NDDSUSERDllExport DDS_TypeCode* BAC_CONNECT_get_typecode();
+NDDSUSERDllExport DDS_TypeCode* BAC_AVAILABLE_IDs_get_typecode();
+
+#endif
+
+public ref struct BAC_CREATE_ROOM
+:  public DDS::ICopyable<BAC_CREATE_ROOM^> {
+    // --- Declared members: -------------------------------------------------
+  public: 
+
+    System::String^ ROOM_ID;
+    System::String^ CLIENT_ID;
+
+    // --- Static constants: -------------------------------------    
+  public:
+
+    // --- Constructors and destructors: -------------------------------------
+  public:
+    BAC_CREATE_ROOM();
+
+    // --- Utility methods: --------------------------------------------------
+  public:
+
+    virtual void clear() ;
+
+    virtual System::Boolean copy_from(BAC_CREATE_ROOM^ src);
+
+    virtual System::Boolean Equals(System::Object^ other) override;
+    #ifndef NDDS_STANDALONE_TYPE
+    static DDS::TypeCode^ get_typecode();
+
+  private:
+    static DDS::TypeCode^ _typecode;
+    #endif
+
+}; // class BAC_CREATE_ROOM
+
+public ref class BAC_CREATE_ROOMSeq sealed
+: public DDS::UserRefSequence<BAC_CREATE_ROOM^> {
+  public:
+    BAC_CREATE_ROOMSeq() :
+        DDS::UserRefSequence<BAC_CREATE_ROOM^>() {
+            // empty
+    }
+    BAC_CREATE_ROOMSeq(System::Int32 max) :
+        DDS::UserRefSequence<BAC_CREATE_ROOM^>(max) {
+            // empty
+    }
+    BAC_CREATE_ROOMSeq(BAC_CREATE_ROOMSeq^ src) :
+        DDS::UserRefSequence<BAC_CREATE_ROOM^>(src) {
+            // empty
+    }
+};
+
+#ifndef NDDS_STANDALONE_TYPE
+
+#define NDDSUSERDllExport
+
+NDDSUSERDllExport DDS_TypeCode* BAC_CREATE_ROOM_get_typecode();
 
 #endif
 

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using BullsAndCows.Infrastructure.Net;
+    using BullsAndCows.Infrastructure.OperationManagement;
     using BullsAndCows.Infrastructure.Utils;
     using RTIWrapper;
 
@@ -10,11 +11,10 @@
     {
         private readonly DDSManager ddsManagement;
         private Dictionary<Type, List<IDisposable>> SubscribedDDSObservable { get; } = new Dictionary<Type, List<IDisposable>>();
-
         public DDSService() //  DDSService(IConfigService config)
         {
-            this.ddsManagement = new DDSManager(1, "chocolate_factory_Library", "N/A", 123);
-            
+            this.ddsManagement = new DDSManager(1, "BullsAndCows_Library", "N/A", 123);
+
             foreach (var t in this.ddsManagement.DataReaderQOSDic.Keys)
             {
                 this.SubscribedDDSObservable[t] = new List<IDisposable>();

@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IniParser.cs" />
-    <Compile Include="Regions\MyRegion.cs" />
+    <Compile Include="Regions\ClientRegions.cs" />
     <Compile Include="UIThreadHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

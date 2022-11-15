@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using Prism.Common;
 using Prism.Regions;
 
-namespace BullsAndCows.Client.Views
+namespace BullsAndCows.Client.Views.Views
 {
     /// <summary>
     /// Interaction logic for PlayView.xaml

@@ -4,7 +4,7 @@ using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 
-namespace BullsAndCows.Play.ViewModels
+namespace BullsAndCows.Client.Views.ViewModels
 {
     using BullsAndCows.Infrastructure.BaseClass;
 

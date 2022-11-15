@@ -19,7 +19,7 @@ namespace BullsAndCows.Client.Net
         private readonly PostProcessing postProcessing;
 
         private readonly bool isLibraryApplied = false;
-        private readonly string libraryName = "chocolate_factory_Library";
+        private readonly string libraryName;
 
         public DDSManager(int domainID, int occNumber)
         {

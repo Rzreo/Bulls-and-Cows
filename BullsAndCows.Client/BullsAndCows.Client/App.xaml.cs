@@ -29,7 +29,9 @@ namespace BullsAndCows.Client
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             ViewModelLocationProvider.Register<MainWindow, MainWindowVM>();
+            ViewModelLocationProvider.Register<LoginView, LoginViewModel>();
 
+            containerRegistry.RegisterForNavigation<Views.LoginView>();
             containerRegistry.RegisterSingleton<IConfigService, ConfigService>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -42,7 +44,7 @@ namespace BullsAndCows.Client
             base.OnInitialized();
 
             var regionManager = this.Container.Resolve<IRegionManager>();
-            //regionManager.RequestNavigate(MyRegion.ReceiverRegion, nameof(MessageList));
+            regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.LoginView));
             //regionManager.RequestNavigate(MyRegion.SenderRegion, nameof(MessageSender));
         }
     }

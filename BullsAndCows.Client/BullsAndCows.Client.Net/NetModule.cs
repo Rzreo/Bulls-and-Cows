@@ -17,9 +17,7 @@ namespace BullsAndCows.Client.Net
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // containerRegistry.RegisterSingleton<IDDSService, DDSService>();
-            // 일단 귀찮으니 아래로 대체
-            containerRegistry.RegisterInstance<IDDSService>(new DDSService());
+            containerRegistry.RegisterSingleton<IDDSService, DDSService>();
         }
     }
 }
