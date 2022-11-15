@@ -8,6 +8,7 @@ using Prism.Modularity;
 
 namespace BullsAndCows.Client.Net
 {
+    using BullsAndCows.Infrastructure.Net;
     public class NetModule : IModule
     {
         public void OnInitialized(IContainerProvider containerProvider)

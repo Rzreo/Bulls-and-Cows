@@ -1,24 +1,11 @@
-﻿namespace Test.Net
+﻿namespace BullsAndCows.Client.Net
 {
     using System;
     using System.Collections.Generic;
+    using BullsAndCows.Infrastructure.Net;
     using BullsAndCows.Infrastructure.Utils;
     using RTIWrapper;
-    public interface IDDSService
-    {
-        /// <summary>
-        /// Gets the value of the debug model.
-        /// </summary>
-        //DebugModel DebugModel { get; }
 
-        bool DeleteDataReader(Type type);
-
-        void RegisterEvent(Type type, Action<object> readerAction);
-
-        void RegisterEvent(Type type, Action callbackFunc);
-
-        bool Write(Type type, object message);
-    }
     class DDSService : IDDSService
     {
         private readonly DDSManager ddsManagement;
