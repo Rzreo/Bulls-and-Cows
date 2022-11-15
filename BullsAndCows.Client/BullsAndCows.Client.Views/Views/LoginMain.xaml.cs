@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace BullsAndCows.Client.Views.Views
 {
-    /// <summary>
-    /// Interaction logic for LoginMain.xaml
-    /// </summary>
     public partial class LoginMain : UserControl
     {
         public LoginMain()
