@@ -16,23 +16,24 @@ const string ROOM_ID_CLIENT_REQUIRE = "GiveMeRoom";
 
 const uint32 MAX_STRING_LEN = 256;
 const uint32 ID_STRING_LEN = 24;
+const uint32 MSG_STRING_LEN = 16;
 
-struct BAC_AVAILABLE_IDs
+struct BAC_CONNECT_INIT_MESSAGE
 {
-    string<ID_STRING_LEN> ID1;
-    string<ID_STRING_LEN> ID2;
-    string<ID_STRING_LEN> ID3;
-};
-
-struct BAC_CREATE_ROOM
-{
-    string<ID_STRING_LEN> ROOM_ID;
     string<ID_STRING_LEN> CLIENT_ID;
 };
 
-struct Message {
-    string<256> msg;
+enum CLIENT_CONNECT_MESSAGE_TYPE {
+    SERVER_CONNECT_SUCCESS,
+
 };
+
+struct BAC_CONNECT_MESSAGE
+{
+    CLIENT_CONNECT_MESSAGE_TYPE type;
+    string<MSG_STRING_LEN> msg;
+};
+
 
 // Temperature data type used by tempering machine
 struct Temperature {

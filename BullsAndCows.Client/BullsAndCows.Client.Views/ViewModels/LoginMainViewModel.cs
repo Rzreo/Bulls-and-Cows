@@ -21,10 +21,10 @@ namespace BullsAndCows.Client.Views.ViewModels
             this._dds = dds;
             this._config = config;
 
-            _dds.RegisterEvent(typeof(Message), nameof(Message) + _config.ClientID(), LoginServerMessageReceive);
+            _dds.RegisterEvent(typeof(Message), nameof(Message) + config.ClientID(), ReceiveMessage);
         }
 
-        #region LoginCommand
+        #region ResetNumbers
         DelegateCommand _LoginCommand;
         public DelegateCommand LoginCommand
         {
@@ -39,17 +39,20 @@ namespace BullsAndCows.Client.Views.ViewModels
         }
         void Login()
         {
-            _dds.Write(typeof(BAC_CREATE_ROOM), nameof(BAC_CREATE_ROOM),
-                    new BAC_CREATE_ROOM()
-                    { 
-                        ROOM_ID = ROOM_ID_CLIENT_REQUIRE.VALUE,
-                        CLIENT_ID = _config.ClientID()
-                    }
-                );
+            _dds.Write(
+                typeof(BAC_CREATE_ROOM),
+                nameof(BAC_CREATE_ROOM),
+                new BAC_CREATE_ROOM() 
+                { 
+                    ROOM_ID = ROOM_ID_CLIENT_REQUIRE.VALUE, 
+                    CLIENT_ID = _config.ClientID()
+                });
+
+            _dds.Write(typeof(Message), nameof(Message) + _config.ClientID(), new Message() { msg = "sadf" });
         }
         #endregion
 
-        void LoginServerMessageReceive(object s)
+        void ReceiveMessage(object s)
         {
             Message msg = s as Message;
             System.Diagnostics.Debug.WriteLine(msg.msg);
