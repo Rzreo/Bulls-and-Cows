@@ -136,12 +136,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Test.Views\Test.Views.csproj">
-      <Project>{1abf0f9b-d952-4991-9ada-3f3a6f1de5ad}</Project>
-      <Name>Test.Views</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

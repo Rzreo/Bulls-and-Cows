@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BullsandCows.Client.Views
+namespace BullsAndCows.Client.Views
 {
     /// <summary>
     /// Interaction logic for PlayLogsView.xaml

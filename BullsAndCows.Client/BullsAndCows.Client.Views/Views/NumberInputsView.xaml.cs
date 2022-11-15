@@ -14,9 +14,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Prism.Regions;
 
-namespace BullsandCows.Client.Views
+namespace BullsAndCows.Client.Views
 {
-    using BullsandCows.Infrastructure.Utils.Regions;
+    using BullsAndCows.Infrastructure.Utils.Regions;
     /// <summary>
     /// Interaction logic for NumberInputsView.xaml
     /// </summary>

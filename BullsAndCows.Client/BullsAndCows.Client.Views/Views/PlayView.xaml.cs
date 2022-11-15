@@ -4,11 +4,8 @@ using System.Windows.Controls;
 using Prism.Common;
 using Prism.Regions;
 
-namespace BullsandCows.Client.Views
+namespace BullsAndCows.Client.Views
 {
-    using BullsandCows.Models;
-    using BullsandCows.Play.ViewModels;
-
     /// <summary>
     /// Interaction logic for PlayView.xaml
     /// </summary>
@@ -22,8 +19,8 @@ namespace BullsandCows.Client.Views
 
         private void PlayView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var context = (ObservableObject<object>)sender;
-            (DataContext as PlayVM).GameOutput = context.Value as GameOutput;
+            //var context = (ObservableObject<object>)sender;
+            //(DataContext as PlayVM).GameOutput = context.Value as GameOutput;
         }
     }
 }

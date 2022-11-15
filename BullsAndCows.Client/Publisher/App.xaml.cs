@@ -14,8 +14,7 @@ namespace Publisher
     using Prism.Mvvm;
     using Prism.Regions;
     using Publisher.ViewModels;
-    using Test.Infrastructure.Utils.Regions;
-    using Test.Views.Views;
+
 
     public partial class App : PrismApplication
     {

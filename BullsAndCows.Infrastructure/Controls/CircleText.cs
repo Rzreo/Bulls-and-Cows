@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace BullsandCows
+namespace BullsAndCows.Infrastructure.Controls
 {
     public class CircleText : UserControl
     {

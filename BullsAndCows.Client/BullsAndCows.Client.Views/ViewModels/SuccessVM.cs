@@ -4,17 +4,15 @@ using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 
-namespace BullsandCows.Play.ViewModels
+namespace BullsAndCows.Play.ViewModels
 {
-    using BullsandCows.Dialogs.Views;
-    using BullsandCows.Infrastructure.BaseClass;
-    using BullsandCows.Models;
+    using BullsAndCows.Infrastructure.BaseClass;
 
     class SuccessVM : ViewModelBase, INavigationAware
     {
         IDialogService _dialogService;
         IRegionNavigationJournal _naviJournal;
-
+        /*
         MyModel _model;
         int _in_a = 0, _in_b = 0, _in_c = 0;
         public int IN_A { get { return _in_a; } set { SetProperty(ref _in_a, value % 10); } }
@@ -52,6 +50,7 @@ namespace BullsandCows.Play.ViewModels
             });
         }
         #endregion
+        */
 
         #region NavigationAware
         public void OnNavigatedTo(NavigationContext navigationContext)

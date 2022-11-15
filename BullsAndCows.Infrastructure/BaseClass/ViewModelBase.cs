@@ -1,4 +1,4 @@
-﻿namespace BullsAndCows.Infrastructure
+﻿namespace BullsAndCows.Infrastructure.BaseClass
 {
     using System;
     using Prism.Mvvm;

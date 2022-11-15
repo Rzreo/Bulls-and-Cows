@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BullsAndCows.Client.ViewModels
 {
-    using BullsAndCows.Infrastructure;
+    using BullsAndCows.Infrastructure.BaseClass;
     class MainWindowVM : ViewModelBase
     {
     }

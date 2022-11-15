@@ -7,20 +7,19 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace BullsandCows.Play.ViewModels
+namespace BullsAndCows.Play.ViewModels
 {
-    using BullsandCows.Infrastructure.BaseClass;
-    using BullsandCows.Models;
+    using BullsAndCows.Infrastructure.BaseClass;
 
     class PlayLogsVM : ViewModelBase
     {
         IRegionManager _regionManager;
-        MyModel _model;
-        public MyModel Model => _model;
-        public PlayLogsVM(IRegionManager regionManager, MyModel model)
-        {
-            _regionManager = regionManager;
-            _model = model;
-        }
+        //MyModel _model;
+        //public MyModel Model => _model;
+        //public PlayLogsVM(IRegionManager regionManager, MyModel model)
+        //{
+        //    _regionManager = regionManager;
+        //    _model = model;
+        //}
     }
 }
