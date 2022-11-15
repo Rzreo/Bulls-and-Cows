@@ -36,46 +36,41 @@ namespace BullsAndCows.Server.Net
         }
 
 
-        public bool Write(Type type, object message)
+        public bool Write(Type type, string topic, object message)
         {
-            var writer = DDSManagement.GetDataWriter(type);
-
+            var writer = this.DDSManagement.GetDataWriter(type, topic);
             if (writer is null)
+            {
                 return false;
+            }
             writer.Write(message);
-            //DDSManagement.GetDataWriter(typeof(SYS_002_MODE_CHANGE), sample);
             return true;
         }
-
-
-        public bool DeleteDataReader(Type type)
+        
+        public bool DeleteDataReader(Type type, string topic)
         {
             this.SubscribedDDSObservable[type].ForEach(disposable => disposable.Dispose());
 
             this.SubscribedDDSObservable[type].Clear();
 
-            return this.DDSManagement.DeleteDataReader(type);
+            return this.DDSManagement.DeleteDataReader(type, topic);
         }
-
-        public void RegisterEvent(Type type, Action<object> delegateCommand)
+        public void RegisterEvent(Type type, string topic, Action<object> readerAction)
         {
-            var disposable = DDSManagement.GetDataReader(type).Samples.Subscribe(data =>
+            var disposable = this.DDSManagement.GetDataReader(type, topic).Samples.Subscribe(data =>
             {
-                delegateCommand.Invoke(data);
+                readerAction.Invoke(data);
             });
-
             this.SubscribedDDSObservable[type].Add(disposable);
         }
 
-        public void RegisterEvent(Type type, Action delegateCommand)
+        public void RegisterEvent(Type type, string topic, Action callbackFunc)
         {
-            var disposable = DDSManagement.GetDataReader(type).Samples.Subscribe(_ =>
-            {            
-                delegateCommand.Invoke();
+            var disposable = this.DDSManagement.GetDataReader(type, topic).Samples.Subscribe(_ =>
+            {
+                callbackFunc.Invoke();
             });
-
             this.SubscribedDDSObservable[type].Add(disposable);
         }
-
     }
 }

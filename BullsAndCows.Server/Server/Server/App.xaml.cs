@@ -1,9 +1,13 @@
 ﻿namespace Server
 {
+    using BullsAndCows.Infrastructure.Utils.Regions;
     using MainModule;
+    using MainModule.ViewModels;
+    using MainModule.Views;
     using Prism.DryIoc;
     using Prism.Ioc;
     using Prism.Modularity;
+    using Prism.Mvvm;
     using Prism.Regions;
     using Server.Views;
     using System.IO;
@@ -67,13 +71,16 @@
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
 
+       
         }
 
         protected override void OnInitialized()
         {
             base.OnInitialized();
 
-            Container.Resolve<IRegionManager>().RequestNavigate("ContentRegion", "MainView");
+            var regionManager = this.Container.Resolve<IRegionManager>();
+            regionManager.RequestNavigate("ContentRegion", "MainView");
+
 
         }
     }

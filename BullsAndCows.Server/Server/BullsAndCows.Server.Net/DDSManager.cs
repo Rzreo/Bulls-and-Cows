@@ -129,29 +129,31 @@
 
 
         #region dataWriter
-        private ConcurrentDictionary<Type, IDataWriter> dataWriterDictionary = new ConcurrentDictionary<Type, IDataWriter>();
+        private ConcurrentDictionary<(Type,string), IDataWriter> dataWriterDictionary = new ConcurrentDictionary<(Type,string), IDataWriter>();
 
         /// <summary>
         /// DataWriter 생성
         /// </summary>
         /// <param name="type">사용되는 DDS Type</param>
         /// <returns></returns>
-        public IDataWriter GetDataWriter(Type type)
+        public IDataWriter GetDataWriter(Type type, string topic)
         {
             if (type == null) return null;
 
-            if (!this.dataWriterDictionary.ContainsKey(type))
+            var tp = ValueTuple.Create(type, topic);
+
+            if (!this.dataWriterDictionary.ContainsKey(tp))
             {
-                var dataWriter = CreateDataWriter(type);
-                this.dataWriterDictionary[type] = dataWriter;
+                var dataWriter = CreateDataWriter(type, topic);
+                this.dataWriterDictionary[tp] = dataWriter;
             }
 
-            return this.dataWriterDictionary[type];
+            return this.dataWriterDictionary[tp];
         }
 
-        private IDataWriter CreateDataWriter(Type type)
+        private IDataWriter CreateDataWriter(Type type, string topicName)
         {
-            var topic = this.defaultParticipant.CreateTopic(type);
+            var topic = this.defaultParticipant.CreateTopic(type, topicName);
 
             DDS.DataWriter dataWriter;
 
@@ -179,11 +181,13 @@
 
         #region dataReader
 
-        private ConcurrentDictionary<Type, IDataReader> dataReaderDictionary = new ConcurrentDictionary<Type, IDataReader>();
+        private ConcurrentDictionary<(Type,string), IDataReader> dataReaderDictionary = new ConcurrentDictionary<(Type,string), IDataReader>();
 
-        public bool DeleteDataReader(Type type)
+        public bool DeleteDataReader(Type type, string topic)
         {
-            if (this.dataReaderDictionary.TryRemove(type, out IDataReader reader))
+            var tp = ValueTuple.Create(type, topic);
+
+            if (this.dataReaderDictionary.TryRemove(tp, out IDataReader reader))
             {
                 reader.Dispose();
                 return true;
@@ -193,22 +197,24 @@
                 return false;
             }
         }
-        public IDataReader GetDataReader(Type type)
+        public IDataReader GetDataReader(Type type, string topic)
         {
-            if (type == null) return null;
+            if (type == null || topic == null) return null;
 
-            if (!this.dataReaderDictionary.ContainsKey(type))
+            var tp = ValueTuple.Create(type, topic);
+
+            if (!this.dataReaderDictionary.ContainsKey(tp))
             {
-                var dataReader = CreateDataReader(type);
-                this.dataReaderDictionary[type] = dataReader;
+                var dataReader = CreateDataReader(type, topic);
+                this.dataReaderDictionary[tp] = dataReader;
             }
 
-            return this.dataReaderDictionary[type];
+            return this.dataReaderDictionary[tp];
         }
 
-        private IDataReader CreateDataReader(Type type)
+        private IDataReader CreateDataReader(Type type, string topicName)
         {
-            var topic = this.defaultParticipant.CreateTopic(type);
+            var topic = this.defaultParticipant.CreateTopic(type, topicName);
 
             if (isLibraryApplied)
             {

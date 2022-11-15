@@ -23,8 +23,8 @@
         private static Dictionary<Type, string> BuildDataReaderQOS()
         {
             var temp = new Dictionary<Type, string>();
-            temp.Add(typeof(Temperature), RReader); //  추가
-
+            temp.Add(typeof(BAC_CREATE_ROOM), RReader); //  추가
+            temp.Add(typeof(Message), RReader); //  추가
 
 
             return temp;
@@ -34,8 +34,8 @@
         {
             var temp = new Dictionary<Type, string>();
 
-            temp.Add(typeof(Temperature), RWriter);
-
+            temp.Add(typeof(BAC_CREATE_ROOM), RWriter);
+            temp.Add(typeof(Message), RWriter); //  추가
 
             return temp;
         }

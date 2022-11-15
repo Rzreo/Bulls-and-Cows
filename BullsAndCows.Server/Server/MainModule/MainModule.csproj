@@ -5,5 +5,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="ReactiveProperty" Version="8.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\RTIWrapper\RTIWrapper.csproj" />
+    <ProjectReference Include="..\..\..\Types\Types.vcxproj" />
+    <ProjectReference Include="..\BullsAndCows.Server.Net\BullsAndCows.Server.Net.csproj" />
   </ItemGroup>
 </Project>
