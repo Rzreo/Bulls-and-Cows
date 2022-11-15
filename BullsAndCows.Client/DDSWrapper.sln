@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Views", "Test.Views\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{C623C0E3-DE0F-43D6-A8E5-3FE114162F64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullsAndCows", "BullsAndCows\BullsAndCows.csproj", "{B5EB51F5-A9A5-4915-ACB4-EE9601FE1F2A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullsAndCows.Client", "BullsAndCows\BullsAndCows.Client.csproj", "{B5EB51F5-A9A5-4915-ACB4-EE9601FE1F2A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullsAndCows.Client.Views", "BullsAndCows.Client.Views\BullsAndCows.Client.Views.csproj", "{A7A4E6C2-11CE-470B-9F02-FEE17A25E319}"
 EndProject

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test.Infrastructure.Utils.Regions
+namespace BullsAndCows.Infrastructure.Utils.Regions
 {
     /// <summary>
     /// 얘 왜 Defines.RegionNames 에도 있고 그럼?
