@@ -59,7 +59,8 @@
             //DDS , Serial 통신
             //moduleCatalog.AddModule<MyModel>();
 
-            moduleCatalog.AddModule<MainModuleModule>();
+            moduleCatalog.AddModule<MainModule.MainModuleModule>();
+            moduleCatalog.AddModule<BullsAndCows.Server.Net.NetModule>();
             //moduleCatalog.AddModule<showModule>();
         }
 
