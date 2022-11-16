@@ -14,7 +14,7 @@
             <RowDefinition Height="4*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" AutoGenerateColumns="False" HorizontalAlignment="Left" ItemsSource="{Binding RoomList}"   VerticalAlignment="Top" SelectedItem="{Binding ShowRoomInfo}" VerticalScrollBarVisibility="Visible">
+        <DataGrid Width ="300" Height="400"  Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" AutoGenerateColumns="False" HorizontalAlignment="Left" ItemsSource="{Binding RoomList}"   VerticalAlignment="Top" SelectedItem="{Binding ShowRoomInfo}" VerticalScrollBarVisibility="Visible">
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -27,7 +27,7 @@
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn  Header="방 이름" Binding="{Binding RoomName.Value}" />
+                <DataGridTextColumn  Header="방 이름" Binding="{Binding Path=infomsg}" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -37,7 +37,7 @@
         <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding MemberNum}" TextAlignment="Center"/>
         <TextBlock Grid.Column="2" Grid.Row="1" Text="{Binding CorrectNumber}" TextAlignment="Center"/>
 
-        <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Content="정보 보기" Command="{Binding ShowDetail}"/>
+        <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Content="정보 보기" Command="{Binding MsgSend}"/>
 
     </Grid>
 </UserControl>

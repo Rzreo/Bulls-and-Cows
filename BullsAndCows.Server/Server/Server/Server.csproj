@@ -11,6 +11,15 @@
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BullsAndCows.Infrastructure.Style\BullsAndCows.Infrastructure.Style.csproj" />
+    <ProjectReference Include="..\..\..\BullsAndCows.Infrastructure.Utils\BullsAndCows.Infrastructure.Utils.csproj" />
+    <ProjectReference Include="..\..\..\BullsAndCows.Infrastructure\BullsAndCows.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\RTIWrapper\RTIWrapper.csproj" />
+    <ProjectReference Include="..\..\..\Types\Types.vcxproj" />
+    <ProjectReference Include="..\BullsAndCows.Server.Net\BullsAndCows.Server.Net.csproj" />
     <ProjectReference Include="..\MainModule\MainModule.csproj" />
   </ItemGroup>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="IF NOT EXIST &quot;$(TargetDir)..\Config&quot; mkdir &quot;$(TargetDir)..\Config&quot;&#xD;&#xA;xcopy /y  /e  &quot;$(SolutionDir)BullsAndCows.Client.Configuration\Config\*.*&quot; &quot;$(TargetDir)..\Config&quot;&#xD;&#xA;xcopy /y  /e  &quot;$(SolutionDir)BullsAndCows.Client.Configuration\Data\*.*&quot; &quot;$(TargetDir)&quot;&#xD;&#xA;&#xD;&#xA;xcopy /y  &quot;$(NDDSHOME)\lib\x64Win64VS2017\nddsdotnet461.dll&quot;  &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy /y  &quot;$(NDDSHOME)\lib\x64Win64VS2017\nddsc.dll&quot;  &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy /y  &quot;$(NDDSHOME)\lib\x64Win64VS2017\nddscore.dll&quot;  &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy /y  &quot;$(NDDSHOME)\lib\x64Win64VS2017\nddscpp.dll&quot;  &quot;$(TargetDir)&quot;&#xD;&#xA;if $(ConfigurationName) == Debug (&#xD;&#xA;xcopy /y  &quot;$(NDDSHOME)\lib\x64Win64VS2017\nddscd.dll&quot;  &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy /y  &quot;$(NDDSHOME)\lib\x64Win64VS2017\nddscored.dll&quot;  &quot;$(TargetDir)&quot;&#xD;&#xA;xcopy /y  &quot;$(NDDSHOME)\lib\x64Win64VS2017\nddscppd.dll&quot;  &quot;$(TargetDir)&quot;&#xD;&#xA;)" />
+  </Target>
 </Project>
