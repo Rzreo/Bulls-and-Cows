@@ -122,9 +122,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Style\BullsAndCows.Infrastructure.Style.csproj">
       <Project>{5c247225-c2f7-4c9f-803d-1d78db601a5b}</Project>
       <Name>BullsAndCows.Infrastructure.Style</Name>
@@ -145,6 +142,9 @@
       <Project>{266c4335-b887-4ccf-bd50-bffe253e2eec}</Project>
       <Name>BullsAndCows.Client.Net</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
