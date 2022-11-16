@@ -15,24 +15,6 @@ struct DDS_TypeCode;
 using namespace System;
 using namespace DDS;
 
-public ref class CHOCOLATE_LOT_STATE_TOPIC sealed {
-  public:
-    static const System::String^ VALUE =
-    "ChocolateLotState";
-
-  private:
-    CHOCOLATE_LOT_STATE_TOPIC() {}
-};
-
-public ref class CHOCOLATE_TEMPERATURE_TOPIC sealed {
-  public:
-    static const System::String^ VALUE =
-    "ChocolateTemperature";
-
-  private:
-    CHOCOLATE_TEMPERATURE_TOPIC() {}
-};
-
 public ref class ROOM_ID_CLIENT_REQUIRE sealed {
   public:
     static const System::String^ VALUE =
@@ -60,70 +42,20 @@ public ref class ID_STRING_LEN sealed {
     ID_STRING_LEN() {}
 };
 
-public ref struct BAC_AVAILABLE_IDs
-:  public DDS::ICopyable<BAC_AVAILABLE_IDs^> {
-    // --- Declared members: -------------------------------------------------
-  public: 
-
-    System::String^ ID1;
-    System::String^ ID2;
-    System::String^ ID3;
-
-    // --- Static constants: -------------------------------------    
+public ref class MSG_STRING_LEN sealed {
   public:
-
-    // --- Constructors and destructors: -------------------------------------
-  public:
-    BAC_AVAILABLE_IDs();
-
-    // --- Utility methods: --------------------------------------------------
-  public:
-
-    virtual void clear() ;
-
-    virtual System::Boolean copy_from(BAC_AVAILABLE_IDs^ src);
-
-    virtual System::Boolean Equals(System::Object^ other) override;
-    #ifndef NDDS_STANDALONE_TYPE
-    static DDS::TypeCode^ get_typecode();
+    static const System::UInt32 VALUE =
+    16;
 
   private:
-    static DDS::TypeCode^ _typecode;
-    #endif
-
-}; // class BAC_AVAILABLE_IDs
-
-public ref class BAC_AVAILABLE_IDsSeq sealed
-: public DDS::UserRefSequence<BAC_AVAILABLE_IDs^> {
-  public:
-    BAC_AVAILABLE_IDsSeq() :
-        DDS::UserRefSequence<BAC_AVAILABLE_IDs^>() {
-            // empty
-    }
-    BAC_AVAILABLE_IDsSeq(System::Int32 max) :
-        DDS::UserRefSequence<BAC_AVAILABLE_IDs^>(max) {
-            // empty
-    }
-    BAC_AVAILABLE_IDsSeq(BAC_AVAILABLE_IDsSeq^ src) :
-        DDS::UserRefSequence<BAC_AVAILABLE_IDs^>(src) {
-            // empty
-    }
+    MSG_STRING_LEN() {}
 };
 
-#ifndef NDDS_STANDALONE_TYPE
-
-#define NDDSUSERDllExport
-
-NDDSUSERDllExport DDS_TypeCode* BAC_AVAILABLE_IDs_get_typecode();
-
-#endif
-
-public ref struct BAC_CREATE_ROOM
-:  public DDS::ICopyable<BAC_CREATE_ROOM^> {
+public ref struct BAC_CONNECT_INIT_MESSAGE
+:  public DDS::ICopyable<BAC_CONNECT_INIT_MESSAGE^> {
     // --- Declared members: -------------------------------------------------
   public: 
 
-    System::String^ ROOM_ID;
     System::String^ CLIENT_ID;
 
     // --- Static constants: -------------------------------------    
@@ -131,14 +63,14 @@ public ref struct BAC_CREATE_ROOM
 
     // --- Constructors and destructors: -------------------------------------
   public:
-    BAC_CREATE_ROOM();
+    BAC_CONNECT_INIT_MESSAGE();
 
     // --- Utility methods: --------------------------------------------------
   public:
 
     virtual void clear() ;
 
-    virtual System::Boolean copy_from(BAC_CREATE_ROOM^ src);
+    virtual System::Boolean copy_from(BAC_CONNECT_INIT_MESSAGE^ src);
 
     virtual System::Boolean Equals(System::Object^ other) override;
     #ifndef NDDS_STANDALONE_TYPE
@@ -148,21 +80,21 @@ public ref struct BAC_CREATE_ROOM
     static DDS::TypeCode^ _typecode;
     #endif
 
-}; // class BAC_CREATE_ROOM
+}; // class BAC_CONNECT_INIT_MESSAGE
 
-public ref class BAC_CREATE_ROOMSeq sealed
-: public DDS::UserRefSequence<BAC_CREATE_ROOM^> {
+public ref class BAC_CONNECT_INIT_MESSAGESeq sealed
+: public DDS::UserRefSequence<BAC_CONNECT_INIT_MESSAGE^> {
   public:
-    BAC_CREATE_ROOMSeq() :
-        DDS::UserRefSequence<BAC_CREATE_ROOM^>() {
+    BAC_CONNECT_INIT_MESSAGESeq() :
+        DDS::UserRefSequence<BAC_CONNECT_INIT_MESSAGE^>() {
             // empty
     }
-    BAC_CREATE_ROOMSeq(System::Int32 max) :
-        DDS::UserRefSequence<BAC_CREATE_ROOM^>(max) {
+    BAC_CONNECT_INIT_MESSAGESeq(System::Int32 max) :
+        DDS::UserRefSequence<BAC_CONNECT_INIT_MESSAGE^>(max) {
             // empty
     }
-    BAC_CREATE_ROOMSeq(BAC_CREATE_ROOMSeq^ src) :
-        DDS::UserRefSequence<BAC_CREATE_ROOM^>(src) {
+    BAC_CONNECT_INIT_MESSAGESeq(BAC_CONNECT_INIT_MESSAGESeq^ src) :
+        DDS::UserRefSequence<BAC_CONNECT_INIT_MESSAGE^>(src) {
             // empty
     }
 };
@@ -171,15 +103,52 @@ public ref class BAC_CREATE_ROOMSeq sealed
 
 #define NDDSUSERDllExport
 
-NDDSUSERDllExport DDS_TypeCode* BAC_CREATE_ROOM_get_typecode();
+NDDSUSERDllExport DDS_TypeCode* BAC_CONNECT_INIT_MESSAGE_get_typecode();
 
 #endif
 
-public ref struct Message
-:  public DDS::ICopyable<Message^> {
+public enum class CLIENT_CONNECT_MESSAGE_TYPE : System::Int32 {
+    SERVER_CONNECT_SUCCESS 
+};
+
+CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value();
+
+public ref class CLIENT_CONNECT_MESSAGE_TYPEHelper {
+  public:
+    static CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value();
+};
+
+public ref class CLIENT_CONNECT_MESSAGE_TYPESeq
+: public DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE> {
+  public:
+    CLIENT_CONNECT_MESSAGE_TYPESeq() :
+        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>() {
+            // empty
+    }
+    CLIENT_CONNECT_MESSAGE_TYPESeq(System::Int32 max) :
+        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>(max) {
+            // empty
+    }
+    CLIENT_CONNECT_MESSAGE_TYPESeq(CLIENT_CONNECT_MESSAGE_TYPESeq^ src) :
+        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>(src) {
+            // empty
+    }
+};
+
+#ifndef NDDS_STANDALONE_TYPE
+
+#define NDDSUSERDllExport
+
+NDDSUSERDllExport DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode();
+
+#endif
+
+public ref struct BAC_CONNECT_MESSAGE
+:  public DDS::ICopyable<BAC_CONNECT_MESSAGE^> {
     // --- Declared members: -------------------------------------------------
   public: 
 
+    CLIENT_CONNECT_MESSAGE_TYPE type;
     System::String^ msg;
 
     // --- Static constants: -------------------------------------    
@@ -187,14 +156,14 @@ public ref struct Message
 
     // --- Constructors and destructors: -------------------------------------
   public:
-    Message();
+    BAC_CONNECT_MESSAGE();
 
     // --- Utility methods: --------------------------------------------------
   public:
 
     virtual void clear() ;
 
-    virtual System::Boolean copy_from(Message^ src);
+    virtual System::Boolean copy_from(BAC_CONNECT_MESSAGE^ src);
 
     virtual System::Boolean Equals(System::Object^ other) override;
     #ifndef NDDS_STANDALONE_TYPE
@@ -204,21 +173,21 @@ public ref struct Message
     static DDS::TypeCode^ _typecode;
     #endif
 
-}; // class Message
+}; // class BAC_CONNECT_MESSAGE
 
-public ref class MessageSeq sealed
-: public DDS::UserRefSequence<Message^> {
+public ref class BAC_CONNECT_MESSAGESeq sealed
+: public DDS::UserRefSequence<BAC_CONNECT_MESSAGE^> {
   public:
-    MessageSeq() :
-        DDS::UserRefSequence<Message^>() {
+    BAC_CONNECT_MESSAGESeq() :
+        DDS::UserRefSequence<BAC_CONNECT_MESSAGE^>() {
             // empty
     }
-    MessageSeq(System::Int32 max) :
-        DDS::UserRefSequence<Message^>(max) {
+    BAC_CONNECT_MESSAGESeq(System::Int32 max) :
+        DDS::UserRefSequence<BAC_CONNECT_MESSAGE^>(max) {
             // empty
     }
-    MessageSeq(MessageSeq^ src) :
-        DDS::UserRefSequence<Message^>(src) {
+    BAC_CONNECT_MESSAGESeq(BAC_CONNECT_MESSAGESeq^ src) :
+        DDS::UserRefSequence<BAC_CONNECT_MESSAGE^>(src) {
             // empty
     }
 };
@@ -227,64 +196,7 @@ public ref class MessageSeq sealed
 
 #define NDDSUSERDllExport
 
-NDDSUSERDllExport DDS_TypeCode* Message_get_typecode();
-
-#endif
-
-public ref struct Temperature
-:  public DDS::ICopyable<Temperature^> {
-    // --- Declared members: -------------------------------------------------
-  public: 
-
-    System::String^ sensor_id;
-    System::Int32 degrees;
-
-    // --- Static constants: -------------------------------------    
-  public:
-
-    // --- Constructors and destructors: -------------------------------------
-  public:
-    Temperature();
-
-    // --- Utility methods: --------------------------------------------------
-  public:
-
-    virtual void clear() ;
-
-    virtual System::Boolean copy_from(Temperature^ src);
-
-    virtual System::Boolean Equals(System::Object^ other) override;
-    #ifndef NDDS_STANDALONE_TYPE
-    static DDS::TypeCode^ get_typecode();
-
-  private:
-    static DDS::TypeCode^ _typecode;
-    #endif
-
-}; // class Temperature
-
-public ref class TemperatureSeq sealed
-: public DDS::UserRefSequence<Temperature^> {
-  public:
-    TemperatureSeq() :
-        DDS::UserRefSequence<Temperature^>() {
-            // empty
-    }
-    TemperatureSeq(System::Int32 max) :
-        DDS::UserRefSequence<Temperature^>(max) {
-            // empty
-    }
-    TemperatureSeq(TemperatureSeq^ src) :
-        DDS::UserRefSequence<Temperature^>(src) {
-            // empty
-    }
-};
-
-#ifndef NDDS_STANDALONE_TYPE
-
-#define NDDSUSERDllExport
-
-NDDSUSERDllExport DDS_TypeCode* Temperature_get_typecode();
+NDDSUSERDllExport DDS_TypeCode* BAC_CONNECT_MESSAGE_get_typecode();
 
 #endif
 

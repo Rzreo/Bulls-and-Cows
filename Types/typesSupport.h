@@ -15,19 +15,19 @@ class DDSDataWriter;
 class DDSDataReader;
 
 // ---------------------------------------------------------------------------
-// BAC_AVAILABLE_IDsTypeSupport
+// BAC_CONNECT_INIT_MESSAGETypeSupport
 // ---------------------------------------------------------------------------
 
-ref class BAC_AVAILABLE_IDsPlugin;
+ref class BAC_CONNECT_INIT_MESSAGEPlugin;
 
 /* A collection of useful methods for dealing with objects of type
-* BAC_AVAILABLE_IDs.
+* BAC_CONNECT_INIT_MESSAGE.
 */
-public ref class BAC_AVAILABLE_IDsTypeSupport
-: public DDS::TypedTypeSupport<BAC_AVAILABLE_IDs^> {
+public ref class BAC_CONNECT_INIT_MESSAGETypeSupport
+: public DDS::TypedTypeSupport<BAC_CONNECT_INIT_MESSAGE^> {
     // --- Type name: --------------------------------------------------------
   public:
-    static System::String^ TYPENAME = "BAC_AVAILABLE_IDs";
+    static System::String^ TYPENAME = "BAC_CONNECT_INIT_MESSAGE";
 
     // --- Public Methods: ---------------------------------------------------
   public:
@@ -56,49 +56,49 @@ public ref class BAC_AVAILABLE_IDsTypeSupport
         DDS::DomainParticipant^ participant,
         System::String^ type_name);
 
-    /* Create an instance of the BAC_AVAILABLE_IDs type.
+    /* Create an instance of the BAC_CONNECT_INIT_MESSAGE type.
     */
-    static BAC_AVAILABLE_IDs^ create_data();
+    static BAC_CONNECT_INIT_MESSAGE^ create_data();
 
-    /* If instances of the BAC_AVAILABLE_IDs type require any
+    /* If instances of the BAC_CONNECT_INIT_MESSAGE type require any
     * explicit finalization, perform it now on the given sample.
     */
-    static void delete_data(BAC_AVAILABLE_IDs^ data);
+    static void delete_data(BAC_CONNECT_INIT_MESSAGE^ data);
 
     /* Write the contents of the data sample to standard out.
     */
-    static void print_data(BAC_AVAILABLE_IDs^ a_data);
+    static void print_data(BAC_CONNECT_INIT_MESSAGE^ a_data);
 
     /* Perform a deep copy of the contents of one data sample over those of
     * another, overwriting it.
     */
     static void copy_data(
-        BAC_AVAILABLE_IDs^ dst_data,
-        BAC_AVAILABLE_IDs^ src_data);
+        BAC_CONNECT_INIT_MESSAGE^ dst_data,
+        BAC_CONNECT_INIT_MESSAGE^ src_data);
 
     static void serialize_data_to_cdr_buffer(
         array<System::Byte>^ buffer,
         System::UInt32% length,
-        BAC_AVAILABLE_IDs^ a_data,
+        BAC_CONNECT_INIT_MESSAGE^ a_data,
         System::Int16 representation);
 
     static void serialize_data_to_cdr_buffer(
         array<System::Byte>^ buffer,
         System::UInt32% length,
-        BAC_AVAILABLE_IDs^ a_data);
+        BAC_CONNECT_INIT_MESSAGE^ a_data);
 
     static void deserialize_data_from_cdr_buffer(
-        BAC_AVAILABLE_IDs^ a_data,
+        BAC_CONNECT_INIT_MESSAGE^ a_data,
         array<System::Byte>^ buffer,
         System::UInt32 length);
 
     #ifndef NDDS_STANDALONE_TYPE
     static System::String^ data_to_string(
-        BAC_AVAILABLE_IDs ^sample,
+        BAC_CONNECT_INIT_MESSAGE ^sample,
         PrintFormatProperty ^property);
 
     static System::String^ data_to_string(
-        BAC_AVAILABLE_IDs ^sample);
+        BAC_CONNECT_INIT_MESSAGE ^sample);
     #endif
 
     static DDS::TypeCode^ get_typecode();
@@ -114,63 +114,63 @@ public ref class BAC_AVAILABLE_IDsTypeSupport
     virtual DDS::DataWriter^ create_datawriterI(
         System::IntPtr impl) override;
 
-    virtual BAC_AVAILABLE_IDs^ create_data_untyped() override;
+    virtual BAC_CONNECT_INIT_MESSAGE^ create_data_untyped() override;
 
   public:
-    static BAC_AVAILABLE_IDsTypeSupport^ get_instance();
+    static BAC_CONNECT_INIT_MESSAGETypeSupport^ get_instance();
 
-    BAC_AVAILABLE_IDsTypeSupport();
+    BAC_CONNECT_INIT_MESSAGETypeSupport();
 
   private:
-    static BAC_AVAILABLE_IDsTypeSupport^ _singleton;
-    BAC_AVAILABLE_IDsPlugin^ _type_plugin;
+    static BAC_CONNECT_INIT_MESSAGETypeSupport^ _singleton;
+    BAC_CONNECT_INIT_MESSAGEPlugin^ _type_plugin;
 };
 
 // ---------------------------------------------------------------------------
-// BAC_AVAILABLE_IDsDataReader
+// BAC_CONNECT_INIT_MESSAGEDataReader
 // ---------------------------------------------------------------------------
 
 /**
-* A reader for the BAC_AVAILABLE_IDs type.
+* A reader for the BAC_CONNECT_INIT_MESSAGE type.
 */
-public ref class BAC_AVAILABLE_IDsDataReader :
-public DDS::TypedDataReader<BAC_AVAILABLE_IDs^> {
+public ref class BAC_CONNECT_INIT_MESSAGEDataReader :
+public DDS::TypedDataReader<BAC_CONNECT_INIT_MESSAGE^> {
     /* The following code is for the use of the middleware infrastructure.
     * Applications are not expected to call it directly.
     */
     internal:
-    BAC_AVAILABLE_IDsDataReader(System::IntPtr impl);
+    BAC_CONNECT_INIT_MESSAGEDataReader(System::IntPtr impl);
 };
 
 // ---------------------------------------------------------------------------
-// BAC_AVAILABLE_IDsDataWriter
+// BAC_CONNECT_INIT_MESSAGEDataWriter
 // ---------------------------------------------------------------------------
 
 /**
-* A writer for the BAC_AVAILABLE_IDs user type.
+* A writer for the BAC_CONNECT_INIT_MESSAGE user type.
 */
-public ref class BAC_AVAILABLE_IDsDataWriter :
-public DDS::TypedDataWriter<BAC_AVAILABLE_IDs^> {
+public ref class BAC_CONNECT_INIT_MESSAGEDataWriter :
+public DDS::TypedDataWriter<BAC_CONNECT_INIT_MESSAGE^> {
     /* The following code is for the use of the middleware infrastructure.
     * Applications are not expected to call it directly.
     */
     internal:
-    BAC_AVAILABLE_IDsDataWriter(System::IntPtr impl);
+    BAC_CONNECT_INIT_MESSAGEDataWriter(System::IntPtr impl);
 };
 // ---------------------------------------------------------------------------
-// BAC_CREATE_ROOMTypeSupport
+// BAC_CONNECT_MESSAGETypeSupport
 // ---------------------------------------------------------------------------
 
-ref class BAC_CREATE_ROOMPlugin;
+ref class BAC_CONNECT_MESSAGEPlugin;
 
 /* A collection of useful methods for dealing with objects of type
-* BAC_CREATE_ROOM.
+* BAC_CONNECT_MESSAGE.
 */
-public ref class BAC_CREATE_ROOMTypeSupport
-: public DDS::TypedTypeSupport<BAC_CREATE_ROOM^> {
+public ref class BAC_CONNECT_MESSAGETypeSupport
+: public DDS::TypedTypeSupport<BAC_CONNECT_MESSAGE^> {
     // --- Type name: --------------------------------------------------------
   public:
-    static System::String^ TYPENAME = "BAC_CREATE_ROOM";
+    static System::String^ TYPENAME = "BAC_CONNECT_MESSAGE";
 
     // --- Public Methods: ---------------------------------------------------
   public:
@@ -199,49 +199,49 @@ public ref class BAC_CREATE_ROOMTypeSupport
         DDS::DomainParticipant^ participant,
         System::String^ type_name);
 
-    /* Create an instance of the BAC_CREATE_ROOM type.
+    /* Create an instance of the BAC_CONNECT_MESSAGE type.
     */
-    static BAC_CREATE_ROOM^ create_data();
+    static BAC_CONNECT_MESSAGE^ create_data();
 
-    /* If instances of the BAC_CREATE_ROOM type require any
+    /* If instances of the BAC_CONNECT_MESSAGE type require any
     * explicit finalization, perform it now on the given sample.
     */
-    static void delete_data(BAC_CREATE_ROOM^ data);
+    static void delete_data(BAC_CONNECT_MESSAGE^ data);
 
     /* Write the contents of the data sample to standard out.
     */
-    static void print_data(BAC_CREATE_ROOM^ a_data);
+    static void print_data(BAC_CONNECT_MESSAGE^ a_data);
 
     /* Perform a deep copy of the contents of one data sample over those of
     * another, overwriting it.
     */
     static void copy_data(
-        BAC_CREATE_ROOM^ dst_data,
-        BAC_CREATE_ROOM^ src_data);
+        BAC_CONNECT_MESSAGE^ dst_data,
+        BAC_CONNECT_MESSAGE^ src_data);
 
     static void serialize_data_to_cdr_buffer(
         array<System::Byte>^ buffer,
         System::UInt32% length,
-        BAC_CREATE_ROOM^ a_data,
+        BAC_CONNECT_MESSAGE^ a_data,
         System::Int16 representation);
 
     static void serialize_data_to_cdr_buffer(
         array<System::Byte>^ buffer,
         System::UInt32% length,
-        BAC_CREATE_ROOM^ a_data);
+        BAC_CONNECT_MESSAGE^ a_data);
 
     static void deserialize_data_from_cdr_buffer(
-        BAC_CREATE_ROOM^ a_data,
+        BAC_CONNECT_MESSAGE^ a_data,
         array<System::Byte>^ buffer,
         System::UInt32 length);
 
     #ifndef NDDS_STANDALONE_TYPE
     static System::String^ data_to_string(
-        BAC_CREATE_ROOM ^sample,
+        BAC_CONNECT_MESSAGE ^sample,
         PrintFormatProperty ^property);
 
     static System::String^ data_to_string(
-        BAC_CREATE_ROOM ^sample);
+        BAC_CONNECT_MESSAGE ^sample);
     #endif
 
     static DDS::TypeCode^ get_typecode();
@@ -257,334 +257,48 @@ public ref class BAC_CREATE_ROOMTypeSupport
     virtual DDS::DataWriter^ create_datawriterI(
         System::IntPtr impl) override;
 
-    virtual BAC_CREATE_ROOM^ create_data_untyped() override;
+    virtual BAC_CONNECT_MESSAGE^ create_data_untyped() override;
 
   public:
-    static BAC_CREATE_ROOMTypeSupport^ get_instance();
+    static BAC_CONNECT_MESSAGETypeSupport^ get_instance();
 
-    BAC_CREATE_ROOMTypeSupport();
+    BAC_CONNECT_MESSAGETypeSupport();
 
   private:
-    static BAC_CREATE_ROOMTypeSupport^ _singleton;
-    BAC_CREATE_ROOMPlugin^ _type_plugin;
+    static BAC_CONNECT_MESSAGETypeSupport^ _singleton;
+    BAC_CONNECT_MESSAGEPlugin^ _type_plugin;
 };
 
 // ---------------------------------------------------------------------------
-// BAC_CREATE_ROOMDataReader
+// BAC_CONNECT_MESSAGEDataReader
 // ---------------------------------------------------------------------------
 
 /**
-* A reader for the BAC_CREATE_ROOM type.
+* A reader for the BAC_CONNECT_MESSAGE type.
 */
-public ref class BAC_CREATE_ROOMDataReader :
-public DDS::TypedDataReader<BAC_CREATE_ROOM^> {
+public ref class BAC_CONNECT_MESSAGEDataReader :
+public DDS::TypedDataReader<BAC_CONNECT_MESSAGE^> {
     /* The following code is for the use of the middleware infrastructure.
     * Applications are not expected to call it directly.
     */
     internal:
-    BAC_CREATE_ROOMDataReader(System::IntPtr impl);
+    BAC_CONNECT_MESSAGEDataReader(System::IntPtr impl);
 };
 
 // ---------------------------------------------------------------------------
-// BAC_CREATE_ROOMDataWriter
+// BAC_CONNECT_MESSAGEDataWriter
 // ---------------------------------------------------------------------------
 
 /**
-* A writer for the BAC_CREATE_ROOM user type.
+* A writer for the BAC_CONNECT_MESSAGE user type.
 */
-public ref class BAC_CREATE_ROOMDataWriter :
-public DDS::TypedDataWriter<BAC_CREATE_ROOM^> {
+public ref class BAC_CONNECT_MESSAGEDataWriter :
+public DDS::TypedDataWriter<BAC_CONNECT_MESSAGE^> {
     /* The following code is for the use of the middleware infrastructure.
     * Applications are not expected to call it directly.
     */
     internal:
-    BAC_CREATE_ROOMDataWriter(System::IntPtr impl);
-};
-// ---------------------------------------------------------------------------
-// MessageTypeSupport
-// ---------------------------------------------------------------------------
-
-ref class MessagePlugin;
-
-/* A collection of useful methods for dealing with objects of type
-* Message.
-*/
-public ref class MessageTypeSupport
-: public DDS::TypedTypeSupport<Message^> {
-    // --- Type name: --------------------------------------------------------
-  public:
-    static System::String^ TYPENAME = "Message";
-
-    // --- Public Methods: ---------------------------------------------------
-  public:
-    /* Get the default name of this type.
-    *
-    * An application can choose to register a type under any name, so
-    * calling this method is strictly optional.
-    */
-    static System::String^ get_type_name();
-
-    /* Register this type with the given participant under the given logical
-    * name. This type must be registered before a Topic can be created that
-    * uses it.
-    */
-    static void register_type(
-        DDS::DomainParticipant^ participant,
-        System::String^ type_name);
-
-    /* Unregister this type from the given participant, where it was
-    * previously registered under the given name. No further Topic creation
-    * using this type will be possible.
-    *
-    * Unregistration allows some middleware resources to be reclaimed.
-    */
-    static void unregister_type(
-        DDS::DomainParticipant^ participant,
-        System::String^ type_name);
-
-    /* Create an instance of the Message type.
-    */
-    static Message^ create_data();
-
-    /* If instances of the Message type require any
-    * explicit finalization, perform it now on the given sample.
-    */
-    static void delete_data(Message^ data);
-
-    /* Write the contents of the data sample to standard out.
-    */
-    static void print_data(Message^ a_data);
-
-    /* Perform a deep copy of the contents of one data sample over those of
-    * another, overwriting it.
-    */
-    static void copy_data(
-        Message^ dst_data,
-        Message^ src_data);
-
-    static void serialize_data_to_cdr_buffer(
-        array<System::Byte>^ buffer,
-        System::UInt32% length,
-        Message^ a_data,
-        System::Int16 representation);
-
-    static void serialize_data_to_cdr_buffer(
-        array<System::Byte>^ buffer,
-        System::UInt32% length,
-        Message^ a_data);
-
-    static void deserialize_data_from_cdr_buffer(
-        Message^ a_data,
-        array<System::Byte>^ buffer,
-        System::UInt32 length);
-
-    #ifndef NDDS_STANDALONE_TYPE
-    static System::String^ data_to_string(
-        Message ^sample,
-        PrintFormatProperty ^property);
-
-    static System::String^ data_to_string(
-        Message ^sample);
-    #endif
-
-    static DDS::TypeCode^ get_typecode();
-
-    // --- Implementation: ---------------------------------------------------
-    /* The following code is for the use of the middleware infrastructure.
-    * Applications are not expected to call it directly.
-    */
-  public:
-    virtual System::String^ get_type_name_untyped() override;
-    virtual DDS::DataReader^ create_datareaderI(
-        System::IntPtr impl) override;
-    virtual DDS::DataWriter^ create_datawriterI(
-        System::IntPtr impl) override;
-
-    virtual Message^ create_data_untyped() override;
-
-  public:
-    static MessageTypeSupport^ get_instance();
-
-    MessageTypeSupport();
-
-  private:
-    static MessageTypeSupport^ _singleton;
-    MessagePlugin^ _type_plugin;
-};
-
-// ---------------------------------------------------------------------------
-// MessageDataReader
-// ---------------------------------------------------------------------------
-
-/**
-* A reader for the Message type.
-*/
-public ref class MessageDataReader :
-public DDS::TypedDataReader<Message^> {
-    /* The following code is for the use of the middleware infrastructure.
-    * Applications are not expected to call it directly.
-    */
-    internal:
-    MessageDataReader(System::IntPtr impl);
-};
-
-// ---------------------------------------------------------------------------
-// MessageDataWriter
-// ---------------------------------------------------------------------------
-
-/**
-* A writer for the Message user type.
-*/
-public ref class MessageDataWriter :
-public DDS::TypedDataWriter<Message^> {
-    /* The following code is for the use of the middleware infrastructure.
-    * Applications are not expected to call it directly.
-    */
-    internal:
-    MessageDataWriter(System::IntPtr impl);
-};
-// ---------------------------------------------------------------------------
-// TemperatureTypeSupport
-// ---------------------------------------------------------------------------
-
-ref class TemperaturePlugin;
-
-/* A collection of useful methods for dealing with objects of type
-* Temperature.
-*/
-public ref class TemperatureTypeSupport
-: public DDS::TypedTypeSupport<Temperature^> {
-    // --- Type name: --------------------------------------------------------
-  public:
-    static System::String^ TYPENAME = "Temperature";
-
-    // --- Public Methods: ---------------------------------------------------
-  public:
-    /* Get the default name of this type.
-    *
-    * An application can choose to register a type under any name, so
-    * calling this method is strictly optional.
-    */
-    static System::String^ get_type_name();
-
-    /* Register this type with the given participant under the given logical
-    * name. This type must be registered before a Topic can be created that
-    * uses it.
-    */
-    static void register_type(
-        DDS::DomainParticipant^ participant,
-        System::String^ type_name);
-
-    /* Unregister this type from the given participant, where it was
-    * previously registered under the given name. No further Topic creation
-    * using this type will be possible.
-    *
-    * Unregistration allows some middleware resources to be reclaimed.
-    */
-    static void unregister_type(
-        DDS::DomainParticipant^ participant,
-        System::String^ type_name);
-
-    /* Create an instance of the Temperature type.
-    */
-    static Temperature^ create_data();
-
-    /* If instances of the Temperature type require any
-    * explicit finalization, perform it now on the given sample.
-    */
-    static void delete_data(Temperature^ data);
-
-    /* Write the contents of the data sample to standard out.
-    */
-    static void print_data(Temperature^ a_data);
-
-    /* Perform a deep copy of the contents of one data sample over those of
-    * another, overwriting it.
-    */
-    static void copy_data(
-        Temperature^ dst_data,
-        Temperature^ src_data);
-
-    static void serialize_data_to_cdr_buffer(
-        array<System::Byte>^ buffer,
-        System::UInt32% length,
-        Temperature^ a_data,
-        System::Int16 representation);
-
-    static void serialize_data_to_cdr_buffer(
-        array<System::Byte>^ buffer,
-        System::UInt32% length,
-        Temperature^ a_data);
-
-    static void deserialize_data_from_cdr_buffer(
-        Temperature^ a_data,
-        array<System::Byte>^ buffer,
-        System::UInt32 length);
-
-    #ifndef NDDS_STANDALONE_TYPE
-    static System::String^ data_to_string(
-        Temperature ^sample,
-        PrintFormatProperty ^property);
-
-    static System::String^ data_to_string(
-        Temperature ^sample);
-    #endif
-
-    static DDS::TypeCode^ get_typecode();
-
-    // --- Implementation: ---------------------------------------------------
-    /* The following code is for the use of the middleware infrastructure.
-    * Applications are not expected to call it directly.
-    */
-  public:
-    virtual System::String^ get_type_name_untyped() override;
-    virtual DDS::DataReader^ create_datareaderI(
-        System::IntPtr impl) override;
-    virtual DDS::DataWriter^ create_datawriterI(
-        System::IntPtr impl) override;
-
-    virtual Temperature^ create_data_untyped() override;
-
-  public:
-    static TemperatureTypeSupport^ get_instance();
-
-    TemperatureTypeSupport();
-
-  private:
-    static TemperatureTypeSupport^ _singleton;
-    TemperaturePlugin^ _type_plugin;
-};
-
-// ---------------------------------------------------------------------------
-// TemperatureDataReader
-// ---------------------------------------------------------------------------
-
-/**
-* A reader for the Temperature type.
-*/
-public ref class TemperatureDataReader :
-public DDS::TypedDataReader<Temperature^> {
-    /* The following code is for the use of the middleware infrastructure.
-    * Applications are not expected to call it directly.
-    */
-    internal:
-    TemperatureDataReader(System::IntPtr impl);
-};
-
-// ---------------------------------------------------------------------------
-// TemperatureDataWriter
-// ---------------------------------------------------------------------------
-
-/**
-* A writer for the Temperature user type.
-*/
-public ref class TemperatureDataWriter :
-public DDS::TypedDataWriter<Temperature^> {
-    /* The following code is for the use of the middleware infrastructure.
-    * Applications are not expected to call it directly.
-    */
-    internal:
-    TemperatureDataWriter(System::IntPtr impl);
+    BAC_CONNECT_MESSAGEDataWriter(System::IntPtr impl);
 };
 // ---------------------------------------------------------------------------
 // ChocolateLotStateTypeSupport

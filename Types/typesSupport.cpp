@@ -20,78 +20,78 @@ using namespace DDS;
 /* ========================================================================= */
 
 // ---------------------------------------------------------------------------
-// BAC_AVAILABLE_IDsDataWriter
+// BAC_CONNECT_INIT_MESSAGEDataWriter
 // ---------------------------------------------------------------------------
 
-BAC_AVAILABLE_IDsDataWriter::BAC_AVAILABLE_IDsDataWriter(
-    System::IntPtr impl) : DDS::TypedDataWriter<BAC_AVAILABLE_IDs^>(impl) {
+BAC_CONNECT_INIT_MESSAGEDataWriter::BAC_CONNECT_INIT_MESSAGEDataWriter(
+    System::IntPtr impl) : DDS::TypedDataWriter<BAC_CONNECT_INIT_MESSAGE^>(impl) {
     // empty
 }
 
 // ---------------------------------------------------------------------------
-// BAC_AVAILABLE_IDsDataReader
+// BAC_CONNECT_INIT_MESSAGEDataReader
 // ---------------------------------------------------------------------------
 
-BAC_AVAILABLE_IDsDataReader::BAC_AVAILABLE_IDsDataReader(
-    System::IntPtr impl) : DDS::TypedDataReader<BAC_AVAILABLE_IDs^>(impl) {
+BAC_CONNECT_INIT_MESSAGEDataReader::BAC_CONNECT_INIT_MESSAGEDataReader(
+    System::IntPtr impl) : DDS::TypedDataReader<BAC_CONNECT_INIT_MESSAGE^>(impl) {
     // empty
 }
 
 // ---------------------------------------------------------------------------
-// BAC_AVAILABLE_IDsTypeSupport
+// BAC_CONNECT_INIT_MESSAGETypeSupport
 // ---------------------------------------------------------------------------
 
-BAC_AVAILABLE_IDsTypeSupport::BAC_AVAILABLE_IDsTypeSupport()
-: DDS::TypedTypeSupport<BAC_AVAILABLE_IDs^>(
-    BAC_AVAILABLE_IDsPlugin::get_instance()) {
+BAC_CONNECT_INIT_MESSAGETypeSupport::BAC_CONNECT_INIT_MESSAGETypeSupport()
+: DDS::TypedTypeSupport<BAC_CONNECT_INIT_MESSAGE^>(
+    BAC_CONNECT_INIT_MESSAGEPlugin::get_instance()) {
 
-    _type_plugin = BAC_AVAILABLE_IDsPlugin::get_instance();
+    _type_plugin = BAC_CONNECT_INIT_MESSAGEPlugin::get_instance();
 }
 
-void BAC_AVAILABLE_IDsTypeSupport::register_type(
+void BAC_CONNECT_INIT_MESSAGETypeSupport::register_type(
     DDS::DomainParticipant^ participant,
     System::String^ type_name) {
 
     get_instance()->register_type_untyped(participant, type_name);
 }
 
-void BAC_AVAILABLE_IDsTypeSupport::unregister_type(
+void BAC_CONNECT_INIT_MESSAGETypeSupport::unregister_type(
     DDS::DomainParticipant^ participant,
     System::String^ type_name) {
 
     get_instance()->unregister_type_untyped(participant, type_name);
 }
 
-BAC_AVAILABLE_IDs^ BAC_AVAILABLE_IDsTypeSupport::create_data() {
-    return gcnew BAC_AVAILABLE_IDs();
+BAC_CONNECT_INIT_MESSAGE^ BAC_CONNECT_INIT_MESSAGETypeSupport::create_data() {
+    return gcnew BAC_CONNECT_INIT_MESSAGE();
 }
 
-BAC_AVAILABLE_IDs^ BAC_AVAILABLE_IDsTypeSupport::create_data_untyped() {
+BAC_CONNECT_INIT_MESSAGE^ BAC_CONNECT_INIT_MESSAGETypeSupport::create_data_untyped() {
     return create_data();
 }
 
-void BAC_AVAILABLE_IDsTypeSupport::delete_data(
-    BAC_AVAILABLE_IDs^ a_data) {
+void BAC_CONNECT_INIT_MESSAGETypeSupport::delete_data(
+    BAC_CONNECT_INIT_MESSAGE^ a_data) {
     /* If the generated type does not implement IDisposable (the default),
     * the following will no a no-op.
     */
     delete a_data;
 }
 
-void BAC_AVAILABLE_IDsTypeSupport::print_data(BAC_AVAILABLE_IDs^ a_data) {
+void BAC_CONNECT_INIT_MESSAGETypeSupport::print_data(BAC_CONNECT_INIT_MESSAGE^ a_data) {
     get_instance()->_type_plugin->print_data(a_data, nullptr, 0);
 }
 
-void BAC_AVAILABLE_IDsTypeSupport::copy_data(
-    BAC_AVAILABLE_IDs^ dst, BAC_AVAILABLE_IDs^ src) {
+void BAC_CONNECT_INIT_MESSAGETypeSupport::copy_data(
+    BAC_CONNECT_INIT_MESSAGE^ dst, BAC_CONNECT_INIT_MESSAGE^ src) {
 
     get_instance()->copy_data_untyped(dst, src);
 }
 
-void BAC_AVAILABLE_IDsTypeSupport::serialize_data_to_cdr_buffer(
+void BAC_CONNECT_INIT_MESSAGETypeSupport::serialize_data_to_cdr_buffer(
     array<System::Byte>^ buffer,
     System::UInt32% length,
-    BAC_AVAILABLE_IDs^ a_data,
+    BAC_CONNECT_INIT_MESSAGE^ a_data,
     System::Int16 representation)
 {
     if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(
@@ -103,18 +103,18 @@ void BAC_AVAILABLE_IDsTypeSupport::serialize_data_to_cdr_buffer(
     }
 }
 
-void BAC_AVAILABLE_IDsTypeSupport::serialize_data_to_cdr_buffer(
+void BAC_CONNECT_INIT_MESSAGETypeSupport::serialize_data_to_cdr_buffer(
     array<System::Byte>^ buffer,
     System::UInt32% length,
-    BAC_AVAILABLE_IDs^ a_data)
+    BAC_CONNECT_INIT_MESSAGE^ a_data)
 {
     if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(buffer,length,a_data)) {
         throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
     }
 }
 
-void BAC_AVAILABLE_IDsTypeSupport::deserialize_data_from_cdr_buffer(
-    BAC_AVAILABLE_IDs^ a_data,
+void BAC_CONNECT_INIT_MESSAGETypeSupport::deserialize_data_from_cdr_buffer(
+    BAC_CONNECT_INIT_MESSAGE^ a_data,
     array<System::Byte>^ buffer,
     System::UInt32 length)
 {
@@ -124,8 +124,8 @@ void BAC_AVAILABLE_IDsTypeSupport::deserialize_data_from_cdr_buffer(
 }
 
 #ifndef NDDS_STANDALONE_TYPE
-System::String^ BAC_AVAILABLE_IDsTypeSupport::data_to_string(
-    BAC_AVAILABLE_IDs ^sample, 
+System::String^ BAC_CONNECT_INIT_MESSAGETypeSupport::data_to_string(
+    BAC_CONNECT_INIT_MESSAGE ^sample, 
     PrintFormatProperty ^formatProperty)
 {
     return get_instance()->_type_plugin->data_to_string(
@@ -133,8 +133,8 @@ System::String^ BAC_AVAILABLE_IDsTypeSupport::data_to_string(
         formatProperty);
 }
 
-System::String^ BAC_AVAILABLE_IDsTypeSupport::data_to_string(
-    BAC_AVAILABLE_IDs ^sample)
+System::String^ BAC_CONNECT_INIT_MESSAGETypeSupport::data_to_string(
+    BAC_CONNECT_INIT_MESSAGE ^sample)
 {
     PrintFormatProperty ^formatProperty = gcnew PrintFormatProperty();
     return get_instance()->_type_plugin->data_to_string(
@@ -143,38 +143,38 @@ System::String^ BAC_AVAILABLE_IDsTypeSupport::data_to_string(
 }
 #endif
 
-DDS::TypeCode^ BAC_AVAILABLE_IDsTypeSupport::get_typecode() {
+DDS::TypeCode^ BAC_CONNECT_INIT_MESSAGETypeSupport::get_typecode() {
     #ifndef NDDS_STANDALONE_TYPE
-    return  BAC_AVAILABLE_IDs::get_typecode();
+    return  BAC_CONNECT_INIT_MESSAGE::get_typecode();
     #else
     return nullptr;
     #endif
 }
 
-System::String^ BAC_AVAILABLE_IDsTypeSupport::get_type_name() {
+System::String^ BAC_CONNECT_INIT_MESSAGETypeSupport::get_type_name() {
     return TYPENAME;
 }
 
-System::String^ BAC_AVAILABLE_IDsTypeSupport::get_type_name_untyped() {
+System::String^ BAC_CONNECT_INIT_MESSAGETypeSupport::get_type_name_untyped() {
     return TYPENAME;
 }
 
-DDS::DataReader^ BAC_AVAILABLE_IDsTypeSupport::create_datareaderI(
+DDS::DataReader^ BAC_CONNECT_INIT_MESSAGETypeSupport::create_datareaderI(
     System::IntPtr impl) {
 
-    return gcnew BAC_AVAILABLE_IDsDataReader(impl);
+    return gcnew BAC_CONNECT_INIT_MESSAGEDataReader(impl);
 }
 
-DDS::DataWriter^ BAC_AVAILABLE_IDsTypeSupport::create_datawriterI(
+DDS::DataWriter^ BAC_CONNECT_INIT_MESSAGETypeSupport::create_datawriterI(
     System::IntPtr impl) {
 
-    return gcnew BAC_AVAILABLE_IDsDataWriter(impl);
+    return gcnew BAC_CONNECT_INIT_MESSAGEDataWriter(impl);
 }
 
-BAC_AVAILABLE_IDsTypeSupport^
-BAC_AVAILABLE_IDsTypeSupport::get_instance() {
+BAC_CONNECT_INIT_MESSAGETypeSupport^
+BAC_CONNECT_INIT_MESSAGETypeSupport::get_instance() {
     if (_singleton == nullptr) {
-        _singleton = gcnew BAC_AVAILABLE_IDsTypeSupport();
+        _singleton = gcnew BAC_CONNECT_INIT_MESSAGETypeSupport();
     }
     return _singleton;
 }
@@ -182,78 +182,78 @@ BAC_AVAILABLE_IDsTypeSupport::get_instance() {
 /* ========================================================================= */
 
 // ---------------------------------------------------------------------------
-// BAC_CREATE_ROOMDataWriter
+// BAC_CONNECT_MESSAGEDataWriter
 // ---------------------------------------------------------------------------
 
-BAC_CREATE_ROOMDataWriter::BAC_CREATE_ROOMDataWriter(
-    System::IntPtr impl) : DDS::TypedDataWriter<BAC_CREATE_ROOM^>(impl) {
+BAC_CONNECT_MESSAGEDataWriter::BAC_CONNECT_MESSAGEDataWriter(
+    System::IntPtr impl) : DDS::TypedDataWriter<BAC_CONNECT_MESSAGE^>(impl) {
     // empty
 }
 
 // ---------------------------------------------------------------------------
-// BAC_CREATE_ROOMDataReader
+// BAC_CONNECT_MESSAGEDataReader
 // ---------------------------------------------------------------------------
 
-BAC_CREATE_ROOMDataReader::BAC_CREATE_ROOMDataReader(
-    System::IntPtr impl) : DDS::TypedDataReader<BAC_CREATE_ROOM^>(impl) {
+BAC_CONNECT_MESSAGEDataReader::BAC_CONNECT_MESSAGEDataReader(
+    System::IntPtr impl) : DDS::TypedDataReader<BAC_CONNECT_MESSAGE^>(impl) {
     // empty
 }
 
 // ---------------------------------------------------------------------------
-// BAC_CREATE_ROOMTypeSupport
+// BAC_CONNECT_MESSAGETypeSupport
 // ---------------------------------------------------------------------------
 
-BAC_CREATE_ROOMTypeSupport::BAC_CREATE_ROOMTypeSupport()
-: DDS::TypedTypeSupport<BAC_CREATE_ROOM^>(
-    BAC_CREATE_ROOMPlugin::get_instance()) {
+BAC_CONNECT_MESSAGETypeSupport::BAC_CONNECT_MESSAGETypeSupport()
+: DDS::TypedTypeSupport<BAC_CONNECT_MESSAGE^>(
+    BAC_CONNECT_MESSAGEPlugin::get_instance()) {
 
-    _type_plugin = BAC_CREATE_ROOMPlugin::get_instance();
+    _type_plugin = BAC_CONNECT_MESSAGEPlugin::get_instance();
 }
 
-void BAC_CREATE_ROOMTypeSupport::register_type(
+void BAC_CONNECT_MESSAGETypeSupport::register_type(
     DDS::DomainParticipant^ participant,
     System::String^ type_name) {
 
     get_instance()->register_type_untyped(participant, type_name);
 }
 
-void BAC_CREATE_ROOMTypeSupport::unregister_type(
+void BAC_CONNECT_MESSAGETypeSupport::unregister_type(
     DDS::DomainParticipant^ participant,
     System::String^ type_name) {
 
     get_instance()->unregister_type_untyped(participant, type_name);
 }
 
-BAC_CREATE_ROOM^ BAC_CREATE_ROOMTypeSupport::create_data() {
-    return gcnew BAC_CREATE_ROOM();
+BAC_CONNECT_MESSAGE^ BAC_CONNECT_MESSAGETypeSupport::create_data() {
+    return gcnew BAC_CONNECT_MESSAGE();
 }
 
-BAC_CREATE_ROOM^ BAC_CREATE_ROOMTypeSupport::create_data_untyped() {
+BAC_CONNECT_MESSAGE^ BAC_CONNECT_MESSAGETypeSupport::create_data_untyped() {
     return create_data();
 }
 
-void BAC_CREATE_ROOMTypeSupport::delete_data(
-    BAC_CREATE_ROOM^ a_data) {
+void BAC_CONNECT_MESSAGETypeSupport::delete_data(
+    BAC_CONNECT_MESSAGE^ a_data) {
     /* If the generated type does not implement IDisposable (the default),
     * the following will no a no-op.
     */
     delete a_data;
 }
 
-void BAC_CREATE_ROOMTypeSupport::print_data(BAC_CREATE_ROOM^ a_data) {
+void BAC_CONNECT_MESSAGETypeSupport::print_data(BAC_CONNECT_MESSAGE^ a_data) {
     get_instance()->_type_plugin->print_data(a_data, nullptr, 0);
 }
 
-void BAC_CREATE_ROOMTypeSupport::copy_data(
-    BAC_CREATE_ROOM^ dst, BAC_CREATE_ROOM^ src) {
+void BAC_CONNECT_MESSAGETypeSupport::copy_data(
+    BAC_CONNECT_MESSAGE^ dst, BAC_CONNECT_MESSAGE^ src) {
 
     get_instance()->copy_data_untyped(dst, src);
 }
 
-void BAC_CREATE_ROOMTypeSupport::serialize_data_to_cdr_buffer(
+void BAC_CONNECT_MESSAGETypeSupport::serialize_data_to_cdr_buffer(
     array<System::Byte>^ buffer,
     System::UInt32% length,
-    BAC_CREATE_ROOM^ a_data,
+    BAC_CONNECT_MESSAGE^ a_data,
     System::Int16 representation)
 {
     if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(
@@ -265,18 +265,18 @@ void BAC_CREATE_ROOMTypeSupport::serialize_data_to_cdr_buffer(
     }
 }
 
-void BAC_CREATE_ROOMTypeSupport::serialize_data_to_cdr_buffer(
+void BAC_CONNECT_MESSAGETypeSupport::serialize_data_to_cdr_buffer(
     array<System::Byte>^ buffer,
     System::UInt32% length,
-    BAC_CREATE_ROOM^ a_data)
+    BAC_CONNECT_MESSAGE^ a_data)
 {
     if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(buffer,length,a_data)) {
         throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
     }
 }
 
-void BAC_CREATE_ROOMTypeSupport::deserialize_data_from_cdr_buffer(
-    BAC_CREATE_ROOM^ a_data,
+void BAC_CONNECT_MESSAGETypeSupport::deserialize_data_from_cdr_buffer(
+    BAC_CONNECT_MESSAGE^ a_data,
     array<System::Byte>^ buffer,
     System::UInt32 length)
 {
@@ -286,8 +286,8 @@ void BAC_CREATE_ROOMTypeSupport::deserialize_data_from_cdr_buffer(
 }
 
 #ifndef NDDS_STANDALONE_TYPE
-System::String^ BAC_CREATE_ROOMTypeSupport::data_to_string(
-    BAC_CREATE_ROOM ^sample, 
+System::String^ BAC_CONNECT_MESSAGETypeSupport::data_to_string(
+    BAC_CONNECT_MESSAGE ^sample, 
     PrintFormatProperty ^formatProperty)
 {
     return get_instance()->_type_plugin->data_to_string(
@@ -295,8 +295,8 @@ System::String^ BAC_CREATE_ROOMTypeSupport::data_to_string(
         formatProperty);
 }
 
-System::String^ BAC_CREATE_ROOMTypeSupport::data_to_string(
-    BAC_CREATE_ROOM ^sample)
+System::String^ BAC_CONNECT_MESSAGETypeSupport::data_to_string(
+    BAC_CONNECT_MESSAGE ^sample)
 {
     PrintFormatProperty ^formatProperty = gcnew PrintFormatProperty();
     return get_instance()->_type_plugin->data_to_string(
@@ -305,362 +305,38 @@ System::String^ BAC_CREATE_ROOMTypeSupport::data_to_string(
 }
 #endif
 
-DDS::TypeCode^ BAC_CREATE_ROOMTypeSupport::get_typecode() {
+DDS::TypeCode^ BAC_CONNECT_MESSAGETypeSupport::get_typecode() {
     #ifndef NDDS_STANDALONE_TYPE
-    return  BAC_CREATE_ROOM::get_typecode();
+    return  BAC_CONNECT_MESSAGE::get_typecode();
     #else
     return nullptr;
     #endif
 }
 
-System::String^ BAC_CREATE_ROOMTypeSupport::get_type_name() {
+System::String^ BAC_CONNECT_MESSAGETypeSupport::get_type_name() {
     return TYPENAME;
 }
 
-System::String^ BAC_CREATE_ROOMTypeSupport::get_type_name_untyped() {
+System::String^ BAC_CONNECT_MESSAGETypeSupport::get_type_name_untyped() {
     return TYPENAME;
 }
 
-DDS::DataReader^ BAC_CREATE_ROOMTypeSupport::create_datareaderI(
+DDS::DataReader^ BAC_CONNECT_MESSAGETypeSupport::create_datareaderI(
     System::IntPtr impl) {
 
-    return gcnew BAC_CREATE_ROOMDataReader(impl);
+    return gcnew BAC_CONNECT_MESSAGEDataReader(impl);
 }
 
-DDS::DataWriter^ BAC_CREATE_ROOMTypeSupport::create_datawriterI(
+DDS::DataWriter^ BAC_CONNECT_MESSAGETypeSupport::create_datawriterI(
     System::IntPtr impl) {
 
-    return gcnew BAC_CREATE_ROOMDataWriter(impl);
+    return gcnew BAC_CONNECT_MESSAGEDataWriter(impl);
 }
 
-BAC_CREATE_ROOMTypeSupport^
-BAC_CREATE_ROOMTypeSupport::get_instance() {
+BAC_CONNECT_MESSAGETypeSupport^
+BAC_CONNECT_MESSAGETypeSupport::get_instance() {
     if (_singleton == nullptr) {
-        _singleton = gcnew BAC_CREATE_ROOMTypeSupport();
-    }
-    return _singleton;
-}
-
-/* ========================================================================= */
-
-// ---------------------------------------------------------------------------
-// MessageDataWriter
-// ---------------------------------------------------------------------------
-
-MessageDataWriter::MessageDataWriter(
-    System::IntPtr impl) : DDS::TypedDataWriter<Message^>(impl) {
-    // empty
-}
-
-// ---------------------------------------------------------------------------
-// MessageDataReader
-// ---------------------------------------------------------------------------
-
-MessageDataReader::MessageDataReader(
-    System::IntPtr impl) : DDS::TypedDataReader<Message^>(impl) {
-    // empty
-}
-
-// ---------------------------------------------------------------------------
-// MessageTypeSupport
-// ---------------------------------------------------------------------------
-
-MessageTypeSupport::MessageTypeSupport()
-: DDS::TypedTypeSupport<Message^>(
-    MessagePlugin::get_instance()) {
-
-    _type_plugin = MessagePlugin::get_instance();
-}
-
-void MessageTypeSupport::register_type(
-    DDS::DomainParticipant^ participant,
-    System::String^ type_name) {
-
-    get_instance()->register_type_untyped(participant, type_name);
-}
-
-void MessageTypeSupport::unregister_type(
-    DDS::DomainParticipant^ participant,
-    System::String^ type_name) {
-
-    get_instance()->unregister_type_untyped(participant, type_name);
-}
-
-Message^ MessageTypeSupport::create_data() {
-    return gcnew Message();
-}
-
-Message^ MessageTypeSupport::create_data_untyped() {
-    return create_data();
-}
-
-void MessageTypeSupport::delete_data(
-    Message^ a_data) {
-    /* If the generated type does not implement IDisposable (the default),
-    * the following will no a no-op.
-    */
-    delete a_data;
-}
-
-void MessageTypeSupport::print_data(Message^ a_data) {
-    get_instance()->_type_plugin->print_data(a_data, nullptr, 0);
-}
-
-void MessageTypeSupport::copy_data(
-    Message^ dst, Message^ src) {
-
-    get_instance()->copy_data_untyped(dst, src);
-}
-
-void MessageTypeSupport::serialize_data_to_cdr_buffer(
-    array<System::Byte>^ buffer,
-    System::UInt32% length,
-    Message^ a_data,
-    System::Int16 representation)
-{
-    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(
-        buffer,
-        length,
-        a_data,
-        representation)) {
-        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
-    }
-}
-
-void MessageTypeSupport::serialize_data_to_cdr_buffer(
-    array<System::Byte>^ buffer,
-    System::UInt32% length,
-    Message^ a_data)
-{
-    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(buffer,length,a_data)) {
-        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
-    }
-}
-
-void MessageTypeSupport::deserialize_data_from_cdr_buffer(
-    Message^ a_data,
-    array<System::Byte>^ buffer,
-    System::UInt32 length)
-{
-    if (!get_instance()->_type_plugin->deserialize_from_cdr_buffer(a_data,buffer,length)) {
-        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
-    }
-}
-
-#ifndef NDDS_STANDALONE_TYPE
-System::String^ MessageTypeSupport::data_to_string(
-    Message ^sample, 
-    PrintFormatProperty ^formatProperty)
-{
-    return get_instance()->_type_plugin->data_to_string(
-        sample, 
-        formatProperty);
-}
-
-System::String^ MessageTypeSupport::data_to_string(
-    Message ^sample)
-{
-    PrintFormatProperty ^formatProperty = gcnew PrintFormatProperty();
-    return get_instance()->_type_plugin->data_to_string(
-        sample, 
-        formatProperty);
-}
-#endif
-
-DDS::TypeCode^ MessageTypeSupport::get_typecode() {
-    #ifndef NDDS_STANDALONE_TYPE
-    return  Message::get_typecode();
-    #else
-    return nullptr;
-    #endif
-}
-
-System::String^ MessageTypeSupport::get_type_name() {
-    return TYPENAME;
-}
-
-System::String^ MessageTypeSupport::get_type_name_untyped() {
-    return TYPENAME;
-}
-
-DDS::DataReader^ MessageTypeSupport::create_datareaderI(
-    System::IntPtr impl) {
-
-    return gcnew MessageDataReader(impl);
-}
-
-DDS::DataWriter^ MessageTypeSupport::create_datawriterI(
-    System::IntPtr impl) {
-
-    return gcnew MessageDataWriter(impl);
-}
-
-MessageTypeSupport^
-MessageTypeSupport::get_instance() {
-    if (_singleton == nullptr) {
-        _singleton = gcnew MessageTypeSupport();
-    }
-    return _singleton;
-}
-
-/* ========================================================================= */
-
-// ---------------------------------------------------------------------------
-// TemperatureDataWriter
-// ---------------------------------------------------------------------------
-
-TemperatureDataWriter::TemperatureDataWriter(
-    System::IntPtr impl) : DDS::TypedDataWriter<Temperature^>(impl) {
-    // empty
-}
-
-// ---------------------------------------------------------------------------
-// TemperatureDataReader
-// ---------------------------------------------------------------------------
-
-TemperatureDataReader::TemperatureDataReader(
-    System::IntPtr impl) : DDS::TypedDataReader<Temperature^>(impl) {
-    // empty
-}
-
-// ---------------------------------------------------------------------------
-// TemperatureTypeSupport
-// ---------------------------------------------------------------------------
-
-TemperatureTypeSupport::TemperatureTypeSupport()
-: DDS::TypedTypeSupport<Temperature^>(
-    TemperaturePlugin::get_instance()) {
-
-    _type_plugin = TemperaturePlugin::get_instance();
-}
-
-void TemperatureTypeSupport::register_type(
-    DDS::DomainParticipant^ participant,
-    System::String^ type_name) {
-
-    get_instance()->register_type_untyped(participant, type_name);
-}
-
-void TemperatureTypeSupport::unregister_type(
-    DDS::DomainParticipant^ participant,
-    System::String^ type_name) {
-
-    get_instance()->unregister_type_untyped(participant, type_name);
-}
-
-Temperature^ TemperatureTypeSupport::create_data() {
-    return gcnew Temperature();
-}
-
-Temperature^ TemperatureTypeSupport::create_data_untyped() {
-    return create_data();
-}
-
-void TemperatureTypeSupport::delete_data(
-    Temperature^ a_data) {
-    /* If the generated type does not implement IDisposable (the default),
-    * the following will no a no-op.
-    */
-    delete a_data;
-}
-
-void TemperatureTypeSupport::print_data(Temperature^ a_data) {
-    get_instance()->_type_plugin->print_data(a_data, nullptr, 0);
-}
-
-void TemperatureTypeSupport::copy_data(
-    Temperature^ dst, Temperature^ src) {
-
-    get_instance()->copy_data_untyped(dst, src);
-}
-
-void TemperatureTypeSupport::serialize_data_to_cdr_buffer(
-    array<System::Byte>^ buffer,
-    System::UInt32% length,
-    Temperature^ a_data,
-    System::Int16 representation)
-{
-    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(
-        buffer,
-        length,
-        a_data,
-        representation)) {
-        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
-    }
-}
-
-void TemperatureTypeSupport::serialize_data_to_cdr_buffer(
-    array<System::Byte>^ buffer,
-    System::UInt32% length,
-    Temperature^ a_data)
-{
-    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(buffer,length,a_data)) {
-        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
-    }
-}
-
-void TemperatureTypeSupport::deserialize_data_from_cdr_buffer(
-    Temperature^ a_data,
-    array<System::Byte>^ buffer,
-    System::UInt32 length)
-{
-    if (!get_instance()->_type_plugin->deserialize_from_cdr_buffer(a_data,buffer,length)) {
-        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
-    }
-}
-
-#ifndef NDDS_STANDALONE_TYPE
-System::String^ TemperatureTypeSupport::data_to_string(
-    Temperature ^sample, 
-    PrintFormatProperty ^formatProperty)
-{
-    return get_instance()->_type_plugin->data_to_string(
-        sample, 
-        formatProperty);
-}
-
-System::String^ TemperatureTypeSupport::data_to_string(
-    Temperature ^sample)
-{
-    PrintFormatProperty ^formatProperty = gcnew PrintFormatProperty();
-    return get_instance()->_type_plugin->data_to_string(
-        sample, 
-        formatProperty);
-}
-#endif
-
-DDS::TypeCode^ TemperatureTypeSupport::get_typecode() {
-    #ifndef NDDS_STANDALONE_TYPE
-    return  Temperature::get_typecode();
-    #else
-    return nullptr;
-    #endif
-}
-
-System::String^ TemperatureTypeSupport::get_type_name() {
-    return TYPENAME;
-}
-
-System::String^ TemperatureTypeSupport::get_type_name_untyped() {
-    return TYPENAME;
-}
-
-DDS::DataReader^ TemperatureTypeSupport::create_datareaderI(
-    System::IntPtr impl) {
-
-    return gcnew TemperatureDataReader(impl);
-}
-
-DDS::DataWriter^ TemperatureTypeSupport::create_datawriterI(
-    System::IntPtr impl) {
-
-    return gcnew TemperatureDataWriter(impl);
-}
-
-TemperatureTypeSupport^
-TemperatureTypeSupport::get_instance() {
-    if (_singleton == nullptr) {
-        _singleton = gcnew TemperatureTypeSupport();
+        _singleton = gcnew BAC_CONNECT_MESSAGETypeSupport();
     }
     return _singleton;
 }

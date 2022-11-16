@@ -10,8 +10,6 @@
  * to use the software.
  */
 
-const string CHOCOLATE_LOT_STATE_TOPIC = "ChocolateLotState";
-const string CHOCOLATE_TEMPERATURE_TOPIC = "ChocolateTemperature";
 const string ROOM_ID_CLIENT_REQUIRE = "GiveMeRoom";
 
 const uint32 MAX_STRING_LEN = 256;
@@ -24,7 +22,7 @@ struct BAC_CONNECT_INIT_MESSAGE
 };
 
 enum CLIENT_CONNECT_MESSAGE_TYPE {
-    SERVER_CONNECT_SUCCESS,
+    SERVER_CONNECT_SUCCESS
 
 };
 
@@ -32,17 +30,6 @@ struct BAC_CONNECT_MESSAGE
 {
     CLIENT_CONNECT_MESSAGE_TYPE type;
     string<MSG_STRING_LEN> msg;
-};
-
-
-// Temperature data type used by tempering machine
-struct Temperature {
-    // ID of the sensor sending the temperature
-    @key
-    string<MAX_STRING_LEN> sensor_id;
-
-    // Degrees in Fahrenheit
-    int32 degrees;
 };
 
 // Kind of station processing the chocolate
@@ -77,6 +64,5 @@ struct ChocolateLotState {
 
     // Current status of the chocolate lot: Waiting/Processing/Completed
     LotStatusKind lot_status;
-
 };
 
