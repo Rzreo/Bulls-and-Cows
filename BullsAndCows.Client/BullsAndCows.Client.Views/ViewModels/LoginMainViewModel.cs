@@ -30,8 +30,46 @@ namespace BullsAndCows.Client.Views.ViewModels
 
             RoomDatas = new ObservableCollection<BAS_ROOM_DATA>();
             BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
-            var k = System.Reflection.Assembly.GetAssembly(typeof(BAS_ROOM_DATA));
+
             ConnectInit();
+        }
+        void ConnectInit()
+        {
+            _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
+                new BAC_CONNECT_INIT_MESSAGE()
+                {
+                    CLIENT_ID = _config.ClientID()
+                });
+            _dds.RegisterEvent(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _config.ClientID(), ReceiveMessage);
+        }
+        void ReceiveMessage(object s)
+        {
+            BAC_CONNECT_MESSAGE msg = s as BAC_CONNECT_MESSAGE;
+            switch(msg.type)
+            {
+                case CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS: OnConnectSuccess(msg); break;
+                case CLIENT_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST: OnSendRoomList(msg); break;
+
+            }
+        }
+
+        void OnConnectSuccess(BAC_CONNECT_MESSAGE msg)
+        {
+            _dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _config.ClientID(),
+                   new BAC_CONNECT_MESSAGE()
+                   {
+                       type = CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST
+                   });
+        }
+
+        void OnSendRoomList(BAC_CONNECT_MESSAGE msg)
+        {
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(
+            () =>
+            {
+                RoomDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<BAS_ROOM_DATA>>(msg.msg);
+                BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
+            });
         }
 
         #region CreateRoom
@@ -56,37 +94,5 @@ namespace BullsAndCows.Client.Views.ViewModels
                 });
         }
         #endregion
-
-        void ConnectInit()
-        {
-            _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
-                new BAC_CONNECT_INIT_MESSAGE()
-                {
-                    CLIENT_ID = _config.ClientID()
-                });
-            _dds.RegisterEvent(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _config.ClientID(), ReceiveMessage);
-        }
-
-        void ReceiveMessage(object s)
-        {
-            BAC_CONNECT_MESSAGE msg = s as BAC_CONNECT_MESSAGE;
-            switch(msg.type)
-            {
-                case CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS:
-                    OnConnectSuccess();
-                    break;
-            }
-            var k = new BAS_ROOM_DATA() { room_id=1};
-        }
-
-        void OnConnectSuccess()
-        {
-            UIThreadHelper.CheckAndInvokeOnUIDispatcher(
-            () =>
-            {
-                     RoomDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<BAS_ROOM_DATA>>(msg.msg);
-                     BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
-                 });
-        }
     }
 }

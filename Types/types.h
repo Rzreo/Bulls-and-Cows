@@ -52,11 +52,8 @@ public ref class MSG_STRING_LEN sealed {
 };
 
 public enum class CLIENT_CONNECT_MESSAGE_TYPE : System::Int32 {
-    SERVER_CONNECT_SUCCESS ,
     CREATE_ROOM ,
-    CREATE_ROOM_SUCCESS ,
-    GIVE_ROOM_LIST ,
-    SEND_ROOM_LIST 
+    GIVE_ROOM_LIST 
 };
 
 CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value();
@@ -88,6 +85,45 @@ public ref class CLIENT_CONNECT_MESSAGE_TYPESeq
 #define NDDSUSERDllExport
 
 NDDSUSERDllExport DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode();
+
+#endif
+
+public enum class SERVER_CONNECT_MESSAGE_TYPE : System::Int32 {
+    SERVER_CONNECT_SUCCESS ,
+    CREATE_ROOM_SUCCESS ,
+    SEND_ROOM_LIST ,
+    REQUEST_GO_TO_ROOM 
+};
+
+SERVER_CONNECT_MESSAGE_TYPE SERVER_CONNECT_MESSAGE_TYPE_get_default_value();
+
+public ref class SERVER_CONNECT_MESSAGE_TYPEHelper {
+  public:
+    static SERVER_CONNECT_MESSAGE_TYPE SERVER_CONNECT_MESSAGE_TYPE_get_default_value();
+};
+
+public ref class SERVER_CONNECT_MESSAGE_TYPESeq
+: public DDS::UserValueSequence<SERVER_CONNECT_MESSAGE_TYPE> {
+  public:
+    SERVER_CONNECT_MESSAGE_TYPESeq() :
+        DDS::UserValueSequence<SERVER_CONNECT_MESSAGE_TYPE>() {
+            // empty
+    }
+    SERVER_CONNECT_MESSAGE_TYPESeq(System::Int32 max) :
+        DDS::UserValueSequence<SERVER_CONNECT_MESSAGE_TYPE>(max) {
+            // empty
+    }
+    SERVER_CONNECT_MESSAGE_TYPESeq(SERVER_CONNECT_MESSAGE_TYPESeq^ src) :
+        DDS::UserValueSequence<SERVER_CONNECT_MESSAGE_TYPE>(src) {
+            // empty
+    }
+};
+
+#ifndef NDDS_STANDALONE_TYPE
+
+#define NDDSUSERDllExport
+
+NDDSUSERDllExport DDS_TypeCode* SERVER_CONNECT_MESSAGE_TYPE_get_typecode();
 
 #endif
 
@@ -147,8 +183,8 @@ NDDSUSERDllExport DDS_TypeCode* BAC_CONNECT_INIT_MESSAGE_get_typecode();
 
 #endif
 
-public ref struct BAC_CONNECT_MESSAGE
-:  public DDS::ICopyable<BAC_CONNECT_MESSAGE^> {
+public ref struct BAC_SERVER_CONNECT_MESSAGE
+:  public DDS::ICopyable<BAC_SERVER_CONNECT_MESSAGE^> {
     // --- Declared members: -------------------------------------------------
   public: 
 
@@ -160,14 +196,14 @@ public ref struct BAC_CONNECT_MESSAGE
 
     // --- Constructors and destructors: -------------------------------------
   public:
-    BAC_CONNECT_MESSAGE();
+    BAC_SERVER_CONNECT_MESSAGE();
 
     // --- Utility methods: --------------------------------------------------
   public:
 
     virtual void clear() ;
 
-    virtual System::Boolean copy_from(BAC_CONNECT_MESSAGE^ src);
+    virtual System::Boolean copy_from(BAC_SERVER_CONNECT_MESSAGE^ src);
 
     virtual System::Boolean Equals(System::Object^ other) override;
     #ifndef NDDS_STANDALONE_TYPE
@@ -177,21 +213,21 @@ public ref struct BAC_CONNECT_MESSAGE
     static DDS::TypeCode^ _typecode;
     #endif
 
-}; // class BAC_CONNECT_MESSAGE
+}; // class BAC_SERVER_CONNECT_MESSAGE
 
-public ref class BAC_CONNECT_MESSAGESeq sealed
-: public DDS::UserRefSequence<BAC_CONNECT_MESSAGE^> {
+public ref class BAC_SERVER_CONNECT_MESSAGESeq sealed
+: public DDS::UserRefSequence<BAC_SERVER_CONNECT_MESSAGE^> {
   public:
-    BAC_CONNECT_MESSAGESeq() :
-        DDS::UserRefSequence<BAC_CONNECT_MESSAGE^>() {
+    BAC_SERVER_CONNECT_MESSAGESeq() :
+        DDS::UserRefSequence<BAC_SERVER_CONNECT_MESSAGE^>() {
             // empty
     }
-    BAC_CONNECT_MESSAGESeq(System::Int32 max) :
-        DDS::UserRefSequence<BAC_CONNECT_MESSAGE^>(max) {
+    BAC_SERVER_CONNECT_MESSAGESeq(System::Int32 max) :
+        DDS::UserRefSequence<BAC_SERVER_CONNECT_MESSAGE^>(max) {
             // empty
     }
-    BAC_CONNECT_MESSAGESeq(BAC_CONNECT_MESSAGESeq^ src) :
-        DDS::UserRefSequence<BAC_CONNECT_MESSAGE^>(src) {
+    BAC_SERVER_CONNECT_MESSAGESeq(BAC_SERVER_CONNECT_MESSAGESeq^ src) :
+        DDS::UserRefSequence<BAC_SERVER_CONNECT_MESSAGE^>(src) {
             // empty
     }
 };
@@ -200,7 +236,64 @@ public ref class BAC_CONNECT_MESSAGESeq sealed
 
 #define NDDSUSERDllExport
 
-NDDSUSERDllExport DDS_TypeCode* BAC_CONNECT_MESSAGE_get_typecode();
+NDDSUSERDllExport DDS_TypeCode* BAC_SERVER_CONNECT_MESSAGE_get_typecode();
+
+#endif
+
+public ref struct BAC_CLIENT_CONNECT_MESSAGE
+:  public DDS::ICopyable<BAC_CLIENT_CONNECT_MESSAGE^> {
+    // --- Declared members: -------------------------------------------------
+  public: 
+
+    SERVER_CONNECT_MESSAGE_TYPE type;
+    System::String^ msg;
+
+    // --- Static constants: -------------------------------------    
+  public:
+
+    // --- Constructors and destructors: -------------------------------------
+  public:
+    BAC_CLIENT_CONNECT_MESSAGE();
+
+    // --- Utility methods: --------------------------------------------------
+  public:
+
+    virtual void clear() ;
+
+    virtual System::Boolean copy_from(BAC_CLIENT_CONNECT_MESSAGE^ src);
+
+    virtual System::Boolean Equals(System::Object^ other) override;
+    #ifndef NDDS_STANDALONE_TYPE
+    static DDS::TypeCode^ get_typecode();
+
+  private:
+    static DDS::TypeCode^ _typecode;
+    #endif
+
+}; // class BAC_CLIENT_CONNECT_MESSAGE
+
+public ref class BAC_CLIENT_CONNECT_MESSAGESeq sealed
+: public DDS::UserRefSequence<BAC_CLIENT_CONNECT_MESSAGE^> {
+  public:
+    BAC_CLIENT_CONNECT_MESSAGESeq() :
+        DDS::UserRefSequence<BAC_CLIENT_CONNECT_MESSAGE^>() {
+            // empty
+    }
+    BAC_CLIENT_CONNECT_MESSAGESeq(System::Int32 max) :
+        DDS::UserRefSequence<BAC_CLIENT_CONNECT_MESSAGE^>(max) {
+            // empty
+    }
+    BAC_CLIENT_CONNECT_MESSAGESeq(BAC_CLIENT_CONNECT_MESSAGESeq^ src) :
+        DDS::UserRefSequence<BAC_CLIENT_CONNECT_MESSAGE^>(src) {
+            // empty
+    }
+};
+
+#ifndef NDDS_STANDALONE_TYPE
+
+#define NDDSUSERDllExport
+
+NDDSUSERDllExport DDS_TypeCode* BAC_CLIENT_CONNECT_MESSAGE_get_typecode();
 
 #endif
 
