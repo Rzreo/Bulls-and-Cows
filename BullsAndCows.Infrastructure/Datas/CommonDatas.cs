@@ -8,6 +8,6 @@ namespace BullsAndCows.Infrastructure
 {
     public struct BAS_ROOM_DATA
     {
-        UInt32 room_id;
+        public UInt32 room_id;
     };
 }

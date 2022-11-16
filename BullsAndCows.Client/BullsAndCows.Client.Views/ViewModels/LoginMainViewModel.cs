@@ -14,6 +14,7 @@ namespace BullsAndCows.Client.Views.ViewModels
     using Prism.Commands;
     using System.Collections.ObjectModel;
     using System.Windows.Data;
+    using System.Windows.Interop;
     using System.Windows.Threading;
 
     class LoginMainViewModel : ViewModelBase
@@ -69,15 +70,23 @@ namespace BullsAndCows.Client.Views.ViewModels
         void ReceiveMessage(object s)
         {
             BAC_CONNECT_MESSAGE msg = s as BAC_CONNECT_MESSAGE;
-            if (msg.type == CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS)
+            switch(msg.type)
             {
-                UIThreadHelper.CheckAndInvokeOnUIDispatcher(
-                    () =>
-                    {
-                        RoomDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<BAS_ROOM_DATA>>(msg.msg);
-                        BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
-                    });
+                case CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS:
+                    OnConnectSuccess();
+                    break;
             }
+            var k = new BAS_ROOM_DATA() { room_id=1};
+        }
+
+        void OnConnectSuccess()
+        {
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(
+            () =>
+            {
+                     RoomDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<BAS_ROOM_DATA>>(msg.msg);
+                     BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
+                 });
         }
     }
 }
