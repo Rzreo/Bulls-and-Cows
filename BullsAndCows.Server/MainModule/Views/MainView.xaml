@@ -13,7 +13,8 @@
             <RowDefinition Height="300"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <DataGrid Width ="175" Height="300"  Grid.Column="0" Grid.Row="0" AutoGenerateColumns="False" HorizontalAlignment="Left" ItemsSource="{Binding RoomList}"   VerticalAlignment="Top"  VerticalScrollBarVisibility="Visible">
+        <DataGrid Width ="175" Height="300"  Grid.Column="0" Grid.Row="0" AutoGenerateColumns="False" HorizontalAlignment="Left" 
+                  ItemsSource="{Binding ConnectList}"   VerticalAlignment="Top"  VerticalScrollBarVisibility="Visible">
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -26,11 +27,12 @@
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn Width ="175" Header="연결 요청" Binding="{Binding Path=infomsg}" />
+                <DataGridTextColumn Width ="175" Header="연결 요청" Binding="{Binding Path=ClientInfo}" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Width ="175" Height="300"  Grid.Column="1" Grid.Row="0" AutoGenerateColumns="False" HorizontalAlignment="Left" ItemsSource="{Binding RoomList}"   VerticalAlignment="Top" VerticalScrollBarVisibility="Visible">
+        <DataGrid Width ="175" Height="300"  Grid.Column="1" Grid.Row="0" AutoGenerateColumns="False" HorizontalAlignment="Left" 
+                  ItemsSource="{Binding JoinableList}"   VerticalAlignment="Top" VerticalScrollBarVisibility="Visible">
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -43,11 +45,12 @@
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn  Width ="175" Header="참가가 가능한 방" Binding="{Binding Path=infomsg}" />
+                <DataGridTextColumn  Width ="175" Header="참가가 가능한 방" Binding="{Binding Path=room_id}" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Width ="175" Height="300"  Grid.Column="2" Grid.Row="0" AutoGenerateColumns="False" HorizontalAlignment="Left" ItemsSource="{Binding RoomList}" VerticalScrollBarVisibility="Visible">
+        <DataGrid Width ="175" Height="300"  Grid.Column="2" Grid.Row="0" AutoGenerateColumns="False" HorizontalAlignment="Left" 
+                  ItemsSource="{Binding PlayingList}" VerticalScrollBarVisibility="Visible">
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
                     <Setter Property="TextBlock.TextAlignment" Value="Center"/>
@@ -60,7 +63,7 @@
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn  Width ="175" Header="게임중인 방" Binding="{Binding Path=infomsg}" />
+                <DataGridTextColumn  Width ="175" Header="게임중인 방" Binding="{Binding Path=room_id}" />
             </DataGrid.Columns>
         </DataGrid>
 
