@@ -61,20 +61,25 @@
         public void InitializeDDS()
         {
             dds.RegisterEvent(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE), data => ReceiveConnectMsg(data as BAC_CONNECT_INIT_MESSAGE));
-            //dds.RegisterEvent(typeof(BAS_ROOM_DATA), nameof(BAS_ROOM_DATA), data => ReceiveRoomMakeMsg(data as BAS_ROOM_DATA));
-            dds.RegisterEvent(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE), () => { });
+            dds.RegisterEvent(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE)+"123", data => ReceiveServerMsg(data as BAC_SERVER_CONNECT_MESSAGE,"123"));;
         }
 
-        private void ReceiveMsg(BAC_CONNECT_MESSAGE data, string _clientid) // 메세지 수신 시
+        private void ReceiveClientMsg(BAC_CLIENT_CONNECT_MESSAGE data, string _clientid) // 메세지 수신 시
         {
             if (data is null) return;
             if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(_clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST) SendRoomList(_clientid);
-            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST) UpdateRoomList(data);
             
         }
 
-        private void UpdateRoomList(BAC_CONNECT_MESSAGE data)
+        private void ReceiveServerMsg(BAC_SERVER_CONNECT_MESSAGE data, string _clientid) // 메세지 수신 시
+        {
+            if (data is null) return;
+            else if (data.type == SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST) UpdateRoomList(data);
+
+        }
+
+        private void UpdateRoomList(BAC_SERVER_CONNECT_MESSAGE data)
         {
             JoinableRooms = data.msg;
         }
@@ -82,10 +87,10 @@
         {
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(JoinableList);
             Application.Current.Dispatcher.BeginInvoke(() => {
-                dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _clientid,
-                    new BAC_CONNECT_MESSAGE
+                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientid,
+                    new BAC_SERVER_CONNECT_MESSAGE
                     {
-                        type = CLIENT_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST,
+                        type = SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST,
                         msg = ans
                     }
                 ); 
@@ -99,10 +104,10 @@
             Console.WriteLine(ans);
             Application.Current.Dispatcher.Invoke(() =>
             {
-                dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _clientid,
-                    new BAC_CONNECT_MESSAGE
+                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientid,
+                    new BAC_SERVER_CONNECT_MESSAGE
                     {
-                        type = CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
+                        type = SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
                         msg = ans
                     }
                 ); ;
@@ -119,14 +124,14 @@
         void SendJoinableList(string clientId) //연결응답 보내기
         {
             Application.Current.Dispatcher.BeginInvoke(() => {
-                dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) ,
-                    new BAC_CONNECT_MESSAGE
+                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) ,
+                    new BAC_SERVER_CONNECT_MESSAGE
                     {
-                        type = CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
+                        type = SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
                         msg = "connect success"
                     }
                 );
-                dds.RegisterEvent(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + clientId, data => ReceiveMsg(data as BAC_CONNECT_MESSAGE, clientId));
+                dds.RegisterEvent(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + clientId, data => ReceiveClientMsg(data as BAC_CLIENT_CONNECT_MESSAGE, clientId));
             });
 
         }
@@ -149,8 +154,8 @@
 
         void ExecuteRoomSend()
         {
-            dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + "123",
-                new BAC_CONNECT_MESSAGE()
+            dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + "123",
+                new BAC_CLIENT_CONNECT_MESSAGE()
                 {
                     type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM,
                     msg = "please make room"
@@ -163,8 +168,8 @@
 
         void ExecuteListSend()
         {
-            dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + "123",
-                new BAC_CONNECT_MESSAGE()
+            dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + "123",
+                new BAC_CLIENT_CONNECT_MESSAGE()
                 {
                     type = CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST,
                     msg = "please give room"
