@@ -1,5 +1,6 @@
 ﻿namespace MainModule.ViewModels
 {
+    using BullsAndCows.Infrastructure;
     using BullsAndCows.Infrastructure.Net;
     using BullsAndCows.Infrastructure.Utils;
     using BullsAndCows.Server.Net;
@@ -31,6 +32,13 @@
 
         public ReactiveCollection<BAS_ROOM_DATA> PlayingList { get; }
 
+        private string _join;
+        public string JoinableRooms
+        {
+            get { return _join; }
+            set { SetProperty(ref _join, value); }
+        }
+
         private DDSService dds;
         object _lock = new object();
         int RoomCount;
@@ -61,22 +69,31 @@
         {
             if (data is null) return;
             if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(_clientid);
-            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS) SendRoomList(_clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST) SendRoomList(_clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST) UpdateRoomList(data);
             
         }
 
+        private void UpdateRoomList(BAC_CONNECT_MESSAGE data)
+        {
+            JoinableRooms = data.msg;
+        }
         private void SendRoomList(string _clientid) //입장 가능한 방 정보 전송
         {
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(JoinableList);
             Application.Current.Dispatcher.BeginInvoke(() => {
                 dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _clientid,
-                    null
+                    new BAC_CONNECT_MESSAGE
+                    {
+                        type = CLIENT_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST,
+                        msg = ans
+                    }
                 ); 
             });
         }
         private void RoomMake(string _clientid) //방 생성
         {
-            BAS_ROOM_DATA data = new BAS_ROOM_DATA() { room_id = (uint)RoomCount++ };
+            BAS_ROOM_DATA data = new BAS_ROOM_DATA() { RoomID = (uint)RoomCount++ };
             JoinableList.Add(data);
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(data);
             Console.WriteLine(ans);
@@ -85,7 +102,7 @@
                 dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _clientid,
                     new BAC_CONNECT_MESSAGE
                     {
-                        type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM,
+                        type = CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
                         msg = ans
                     }
                 ); ;
@@ -140,6 +157,19 @@
                 });
         }
 
+        private DelegateCommand showroom;
+        public DelegateCommand ListSend =>
+            showroom ?? (showroom = new DelegateCommand(ExecuteListSend));
+
+        void ExecuteListSend()
+        {
+            dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + "123",
+                new BAC_CONNECT_MESSAGE()
+                {
+                    type = CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST,
+                    msg = "please give room"
+                });
+        }
         protected CompositeDisposable disposables { get; } = new CompositeDisposable();
 
         private bool disposedValue;
