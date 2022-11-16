@@ -51,12 +51,15 @@
 
         void SendAnswer(BAC_CREATE_ROOM data)
         {
-            dds.Write(typeof(Message), nameof(Message) + data.CLIENT_ID,
-                new Message
-                {
-                    msg = "hello"
-                }
+            Application.Current.Dispatcher.Invoke(() => {
+                dds.Write(typeof(Message), nameof(Message) + data.CLIENT_ID,
+                    new Message
+                    {
+                        msg = "hello"
+                    }
                 );
+            });
+
         }
         void ExecuteMsgSend()
         {
