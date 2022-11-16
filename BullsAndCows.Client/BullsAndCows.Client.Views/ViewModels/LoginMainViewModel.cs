@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BullsAndCows.Client.Views.ViewModels
 {
+    using BullsAndCows.Infrastructure;
     using BullsAndCows.Infrastructure.BaseClass;
-    using BullsAndCows.Infrastructure.Datas;
     using BullsAndCows.Infrastructure.Net;
     using BullsAndCows.Infrastructure.OperationManagement;
     using BullsAndCows.Infrastructure.Utils;

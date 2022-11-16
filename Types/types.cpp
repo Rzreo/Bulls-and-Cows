@@ -110,14 +110,14 @@ DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode()
             RTICdrTypeCodeAnnotations_INITIALIZER
         }, 
         {
-            (char *)"SEND_ROOM_LISTd",/* Member name */
+            (char *)"SEND_ROOM_LIST",/* Member name */
             {
                 0, /* Ignored */
                 DDS_BOOLEAN_FALSE,/* Is a pointer? */
                 -1, /* Bitfield bits */
                 NULL/* Member type code is assigned later */
             },
-            (RTICdrLong)CLIENT_CONNECT_MESSAGE_TYPE::SEND_ROOM_LISTd, 
+            (RTICdrLong)CLIENT_CONNECT_MESSAGE_TYPE::SEND_ROOM_LIST, 
             0, /* Ignored */
             0, /* Ignored */
             NULL, /* Ignored */

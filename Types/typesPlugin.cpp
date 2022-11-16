@@ -90,7 +90,7 @@ CLIENT_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
             case CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM:
             case CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM_SUCCESS:
             case CLIENT_CONNECT_MESSAGE_TYPE::GIVE_ROOM_LIST:
-            case CLIENT_CONNECT_MESSAGE_TYPE::SEND_ROOM_LISTd:
+            case CLIENT_CONNECT_MESSAGE_TYPE::SEND_ROOM_LIST:
             {
             }  break;
             default:

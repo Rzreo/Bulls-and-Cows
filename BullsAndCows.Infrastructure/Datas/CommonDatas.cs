@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BullsAndCows.Infrastructure.Datas
+namespace BullsAndCows.Infrastructure
 {
     public struct BAS_ROOM_DATA
     {

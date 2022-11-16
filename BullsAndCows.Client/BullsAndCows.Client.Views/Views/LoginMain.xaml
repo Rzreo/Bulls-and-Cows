@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BullsAndCows.Client.Views.Views"
              xmlns:vm="clr-namespace:BullsAndCows.Client.Views.ViewModels"
-             xmlns:types="clr-namespace:BullsAndCows.Infrastructure.Datas;assembly=BullsAndCows.Infrastructure"
+             xmlns:bac="BullsAndCows"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
@@ -16,7 +16,7 @@
 
         <ListBox ItemsSource="{Binding RoomLists}">
             <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type types:BAS_ROOM_DATA}">
+                <DataTemplate DataType="{x:Type bac:BAS_ROOM_DATA}">
                     <Button Command="{Binding CreateRoomCommand}">
                         <TextBlock Text="{Binding id}"/>
                     </Button>
