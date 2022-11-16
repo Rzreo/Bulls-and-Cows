@@ -98,20 +98,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BullsAndCows.Infrastructure\BullsAndCows.Infrastructure.csproj">
-      <Project>{6c694380-4b17-4956-b4df-e3f7f0d5219d}</Project>
-      <Name>BullsAndCows.Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\RTIWrapper\RTIWrapper.csproj">
-      <Project>{02f44350-cac1-4f69-82da-28d0f180946a}</Project>
-      <Name>RTIWrapper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Types\Types.vcxproj">
-      <Project>{282c3a69-fd93-4ff3-927d-7477e6efd452}</Project>
-      <Name>Types</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
