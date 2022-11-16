@@ -13,66 +13,97 @@
     using System.Windows;
     using System.Windows.Data;
     using System.Windows.Interop;
+    using static MainModule.ViewModels.MainViewModel;
 
     public class MainViewModel : BindableBase, IDisposable
     {
         public ReactiveCommand DoCSVLoad { get; set; } = new ReactiveCommand();
 
-        bool[] array = new bool[8];
-        struct BAS_ROOM_DATA { public int id; }
-        public class Room
+        public class Clients
         {
-            public string infomsg { get; set; }
+            public string ClientInfo { get; set; }
         }
+        public ReactiveCollection<Clients> ConnectList { get; }
 
-        public ReactiveCollection<Room> RoomList { get; }
-        public ReactiveProperty<string> msg { get; set; } = new ReactiveProperty<string>();
+        public ReactiveCollection<BAS_ROOM_DATA> JoinableList { get; }
+
+        public ReactiveCollection<BAS_ROOM_DATA> PlayingList { get; }
+
         private DDSService dds;
         object _lock = new object();
+        int RoomCount;
         public MainViewModel(DDSService dDSService)
         {
-            RoomList = new ReactiveCollection<Room>();
-            BindingOperations.EnableCollectionSynchronization(RoomList, _lock);
+            ConnectList = new ReactiveCollection<Clients>();
+            BindingOperations.EnableCollectionSynchronization(ConnectList, _lock);
+
+            JoinableList = new ReactiveCollection<BAS_ROOM_DATA>();
+            BindingOperations.EnableCollectionSynchronization(JoinableList, _lock);
+
+            PlayingList = new ReactiveCollection<BAS_ROOM_DATA>();
+            BindingOperations.EnableCollectionSynchronization(PlayingList, _lock);
+
             dds = dDSService;
-            for (int i = 0; i < 8; i++) array[i] = true;
+            RoomCount = 0;
             InitializeDDS();
         }
 
         public void InitializeDDS()
         {
-            dds.RegisterEvent(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE), data => ReceiveTestMsg(data as BAC_CONNECT_INIT_MESSAGE));
+            dds.RegisterEvent(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE), data => ReceiveConnectMsg(data as BAC_CONNECT_INIT_MESSAGE));
+            //dds.RegisterEvent(typeof(BAS_ROOM_DATA), nameof(BAS_ROOM_DATA), data => ReceiveRoomMakeMsg(data as BAS_ROOM_DATA));
         }
 
-        private void ReceiveTestMsg(BAC_CONNECT_INIT_MESSAGE data)
+        private void ReceiveMsg(BAC_CONNECT_MESSAGE data, string _clientid) // 메세지 수신 시
         {
             if (data is null) return;
-            Room room = new Room() { infomsg = data.CLIENT_ID };
-            RoomList.Add(room);
-            SendAnswer(data);
+            if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(_clientid);
+             
+            
         }
-        private DelegateCommand msgsend;
-        public DelegateCommand MsgSend =>
-            msgsend ?? (msgsend = new DelegateCommand(ExecuteMsgSend));
 
-        void SendAnswer(BAC_CONNECT_INIT_MESSAGE data)
+        private void RoomMake(string _clientid) //방 생성
         {
+            BAS_ROOM_DATA data = new BAS_ROOM_DATA() { room_id = (uint)++RoomCount };
+            JoinableList.Add(data);
+            string ans = Newtonsoft.Json.JsonConvert.SerializeObject(data);
             Application.Current.Dispatcher.Invoke(() => {
-                var var = new List<BAS_ROOM_DATA>();
-                for (int i = 0; i < 8; i++)
-                {
-                    if (array[i]) var.Add(new BAS_ROOM_DATA() { id = i });
-                }
-                string ans = Newtonsoft.Json.JsonConvert.SerializeObject(var);
-                dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + data.CLIENT_ID,
+                dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _clientid,
+                    new BAC_CONNECT_MESSAGE
+                    {
+                        type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM,
+                        msg = ans
+                    }
+                ); ;
+            });
+        }
+
+        private void ReceiveConnectMsg(BAC_CONNECT_INIT_MESSAGE data) //연결 메세지 수신 시
+        {
+            if (data is null) return;
+            Clients _client = new Clients() { ClientInfo = data.CLIENT_ID };
+            ConnectList.Add(_client);
+            SendJoinableList(data.CLIENT_ID);
+        }
+
+        void SendJoinableList(string clientId) //연결응답 보내기
+        {
+            string ans = Newtonsoft.Json.JsonConvert.SerializeObject(JoinableList);
+            Application.Current.Dispatcher.Invoke(() => {
+                dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + clientId,
                     new BAC_CONNECT_MESSAGE
                     {
                         type = CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
                         msg = ans
                     }
                 );
+                dds.RegisterEvent(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + clientId, data => ReceiveMsg(data as BAC_CONNECT_MESSAGE, clientId));
             });
-
         }
+
+        private DelegateCommand msgsend;
+        public DelegateCommand MsgSend =>
+            msgsend ?? (msgsend = new DelegateCommand(ExecuteMsgSend));
         void ExecuteMsgSend()
         {
             dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
