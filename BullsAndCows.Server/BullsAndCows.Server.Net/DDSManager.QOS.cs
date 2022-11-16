@@ -34,7 +34,7 @@
         {
             var temp = new Dictionary<Type, string>();
 
-            temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), RWriter); //  추가
+
             temp.Add(typeof(BAC_CONNECT_MESSAGE), RWriter); //  추가
 
             return temp;

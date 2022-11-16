@@ -45,7 +45,7 @@
             </DataGrid.ColumnHeaderStyle>
 
             <DataGrid.Columns>
-                <DataGridTextColumn  Width ="175" Header="참가가 가능한 방" Binding="{Binding Path=room_id}" />
+                <DataGridTextColumn  Width ="175" Header="참가가 가능한 방" Binding="{Binding room_id.Value}" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -67,7 +67,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Content="정보 보기" Command="{Binding MsgSend}"/>
-
+        <Button Grid.Column="0" Grid.Row="2" Content="연결요청버튼" Command="{Binding MsgSend}"/>
+        <Button Grid.Column="1" Grid.Row="2" Content="방생성버튼" Command="{Binding RoomSend}"/>
     </Grid>
 </UserControl>
