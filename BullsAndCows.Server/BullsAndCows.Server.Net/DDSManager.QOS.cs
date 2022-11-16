@@ -25,7 +25,8 @@
             var temp = new Dictionary<Type, string>();
 
             temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), RReader); //  추가
-            temp.Add(typeof(BAC_CONNECT_MESSAGE), RReader); //  추가
+            temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), RReader); //  추가
+            temp.Add(typeof(BAC_SERVER_CONNECT_MESSAGE), RReader); //  추가
 
             return temp;
         }
@@ -35,8 +36,8 @@
             var temp = new Dictionary<Type, string>();
 
 
-            temp.Add(typeof(BAC_CONNECT_MESSAGE), RWriter); //  추가
-
+            temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), RWriter); //  추가
+            temp.Add(typeof(BAC_SERVER_CONNECT_MESSAGE), RWriter); //  추가
             return temp;
         }
 
