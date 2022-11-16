@@ -17,8 +17,7 @@ namespace BullsAndCows.Client.Net
         {
             var temp = new Dictionary<Type, string>();
 
-            temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), RReader);
-            temp.Add(typeof(BAC_CONNECT_MESSAGE), RReader);
+            temp.Add(typeof(BAC_SERVER_CONNECT_MESSAGE), RReader);
 
             return temp;
         }
@@ -26,8 +25,8 @@ namespace BullsAndCows.Client.Net
         {
             var temp = new Dictionary<Type, string>();
 
-            temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), RWriter);
-            temp.Add(typeof(BAC_CONNECT_MESSAGE), RWriter);
+            temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), RReader);
+            temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), RWriter);
 
             return temp;
         }

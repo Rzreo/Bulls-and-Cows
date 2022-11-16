@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace BullsAndCows.Infrastructure
 {
-    public struct BAS_ROOM_DATA
+    public struct BAC_ROOM_DATA
     {
-        public UInt32 room_id;
+        public UInt32 RoomID { get; set; }
     };
 }

@@ -13,7 +13,9 @@ namespace BullsAndCows.Client.Views.ViewModels
     using BullsAndCows.Infrastructure.Utils;
     using Prism.Commands;
     using System.Collections.ObjectModel;
+    using System.Windows.Controls;
     using System.Windows.Data;
+    using System.Windows.Input;
     using System.Windows.Interop;
     using System.Windows.Threading;
 
@@ -22,13 +24,17 @@ namespace BullsAndCows.Client.Views.ViewModels
         IDDSService _dds;
         IConfigService _config;
         object _lock = new object();
-        public ObservableCollection<BAS_ROOM_DATA> RoomDatas { get; private set; }
+        public ObservableCollection<BAC_ROOM_DATA> RoomDatas { get; private set; }
         public LoginMainViewModel(IDDSService dds, IConfigService config)
         {
             this._dds = dds;
             this._config = config;
 
-            RoomDatas = new ObservableCollection<BAS_ROOM_DATA>();
+            RoomDatas = new ObservableCollection<BAC_ROOM_DATA>();
+            RoomDatas.Add(new BAC_ROOM_DATA() { RoomID = 10 });
+            RoomDatas.Add(new BAC_ROOM_DATA() { RoomID = 10 });
+            RoomDatas.Add(new BAC_ROOM_DATA() { RoomID = 10 });
+            RoomDatas.Add(new BAC_ROOM_DATA() { RoomID = 10 });
             BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
 
             ConnectInit();
@@ -50,26 +56,40 @@ namespace BullsAndCows.Client.Views.ViewModels
             {
                 case SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS: OnConnectSuccess(msg); break;
                 case SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST: OnSendRoomList(msg); break;
-
+                case SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS: OnCreateRoomSuccess(msg); break;
             }
         }
 
-        void OnConnectSuccess(BAC_CONNECT_MESSAGE msg)
+        void OnConnectSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
         {
-            _dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _config.ClientID(),
-                   new BAC_CONNECT_MESSAGE()
-                   {
-                       type = CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST
-                   });
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
+            {
+                _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+               new BAC_CLIENT_CONNECT_MESSAGE()
+               {
+                   type = CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST
+               });
+            });        
         }
 
-        void OnSendRoomList(BAC_CONNECT_MESSAGE msg)
+        void OnSendRoomList(BAC_SERVER_CONNECT_MESSAGE msg)
         {
-            UIThreadHelper.CheckAndInvokeOnUIDispatcher(
-            () =>
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
-                RoomDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<BAS_ROOM_DATA>>(msg.msg);
+                RoomDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<BAC_ROOM_DATA>>(msg.msg);
                 BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
+            });
+        }
+        void OnCreateRoomSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
+        {
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
+            {
+                _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                new BAC_CLIENT_CONNECT_MESSAGE()
+                {
+                    type = CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM,
+                    msg = msg.msg
+                });
             });
         }
 
@@ -88,10 +108,36 @@ namespace BullsAndCows.Client.Views.ViewModels
         }
         void CreateRoom()
         {
-            _dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _config.ClientID(),
-                new BAC_CONNECT_MESSAGE()
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                new BAC_CLIENT_CONNECT_MESSAGE()
                 {
                     type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM
+                });
+        }
+        #endregion
+
+        #region EnterRoom
+        DelegateCommand<MouseButtonEventArgs> _EnterRoomCommand;
+        public DelegateCommand<MouseButtonEventArgs> EnterRoomCommand
+        {
+            get
+            {
+                if (_EnterRoomCommand == null)
+                {
+                    _EnterRoomCommand = new DelegateCommand<MouseButtonEventArgs>(EnterRoom, (_) => { return true; });
+                }
+                return _EnterRoomCommand;
+            }
+        }
+        void EnterRoom(MouseButtonEventArgs args)
+        {
+            ListView listview = args.Source as ListView;
+            var item = (BAC_ROOM_DATA)listview.SelectedItem;
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                new BAC_CLIENT_CONNECT_MESSAGE()
+                {
+                    type = CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM,
+                    msg = item.RoomID.ToString()
                 });
         }
         #endregion

@@ -88,6 +88,7 @@ CLIENT_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
         switch (sample){
             case CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM:
             case CLIENT_CONNECT_MESSAGE_TYPE::GIVE_ROOM_LIST:
+            case CLIENT_CONNECT_MESSAGE_TYPE::ENTER_ROOM:
             {
             }  break;
             default:
@@ -468,7 +469,6 @@ SERVER_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
             case SERVER_CONNECT_MESSAGE_TYPE::SERVER_CONNECT_SUCCESS:
             case SERVER_CONNECT_MESSAGE_TYPE::CREATE_ROOM_SUCCESS:
             case SERVER_CONNECT_MESSAGE_TYPE::SEND_ROOM_LIST:
-            case SERVER_CONNECT_MESSAGE_TYPE::REQUEST_GO_TO_ROOM:
             {
             }  break;
             default:

@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:BullsAndCows.Client.Views.Views"
              xmlns:vm="clr-namespace:BullsAndCows.Client.Views.ViewModels"
              xmlns:bac="BullsAndCows"
@@ -14,15 +16,21 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox ItemsSource="{Binding RoomLists}">
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type bac:BAS_ROOM_DATA}">
-                    <Button Command="{Binding CreateRoomCommand}">
-                        <TextBlock Text="{Binding id}"/>
-                    </Button>
+        <ListView ItemsSource="{Binding RoomDatas}">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type bac:BAC_ROOM_DATA}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="RoomID : "/>
+                        <TextBlock Text="{Binding RoomID}"/>
+                    </StackPanel>
                 </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </ListView.ItemTemplate>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <prism:InvokeCommandAction Command="{Binding EnterRoomCommand}" /><!---TriggerParameterPath="MouseButtonEventArgs"-->
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ListView>
         <StackPanel Grid.Column="1">
             <Button Content="Create Room" Command="{Binding CreateRoomCommand}"/>
         </StackPanel>

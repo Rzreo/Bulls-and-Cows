@@ -6,7 +6,7 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:infra="clr-namespace:BullsAndCows.Infrastructure.Utils.Regions;assembly=BullsAndCows.Infrastructure.Utils"
         mc:Ignorable="d"
-        Title="MainWindow" Height="250" Width="500">
+        Title="Client" Height="250" Width="500">
     <Grid>
         <ContentControl Grid.Row="0" prism:RegionManager.RegionName="{x:Static infra:ClientRegions.MainRegion}" HorizontalAlignment="Stretch"/>
     </Grid>

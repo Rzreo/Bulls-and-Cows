@@ -82,10 +82,9 @@
     <Compile Include="BaseClass\DisposableService.cs" />
     <Compile Include="OperationManagement\IConfigService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValueConverters\RoomDataShowConverter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ValueConverters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
