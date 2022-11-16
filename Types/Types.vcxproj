@@ -89,8 +89,8 @@
       <AdditionalLibraryDirectories>$(NDDSHOME)\lib\x64Win64VS2017;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PreBuildEvent>
-      <Command>cd C:\Program Files\rti_connext_dds-6.0.1\bin
-rtiddsgen C:\Users\오경ㅁ\Desktop\Study\Bulls-And-Cows\Types\types.idl -ppDisable -language C# -update typefiles</Command>
+      <Command>
+      </Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
