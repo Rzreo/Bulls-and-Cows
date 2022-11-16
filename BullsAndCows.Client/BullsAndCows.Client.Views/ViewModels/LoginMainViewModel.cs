@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 namespace BullsAndCows.Client.Views.ViewModels
 {
     using BullsAndCows.Infrastructure.BaseClass;
+    using BullsAndCows.Infrastructure.Datas;
     using BullsAndCows.Infrastructure.Net;
     using BullsAndCows.Infrastructure.OperationManagement;
     using BullsAndCows.Infrastructure.Utils;
@@ -28,7 +29,7 @@ namespace BullsAndCows.Client.Views.ViewModels
 
             RoomDatas = new ObservableCollection<BAS_ROOM_DATA>();
             BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
-
+            var k = System.Reflection.Assembly.GetAssembly(typeof(BAS_ROOM_DATA));
             ConnectInit();
         }
 

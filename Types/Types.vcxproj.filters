@@ -4,6 +4,7 @@
     <ClCompile Include="types.cpp" />
     <ClCompile Include="typesPlugin.cpp" />
     <ClCompile Include="typesSupport.cpp" />
+    <ClCompile Include="AssemblyInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="types.h" />

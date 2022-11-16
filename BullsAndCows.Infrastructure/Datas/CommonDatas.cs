@@ -1,0 +1,13 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BullsAndCows.Infrastructure.Datas
+{
+    public struct BAS_ROOM_DATA
+    {
+        UInt32 room_id;
+    };
+}

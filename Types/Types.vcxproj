@@ -88,6 +88,10 @@
       <AdditionalDependencies>nddscppd.lib;nddscd.lib;nddscored.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(NDDSHOME)\lib\x64Win64VS2017;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>cd C:\Program Files\rti_connext_dds-6.0.1\bin
+rtiddsgen C:\Users\오경ㅁ\Desktop\Study\Bulls-And-Cows\Types\types.idl -ppDisable -language C# -update typefiles</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -120,8 +124,12 @@
     <Reference Include="nddsdotnet461">
       <HintPath>..\..\..\..\..\..\..\Program Files\rti_connext_dds-6.0.1\lib\x64Win64VS2017\nddsdotnet461.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="types.cpp" />
     <ClCompile Include="typesPlugin.cpp" />
     <ClCompile Include="typesSupport.cpp" />

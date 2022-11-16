@@ -53,7 +53,10 @@ public ref class MSG_STRING_LEN sealed {
 
 public enum class CLIENT_CONNECT_MESSAGE_TYPE : System::Int32 {
     SERVER_CONNECT_SUCCESS ,
-    CREATE_ROOM 
+    CREATE_ROOM ,
+    CREATE_ROOM_SUCCESS ,
+    GIVE_ROOM_LIST ,
+    SEND_ROOM_LISTd 
 };
 
 CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value();
@@ -85,62 +88,6 @@ public ref class CLIENT_CONNECT_MESSAGE_TYPESeq
 #define NDDSUSERDllExport
 
 NDDSUSERDllExport DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode();
-
-#endif
-
-public ref struct BAS_ROOM_DATA
-:  public DDS::ICopyable<BAS_ROOM_DATA^> {
-    // --- Declared members: -------------------------------------------------
-  public: 
-
-    System::UInt32 room_id;
-
-    // --- Static constants: -------------------------------------    
-  public:
-
-    // --- Constructors and destructors: -------------------------------------
-  public:
-    BAS_ROOM_DATA();
-
-    // --- Utility methods: --------------------------------------------------
-  public:
-
-    virtual void clear() ;
-
-    virtual System::Boolean copy_from(BAS_ROOM_DATA^ src);
-
-    virtual System::Boolean Equals(System::Object^ other) override;
-    #ifndef NDDS_STANDALONE_TYPE
-    static DDS::TypeCode^ get_typecode();
-
-  private:
-    static DDS::TypeCode^ _typecode;
-    #endif
-
-}; // class BAS_ROOM_DATA
-
-public ref class BAS_ROOM_DATASeq sealed
-: public DDS::UserRefSequence<BAS_ROOM_DATA^> {
-  public:
-    BAS_ROOM_DATASeq() :
-        DDS::UserRefSequence<BAS_ROOM_DATA^>() {
-            // empty
-    }
-    BAS_ROOM_DATASeq(System::Int32 max) :
-        DDS::UserRefSequence<BAS_ROOM_DATA^>(max) {
-            // empty
-    }
-    BAS_ROOM_DATASeq(BAS_ROOM_DATASeq^ src) :
-        DDS::UserRefSequence<BAS_ROOM_DATA^>(src) {
-            // empty
-    }
-};
-
-#ifndef NDDS_STANDALONE_TYPE
-
-#define NDDSUSERDllExport
-
-NDDSUSERDllExport DDS_TypeCode* BAS_ROOM_DATA_get_typecode();
 
 #endif
 

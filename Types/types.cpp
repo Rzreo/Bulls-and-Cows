@@ -30,7 +30,7 @@ DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode()
 {
     static RTIBool is_initialized = RTI_FALSE;
 
-    static DDS_TypeCode_Member CLIENT_CONNECT_MESSAGE_TYPE_g_tc_members[2]=
+    static DDS_TypeCode_Member CLIENT_CONNECT_MESSAGE_TYPE_g_tc_members[5]=
     {
 
         {
@@ -70,6 +70,63 @@ DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode()
             1,
             NULL, /* Ignored */
             RTICdrTypeCodeAnnotations_INITIALIZER
+        }, 
+        {
+            (char *)"CREATE_ROOM_SUCCESS",/* Member name */
+            {
+                0, /* Ignored */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            (RTICdrLong)CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM_SUCCESS, 
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PRIVATE_MEMBER,/* Member visibility */ 
+
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
+        }, 
+        {
+            (char *)"GIVE_ROOM_LIST",/* Member name */
+            {
+                0, /* Ignored */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            (RTICdrLong)CLIENT_CONNECT_MESSAGE_TYPE::GIVE_ROOM_LIST, 
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PRIVATE_MEMBER,/* Member visibility */ 
+
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
+        }, 
+        {
+            (char *)"SEND_ROOM_LISTd",/* Member name */
+            {
+                0, /* Ignored */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            (RTICdrLong)CLIENT_CONNECT_MESSAGE_TYPE::SEND_ROOM_LISTd, 
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PRIVATE_MEMBER,/* Member visibility */ 
+
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
         }
     };
 
@@ -83,7 +140,7 @@ DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode()
             0, /* Ignored */
             0, /* Ignored */
             NULL, /* Ignored */
-            2, /* Number of members */
+            5, /* Number of members */
             CLIENT_CONNECT_MESSAGE_TYPE_g_tc_members, /* Members */
             DDS_VM_NONE, /* Type Modifier */
             RTICdrTypeCodeAnnotations_INITIALIZER,
@@ -107,121 +164,6 @@ DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode()
     is_initialized = RTI_TRUE;
 
     return &CLIENT_CONNECT_MESSAGE_TYPE_g_tc;
-}
-#endif
-/* ========================================================================= */
-BAS_ROOM_DATA::BAS_ROOM_DATA() {
-    room_id = 0;
-}
-
-void BAS_ROOM_DATA::clear(){
-    room_id = 0;
-}
-
-System::Boolean BAS_ROOM_DATA::copy_from(BAS_ROOM_DATA^ src) {
-
-    BAS_ROOM_DATA^ dst = this;
-
-    dst->room_id = src->room_id;
-    return true;
-}
-
-Boolean BAS_ROOM_DATA::Equals(Object^ other) {
-    if (other == nullptr) {
-        return false;
-    }        
-    if (this == other) {
-        return true;
-    }
-    BAS_ROOM_DATA^ otherObj =
-    dynamic_cast<BAS_ROOM_DATA^>(other);
-    if (otherObj == nullptr) {
-        return false;
-    }
-
-    if (room_id != otherObj->room_id) {
-        return false;
-    }
-    return true;
-}
-
-#ifndef NDDS_STANDALONE_TYPE
-DDS::TypeCode^ BAS_ROOM_DATA::get_typecode() {
-    if (_typecode == nullptr) {
-        _typecode = gcnew DDS::TypeCode(BAS_ROOM_DATA_get_typecode());
-    }
-    return _typecode;
-}
-#endif
-
-#ifndef NDDS_STANDALONE_TYPE
-DDS_TypeCode* BAS_ROOM_DATA_get_typecode()
-{
-    static RTIBool is_initialized = RTI_FALSE;
-
-    static DDS_TypeCode_Member BAS_ROOM_DATA_g_tc_members[1]=
-    {
-
-        {
-            (char *)"room_id",/* Member name */
-            {
-                0,/* Representation ID */
-                DDS_BOOLEAN_FALSE,/* Is a pointer? */
-                -1, /* Bitfield bits */
-                NULL/* Member type code is assigned later */
-            },
-            0, /* Ignored */
-            0, /* Ignored */
-            0, /* Ignored */
-            NULL, /* Ignored */
-            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
-            DDS_PUBLIC_MEMBER,/* Member visibility */
-            1,
-            NULL, /* Ignored */
-            RTICdrTypeCodeAnnotations_INITIALIZER
-        }
-    };
-
-    static DDS_TypeCode BAS_ROOM_DATA_g_tc =
-    {{
-            DDS_TK_STRUCT, /* Kind */
-            DDS_BOOLEAN_FALSE, /* Ignored */
-            -1, /*Ignored*/
-            (char *)"BAS_ROOM_DATA", /* Name */
-            NULL, /* Ignored */      
-            0, /* Ignored */
-            0, /* Ignored */
-            NULL, /* Ignored */
-            1, /* Number of members */
-            BAS_ROOM_DATA_g_tc_members, /* Members */
-            DDS_VM_NONE, /* Ignored */
-            RTICdrTypeCodeAnnotations_INITIALIZER,
-            DDS_BOOLEAN_TRUE, /* _isCopyable */
-            NULL, /* _sampleAccessInfo: assigned later */
-            NULL /* _typePlugin: assigned later */
-        }}; /* Type code for BAS_ROOM_DATA*/
-
-    if (is_initialized) {
-        return &BAS_ROOM_DATA_g_tc;
-    }
-
-    BAS_ROOM_DATA_g_tc._data._annotations._allowedDataRepresentationMask = 5;
-
-    BAS_ROOM_DATA_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&DDS_g_tc_ulong;
-
-    /* Initialize the values for member annotations. */
-    BAS_ROOM_DATA_g_tc_members[0]._annotations._defaultValue._d = RTI_XCDR_TK_ULONG;
-    BAS_ROOM_DATA_g_tc_members[0]._annotations._defaultValue._u.ulong_value = 0u;
-    BAS_ROOM_DATA_g_tc_members[0]._annotations._minValue._d = RTI_XCDR_TK_ULONG;
-    BAS_ROOM_DATA_g_tc_members[0]._annotations._minValue._u.ulong_value = RTIXCdrUnsignedLong_MIN;
-    BAS_ROOM_DATA_g_tc_members[0]._annotations._maxValue._d = RTI_XCDR_TK_ULONG;
-    BAS_ROOM_DATA_g_tc_members[0]._annotations._maxValue._u.ulong_value = RTIXCdrUnsignedLong_MAX;
-
-    BAS_ROOM_DATA_g_tc._data._sampleAccessInfo = NULL;
-
-    is_initialized = RTI_TRUE;
-
-    return &BAS_ROOM_DATA_g_tc;
 }
 #endif
 /* ========================================================================= */
