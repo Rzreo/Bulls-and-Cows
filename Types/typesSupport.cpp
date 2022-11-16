@@ -20,6 +20,168 @@ using namespace DDS;
 /* ========================================================================= */
 
 // ---------------------------------------------------------------------------
+// BAS_ROOM_DATADataWriter
+// ---------------------------------------------------------------------------
+
+BAS_ROOM_DATADataWriter::BAS_ROOM_DATADataWriter(
+    System::IntPtr impl) : DDS::TypedDataWriter<BAS_ROOM_DATA^>(impl) {
+    // empty
+}
+
+// ---------------------------------------------------------------------------
+// BAS_ROOM_DATADataReader
+// ---------------------------------------------------------------------------
+
+BAS_ROOM_DATADataReader::BAS_ROOM_DATADataReader(
+    System::IntPtr impl) : DDS::TypedDataReader<BAS_ROOM_DATA^>(impl) {
+    // empty
+}
+
+// ---------------------------------------------------------------------------
+// BAS_ROOM_DATATypeSupport
+// ---------------------------------------------------------------------------
+
+BAS_ROOM_DATATypeSupport::BAS_ROOM_DATATypeSupport()
+: DDS::TypedTypeSupport<BAS_ROOM_DATA^>(
+    BAS_ROOM_DATAPlugin::get_instance()) {
+
+    _type_plugin = BAS_ROOM_DATAPlugin::get_instance();
+}
+
+void BAS_ROOM_DATATypeSupport::register_type(
+    DDS::DomainParticipant^ participant,
+    System::String^ type_name) {
+
+    get_instance()->register_type_untyped(participant, type_name);
+}
+
+void BAS_ROOM_DATATypeSupport::unregister_type(
+    DDS::DomainParticipant^ participant,
+    System::String^ type_name) {
+
+    get_instance()->unregister_type_untyped(participant, type_name);
+}
+
+BAS_ROOM_DATA^ BAS_ROOM_DATATypeSupport::create_data() {
+    return gcnew BAS_ROOM_DATA();
+}
+
+BAS_ROOM_DATA^ BAS_ROOM_DATATypeSupport::create_data_untyped() {
+    return create_data();
+}
+
+void BAS_ROOM_DATATypeSupport::delete_data(
+    BAS_ROOM_DATA^ a_data) {
+    /* If the generated type does not implement IDisposable (the default),
+    * the following will no a no-op.
+    */
+    delete a_data;
+}
+
+void BAS_ROOM_DATATypeSupport::print_data(BAS_ROOM_DATA^ a_data) {
+    get_instance()->_type_plugin->print_data(a_data, nullptr, 0);
+}
+
+void BAS_ROOM_DATATypeSupport::copy_data(
+    BAS_ROOM_DATA^ dst, BAS_ROOM_DATA^ src) {
+
+    get_instance()->copy_data_untyped(dst, src);
+}
+
+void BAS_ROOM_DATATypeSupport::serialize_data_to_cdr_buffer(
+    array<System::Byte>^ buffer,
+    System::UInt32% length,
+    BAS_ROOM_DATA^ a_data,
+    System::Int16 representation)
+{
+    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(
+        buffer,
+        length,
+        a_data,
+        representation)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+void BAS_ROOM_DATATypeSupport::serialize_data_to_cdr_buffer(
+    array<System::Byte>^ buffer,
+    System::UInt32% length,
+    BAS_ROOM_DATA^ a_data)
+{
+    if (!get_instance()->_type_plugin->serialize_to_cdr_buffer(buffer,length,a_data)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+void BAS_ROOM_DATATypeSupport::deserialize_data_from_cdr_buffer(
+    BAS_ROOM_DATA^ a_data,
+    array<System::Byte>^ buffer,
+    System::UInt32 length)
+{
+    if (!get_instance()->_type_plugin->deserialize_from_cdr_buffer(a_data,buffer,length)) {
+        throw gcnew Retcode_Error(DDS_RETCODE_ERROR);
+    }
+}
+
+#ifndef NDDS_STANDALONE_TYPE
+System::String^ BAS_ROOM_DATATypeSupport::data_to_string(
+    BAS_ROOM_DATA ^sample, 
+    PrintFormatProperty ^formatProperty)
+{
+    return get_instance()->_type_plugin->data_to_string(
+        sample, 
+        formatProperty);
+}
+
+System::String^ BAS_ROOM_DATATypeSupport::data_to_string(
+    BAS_ROOM_DATA ^sample)
+{
+    PrintFormatProperty ^formatProperty = gcnew PrintFormatProperty();
+    return get_instance()->_type_plugin->data_to_string(
+        sample, 
+        formatProperty);
+}
+#endif
+
+DDS::TypeCode^ BAS_ROOM_DATATypeSupport::get_typecode() {
+    #ifndef NDDS_STANDALONE_TYPE
+    return  BAS_ROOM_DATA::get_typecode();
+    #else
+    return nullptr;
+    #endif
+}
+
+System::String^ BAS_ROOM_DATATypeSupport::get_type_name() {
+    return TYPENAME;
+}
+
+System::String^ BAS_ROOM_DATATypeSupport::get_type_name_untyped() {
+    return TYPENAME;
+}
+
+DDS::DataReader^ BAS_ROOM_DATATypeSupport::create_datareaderI(
+    System::IntPtr impl) {
+
+    return gcnew BAS_ROOM_DATADataReader(impl);
+}
+
+DDS::DataWriter^ BAS_ROOM_DATATypeSupport::create_datawriterI(
+    System::IntPtr impl) {
+
+    return gcnew BAS_ROOM_DATADataWriter(impl);
+}
+
+BAS_ROOM_DATATypeSupport^
+BAS_ROOM_DATATypeSupport::get_instance() {
+    if (_singleton == nullptr) {
+        _singleton = gcnew BAS_ROOM_DATATypeSupport();
+    }
+    return _singleton;
+}
+
+/* ========================================================================= */
+
+// ---------------------------------------------------------------------------
 // BAC_CONNECT_INIT_MESSAGEDataWriter
 // ---------------------------------------------------------------------------
 

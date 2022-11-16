@@ -45,11 +45,104 @@ public ref class ID_STRING_LEN sealed {
 public ref class MSG_STRING_LEN sealed {
   public:
     static const System::UInt32 VALUE =
-    16;
+    1024;
 
   private:
     MSG_STRING_LEN() {}
 };
+
+public enum class CLIENT_CONNECT_MESSAGE_TYPE : System::Int32 {
+    SERVER_CONNECT_SUCCESS ,
+    CREATE_ROOM 
+};
+
+CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value();
+
+public ref class CLIENT_CONNECT_MESSAGE_TYPEHelper {
+  public:
+    static CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value();
+};
+
+public ref class CLIENT_CONNECT_MESSAGE_TYPESeq
+: public DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE> {
+  public:
+    CLIENT_CONNECT_MESSAGE_TYPESeq() :
+        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>() {
+            // empty
+    }
+    CLIENT_CONNECT_MESSAGE_TYPESeq(System::Int32 max) :
+        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>(max) {
+            // empty
+    }
+    CLIENT_CONNECT_MESSAGE_TYPESeq(CLIENT_CONNECT_MESSAGE_TYPESeq^ src) :
+        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>(src) {
+            // empty
+    }
+};
+
+#ifndef NDDS_STANDALONE_TYPE
+
+#define NDDSUSERDllExport
+
+NDDSUSERDllExport DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode();
+
+#endif
+
+public ref struct BAS_ROOM_DATA
+:  public DDS::ICopyable<BAS_ROOM_DATA^> {
+    // --- Declared members: -------------------------------------------------
+  public: 
+
+    System::UInt32 room_id;
+
+    // --- Static constants: -------------------------------------    
+  public:
+
+    // --- Constructors and destructors: -------------------------------------
+  public:
+    BAS_ROOM_DATA();
+
+    // --- Utility methods: --------------------------------------------------
+  public:
+
+    virtual void clear() ;
+
+    virtual System::Boolean copy_from(BAS_ROOM_DATA^ src);
+
+    virtual System::Boolean Equals(System::Object^ other) override;
+    #ifndef NDDS_STANDALONE_TYPE
+    static DDS::TypeCode^ get_typecode();
+
+  private:
+    static DDS::TypeCode^ _typecode;
+    #endif
+
+}; // class BAS_ROOM_DATA
+
+public ref class BAS_ROOM_DATASeq sealed
+: public DDS::UserRefSequence<BAS_ROOM_DATA^> {
+  public:
+    BAS_ROOM_DATASeq() :
+        DDS::UserRefSequence<BAS_ROOM_DATA^>() {
+            // empty
+    }
+    BAS_ROOM_DATASeq(System::Int32 max) :
+        DDS::UserRefSequence<BAS_ROOM_DATA^>(max) {
+            // empty
+    }
+    BAS_ROOM_DATASeq(BAS_ROOM_DATASeq^ src) :
+        DDS::UserRefSequence<BAS_ROOM_DATA^>(src) {
+            // empty
+    }
+};
+
+#ifndef NDDS_STANDALONE_TYPE
+
+#define NDDSUSERDllExport
+
+NDDSUSERDllExport DDS_TypeCode* BAS_ROOM_DATA_get_typecode();
+
+#endif
 
 public ref struct BAC_CONNECT_INIT_MESSAGE
 :  public DDS::ICopyable<BAC_CONNECT_INIT_MESSAGE^> {
@@ -104,42 +197,6 @@ public ref class BAC_CONNECT_INIT_MESSAGESeq sealed
 #define NDDSUSERDllExport
 
 NDDSUSERDllExport DDS_TypeCode* BAC_CONNECT_INIT_MESSAGE_get_typecode();
-
-#endif
-
-public enum class CLIENT_CONNECT_MESSAGE_TYPE : System::Int32 {
-    SERVER_CONNECT_SUCCESS 
-};
-
-CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value();
-
-public ref class CLIENT_CONNECT_MESSAGE_TYPEHelper {
-  public:
-    static CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value();
-};
-
-public ref class CLIENT_CONNECT_MESSAGE_TYPESeq
-: public DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE> {
-  public:
-    CLIENT_CONNECT_MESSAGE_TYPESeq() :
-        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>() {
-            // empty
-    }
-    CLIENT_CONNECT_MESSAGE_TYPESeq(System::Int32 max) :
-        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>(max) {
-            // empty
-    }
-    CLIENT_CONNECT_MESSAGE_TYPESeq(CLIENT_CONNECT_MESSAGE_TYPESeq^ src) :
-        DDS::UserValueSequence<CLIENT_CONNECT_MESSAGE_TYPE>(src) {
-            // empty
-    }
-};
-
-#ifndef NDDS_STANDALONE_TYPE
-
-#define NDDSUSERDllExport
-
-NDDSUSERDllExport DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode();
 
 #endif
 

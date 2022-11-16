@@ -11,56 +11,71 @@ namespace BullsAndCows.Client.Views.ViewModels
     using BullsAndCows.Infrastructure.OperationManagement;
     using BullsAndCows.Infrastructure.Utils;
     using Prism.Commands;
+    using System.Collections.ObjectModel;
+    using System.Windows.Data;
+    using System.Windows.Threading;
 
     class LoginMainViewModel : ViewModelBase
     {
         IDDSService _dds;
         IConfigService _config;
+        object _lock = new object();
+        public ObservableCollection<BAS_ROOM_DATA> RoomDatas { get; private set; }
         public LoginMainViewModel(IDDSService dds, IConfigService config)
         {
             this._dds = dds;
             this._config = config;
 
-            _dds.RegisterEvent(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + config.ClientID(), ReceiveMessage);
+            RoomDatas = new ObservableCollection<BAS_ROOM_DATA>();
+            BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
+
+            ConnectInit();
         }
 
-        #region ResetNumbers
-        DelegateCommand _LoginCommand;
-        public DelegateCommand LoginCommand
+        #region CreateRoom
+        DelegateCommand _CreateRoomCommand;
+        public DelegateCommand CreateRoomCommand
         {
             get
             {
-                if (_LoginCommand == null)
+                if (_CreateRoomCommand == null)
                 {
-                    _LoginCommand = new DelegateCommand(Login, () => { return true; });
+                    _CreateRoomCommand = new DelegateCommand(CreateRoom, () => { return true; });
                 }
-                return _LoginCommand;
+                return _CreateRoomCommand;
             }
         }
-        void Login()
+        void CreateRoom()
         {
-
+            _dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _config.ClientID(),
+                new BAC_CONNECT_MESSAGE()
+                {
+                    type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM
+                });
         }
         #endregion
 
         void ConnectInit()
         {
-            _dds.Write(
-                typeof(BAC_CONNECT_INIT_MESSAGE),
-                nameof(BAC_CONNECT_INIT_MESSAGE),
+            _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
                 new BAC_CONNECT_INIT_MESSAGE()
                 {
                     CLIENT_ID = _config.ClientID()
                 });
+            _dds.RegisterEvent(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _config.ClientID(), ReceiveMessage);
         }
 
         void ReceiveMessage(object s)
         {
             BAC_CONNECT_MESSAGE msg = s as BAC_CONNECT_MESSAGE;
-            if(msg.type == CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS)
+            if (msg.type == CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS)
             {
-                System.Diagnostics.Debug.WriteLine(msg.msg);
-                msg.msg = 
+                UIThreadHelper.CheckAndInvokeOnUIDispatcher(
+                    () =>
+                    {
+                        RoomDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<BAS_ROOM_DATA>>(msg.msg);
+                        BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
+                    });
             }
         }
     }

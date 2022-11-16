@@ -14,16 +14,22 @@ const string ROOM_ID_CLIENT_REQUIRE = "GiveMeRoom";
 
 const uint32 MAX_STRING_LEN = 256;
 const uint32 ID_STRING_LEN = 24;
-const uint32 MSG_STRING_LEN = 16;
+const uint32 MSG_STRING_LEN = 1024;
+
+enum CLIENT_CONNECT_MESSAGE_TYPE {
+    SERVER_CONNECT_SUCCESS,
+    CREATE_ROOM
+};
+
+struct BAS_ROOM_DATA
+{
+    uint32 room_id;
+
+};
 
 struct BAC_CONNECT_INIT_MESSAGE
 {
     string<ID_STRING_LEN> CLIENT_ID;
-};
-
-enum CLIENT_CONNECT_MESSAGE_TYPE {
-    SERVER_CONNECT_SUCCESS
-
 };
 
 struct BAC_CONNECT_MESSAGE
