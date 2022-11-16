@@ -39,15 +39,20 @@ namespace BullsAndCows.Client.Views.ViewModels
         }
         void Login()
         {
+
+        }
+        #endregion
+
+        void ConnectInit()
+        {
             _dds.Write(
                 typeof(BAC_CONNECT_INIT_MESSAGE),
                 nameof(BAC_CONNECT_INIT_MESSAGE),
-                new BAC_CONNECT_INIT_MESSAGE() 
-                { 
+                new BAC_CONNECT_INIT_MESSAGE()
+                {
                     CLIENT_ID = _config.ClientID()
                 });
         }
-        #endregion
 
         void ReceiveMessage(object s)
         {
@@ -55,6 +60,7 @@ namespace BullsAndCows.Client.Views.ViewModels
             if(msg.type == CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS)
             {
                 System.Diagnostics.Debug.WriteLine(msg.msg);
+                msg.msg = 
             }
         }
     }
