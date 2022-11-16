@@ -11,11 +11,11 @@
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BullsAndCows.Infrastructure.Style\BullsAndCows.Infrastructure.Style.csproj" />
-    <ProjectReference Include="..\..\..\BullsAndCows.Infrastructure.Utils\BullsAndCows.Infrastructure.Utils.csproj" />
-    <ProjectReference Include="..\..\..\BullsAndCows.Infrastructure\BullsAndCows.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\..\RTIWrapper\RTIWrapper.csproj" />
-    <ProjectReference Include="..\..\..\Types\Types.vcxproj" />
+    <ProjectReference Include="..\..\..\Bulls-and-Cows\RTIWrapper\RTIWrapper.csproj" />
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Style\BullsAndCows.Infrastructure.Style.csproj" />
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Utils\BullsAndCows.Infrastructure.Utils.csproj" />
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure\BullsAndCows.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Types\Types.vcxproj" />
     <ProjectReference Include="..\BullsAndCows.Server.Net\BullsAndCows.Server.Net.csproj" />
     <ProjectReference Include="..\MainModule\MainModule.csproj" />
   </ItemGroup>
