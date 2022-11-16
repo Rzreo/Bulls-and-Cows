@@ -38,7 +38,12 @@
             get { return _join; }
             set { SetProperty(ref _join, value); }
         }
-
+        private string _connect;
+        public string SuccessConnect
+        {
+            get { return _connect; }
+            set { SetProperty(ref _connect, value); }
+        }
         private DDSService dds;
         object _lock = new object();
         int RoomCount;
@@ -65,9 +70,9 @@
         }
 
         private void ReceiveClientMsg(BAC_CLIENT_CONNECT_MESSAGE data, string _clientid) // 메세지 수신 시
-        {
+         {
             if (data is null) return;
-            if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(_clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(_clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST) SendRoomList(_clientid);
             
         }
@@ -76,9 +81,13 @@
         {
             if (data is null) return;
             else if (data.type == SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST) UpdateRoomList(data);
-
+            else if (data.type == SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS) UpdateSuccessConnect(data);
         }
 
+        private void UpdateSuccessConnect(BAC_SERVER_CONNECT_MESSAGE data)
+        {
+            SuccessConnect = data.msg;
+        }
         private void UpdateRoomList(BAC_SERVER_CONNECT_MESSAGE data)
         {
             JoinableRooms = data.msg;
@@ -86,7 +95,7 @@
         private void SendRoomList(string _clientid) //입장 가능한 방 정보 전송
         {
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(JoinableList);
-            Application.Current.Dispatcher.BeginInvoke(() => {
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() => {
                 dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientid,
                     new BAC_SERVER_CONNECT_MESSAGE
                     {
@@ -102,12 +111,12 @@
             JoinableList.Add(data);
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(data);
             Console.WriteLine(ans);
-            Application.Current.Dispatcher.Invoke(() =>
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
                 dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientid,
                     new BAC_SERVER_CONNECT_MESSAGE
                     {
-                        type = SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
+                        type = SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS,
                         msg = ans
                     }
                 ); ;
@@ -123,8 +132,8 @@
 
         void SendJoinableList(string clientId) //연결응답 보내기
         {
-            Application.Current.Dispatcher.BeginInvoke(() => {
-                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) ,
+           UIThreadHelper.CheckAndInvokeOnUIDispatcher(() => {
+                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + clientId,
                     new BAC_SERVER_CONNECT_MESSAGE
                     {
                         type = SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
