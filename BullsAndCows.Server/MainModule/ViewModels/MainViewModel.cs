@@ -17,10 +17,14 @@
     public class MainViewModel : BindableBase, IDisposable
     {
         public ReactiveCommand DoCSVLoad { get; set; } = new ReactiveCommand();
+
+        bool[] array = new bool[8];
+        struct BAS_ROOM_DATA { public int id; }
         public class Room
         {
             public string infomsg { get; set; }
         }
+
         public ReactiveCollection<Room> RoomList { get; }
         public ReactiveProperty<string> msg { get; set; } = new ReactiveProperty<string>();
         private DDSService dds;
@@ -30,18 +34,19 @@
             RoomList = new ReactiveCollection<Room>();
             BindingOperations.EnableCollectionSynchronization(RoomList, _lock);
             dds = dDSService;
+            for (int i = 0; i < 8; i++) array[i] = true;
             InitializeDDS();
         }
 
         public void InitializeDDS()
         {
-            dds.RegisterEvent(typeof(BAC_CREATE_ROOM), nameof(BAC_CREATE_ROOM), data => ReceiveTestMsg(data as BAC_CREATE_ROOM));
+            dds.RegisterEvent(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE), data => ReceiveTestMsg(data as BAC_CONNECT_INIT_MESSAGE));
         }
 
-        private void ReceiveTestMsg(BAC_CREATE_ROOM data)
+        private void ReceiveTestMsg(BAC_CONNECT_INIT_MESSAGE data)
         {
             if (data is null) return;
-            Room room = new Room() { infomsg = $"RoomId: {data.ROOM_ID} / ClientId: {data.CLIENT_ID}" };
+            Room room = new Room() { infomsg = data.CLIENT_ID };
             RoomList.Add(room);
             SendAnswer(data);
         }
@@ -49,13 +54,20 @@
         public DelegateCommand MsgSend =>
             msgsend ?? (msgsend = new DelegateCommand(ExecuteMsgSend));
 
-        void SendAnswer(BAC_CREATE_ROOM data)
+        void SendAnswer(BAC_CONNECT_INIT_MESSAGE data)
         {
             Application.Current.Dispatcher.Invoke(() => {
-                dds.Write(typeof(Message), nameof(Message) + data.CLIENT_ID,
-                    new Message
+                var var = new List<BAS_ROOM_DATA>();
+                for (int i = 0; i < 8; i++)
+                {
+                    if (array[i]) var.Add(new BAS_ROOM_DATA() { id = i });
+                }
+                string ans = Newtonsoft.Json.JsonConvert.SerializeObject(var);
+                dds.Write(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + data.CLIENT_ID,
+                    new BAC_CONNECT_MESSAGE
                     {
-                        msg = "hello"
+                        type = CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS,
+                        msg = ans
                     }
                 );
             });
@@ -63,10 +75,9 @@
         }
         void ExecuteMsgSend()
         {
-            dds.Write(typeof(BAC_CREATE_ROOM), nameof(BAC_CREATE_ROOM),
-                new BAC_CREATE_ROOM()
+            dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
+                new BAC_CONNECT_INIT_MESSAGE()
                 {
-                    ROOM_ID = "321",
                     CLIENT_ID = "123"
                 });
         }
