@@ -354,12 +354,12 @@ DDS_TypeCode* BAC_CONNECT_INIT_MESSAGE_get_typecode()
 #endif
 /* ========================================================================= */
 BAC_SERVER_CONNECT_MESSAGE::BAC_SERVER_CONNECT_MESSAGE() {
-    type = CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM;
+    type = SERVER_CONNECT_MESSAGE_TYPE::SERVER_CONNECT_SUCCESS;
     msg = "";
 }
 
 void BAC_SERVER_CONNECT_MESSAGE::clear(){
-    type = CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM;
+    type = SERVER_CONNECT_MESSAGE_TYPE::SERVER_CONNECT_SUCCESS;
     msg = "";
 }
 
@@ -476,7 +476,7 @@ DDS_TypeCode* BAC_SERVER_CONNECT_MESSAGE_get_typecode()
 
     BAC_SERVER_CONNECT_MESSAGE_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
-    BAC_SERVER_CONNECT_MESSAGE_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)CLIENT_CONNECT_MESSAGE_TYPE_get_typecode();
+    BAC_SERVER_CONNECT_MESSAGE_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)SERVER_CONNECT_MESSAGE_TYPE_get_typecode();
     BAC_SERVER_CONNECT_MESSAGE_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&BAC_SERVER_CONNECT_MESSAGE_g_tc_msg_string;
 
     /* Initialize the values for member annotations. */
@@ -495,12 +495,12 @@ DDS_TypeCode* BAC_SERVER_CONNECT_MESSAGE_get_typecode()
 #endif
 /* ========================================================================= */
 BAC_CLIENT_CONNECT_MESSAGE::BAC_CLIENT_CONNECT_MESSAGE() {
-    type = SERVER_CONNECT_MESSAGE_TYPE::SERVER_CONNECT_SUCCESS;
+    type = CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM;
     msg = "";
 }
 
 void BAC_CLIENT_CONNECT_MESSAGE::clear(){
-    type = SERVER_CONNECT_MESSAGE_TYPE::SERVER_CONNECT_SUCCESS;
+    type = CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM;
     msg = "";
 }
 
@@ -617,7 +617,7 @@ DDS_TypeCode* BAC_CLIENT_CONNECT_MESSAGE_get_typecode()
 
     BAC_CLIENT_CONNECT_MESSAGE_g_tc._data._annotations._allowedDataRepresentationMask = 5;
 
-    BAC_CLIENT_CONNECT_MESSAGE_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)SERVER_CONNECT_MESSAGE_TYPE_get_typecode();
+    BAC_CLIENT_CONNECT_MESSAGE_g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)CLIENT_CONNECT_MESSAGE_TYPE_get_typecode();
     BAC_CLIENT_CONNECT_MESSAGE_g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&BAC_CLIENT_CONNECT_MESSAGE_g_tc_msg_string;
 
     /* Initialize the values for member annotations. */

@@ -188,7 +188,7 @@ public ref struct BAC_SERVER_CONNECT_MESSAGE
     // --- Declared members: -------------------------------------------------
   public: 
 
-    CLIENT_CONNECT_MESSAGE_TYPE type;
+    SERVER_CONNECT_MESSAGE_TYPE type;
     System::String^ msg;
 
     // --- Static constants: -------------------------------------    
@@ -245,7 +245,7 @@ public ref struct BAC_CLIENT_CONNECT_MESSAGE
     // --- Declared members: -------------------------------------------------
   public: 
 
-    SERVER_CONNECT_MESSAGE_TYPE type;
+    CLIENT_CONNECT_MESSAGE_TYPE type;
     System::String^ msg;
 
     // --- Static constants: -------------------------------------    

@@ -40,15 +40,16 @@ namespace BullsAndCows.Client.Views.ViewModels
                 {
                     CLIENT_ID = _config.ClientID()
                 });
-            _dds.RegisterEvent(typeof(BAC_CONNECT_MESSAGE), nameof(BAC_CONNECT_MESSAGE) + _config.ClientID(), ReceiveMessage);
+            _dds.RegisterEvent(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _config.ClientID(), ReceiveMessage);
         }
         void ReceiveMessage(object s)
         {
-            BAC_CONNECT_MESSAGE msg = s as BAC_CONNECT_MESSAGE;
+            BAC_SERVER_CONNECT_MESSAGE msg = s as BAC_SERVER_CONNECT_MESSAGE;
+
             switch(msg.type)
             {
-                case CLIENT_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS: OnConnectSuccess(msg); break;
-                case CLIENT_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST: OnSendRoomList(msg); break;
+                case SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS: OnConnectSuccess(msg); break;
+                case SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST: OnSendRoomList(msg); break;
 
             }
         }

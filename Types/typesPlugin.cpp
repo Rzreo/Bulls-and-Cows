@@ -1503,7 +1503,7 @@ BAC_SERVER_CONNECT_MESSAGEPlugin::serialize(
             dheaderPosition=stream.writeDHeader();
         }
 
-        if (!CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->serialize(
+        if (!SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->serialize(
             endpoint_data,
             sample->type,
             stream,
@@ -1574,7 +1574,7 @@ BAC_SERVER_CONNECT_MESSAGEPlugin::deserialize_sample(
         }
         try{         
 
-            if (!CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->deserialize_sample(
+            if (!SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->deserialize_sample(
                 endpoint_data,
                 sample->type,
                 stream,
@@ -1647,7 +1647,7 @@ BAC_SERVER_CONNECT_MESSAGEPlugin::skip(
 
             return true;
         }                
-        if (!CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->skip(
+        if (!SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->skip(
             endpoint_data,
             stream, 
             false, true, 
@@ -1704,7 +1704,7 @@ BAC_SERVER_CONNECT_MESSAGEPlugin::get_serialized_sample_max_size(
         current_alignment += _cdrPrimitiveType->get_long_max_size_serialized(current_alignment);
     }
 
-    current_alignment +=  CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_max_size(
+    current_alignment +=  SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_max_size(
         endpoint_data, false, final_encapsulation_id, current_alignment);
 
     current_alignment +=_cdrPrimitiveType->get_string_max_size_serialized(
@@ -1750,7 +1750,7 @@ BAC_SERVER_CONNECT_MESSAGEPlugin::get_serialized_sample_min_size(
         current_alignment += _cdrPrimitiveType->get_long_max_size_serialized(current_alignment);
     }
 
-    current_alignment +=  CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_min_size(
+    current_alignment +=  SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_min_size(
         endpoint_data, false, final_encapsulation_id, current_alignment);
 
     current_alignment +=_cdrPrimitiveType->get_string_max_size_serialized(
@@ -1799,7 +1799,7 @@ BAC_SERVER_CONNECT_MESSAGEPlugin::get_serialized_sample_size(
         current_alignment += _cdrPrimitiveType->get_long_max_size_serialized(current_alignment);
     }
 
-    current_alignment += CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_size(
+    current_alignment += SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_size(
         endpoint_data, false, final_encapsulation_id, current_alignment, sample->type);
 
     current_alignment += _cdrPrimitiveType->get_string_max_size_serialized(
@@ -1893,7 +1893,7 @@ BAC_SERVER_CONNECT_MESSAGEPlugin::get_serialized_key_for_keyhash_max_size(
 
     }
 
-    current_alignment +=  CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_key_for_keyhash_max_size(
+    current_alignment +=  SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_key_for_keyhash_max_size(
         endpoint_data, false, final_encapsulation_id, current_alignment);
 
     current_alignment +=_cdrPrimitiveType->get_string_max_size_serialized(
@@ -1992,7 +1992,7 @@ BAC_SERVER_CONNECT_MESSAGEPlugin::serialize_key_for_keyhash(
 
     if (serialize_key) {
 
-        if (!CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->serialize_key_for_keyhash(
+        if (!SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->serialize_key_for_keyhash(
             endpoint_data,
             sample->type,
             stream,
@@ -2208,7 +2208,7 @@ BAC_CLIENT_CONNECT_MESSAGEPlugin::serialize(
             dheaderPosition=stream.writeDHeader();
         }
 
-        if (!SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->serialize(
+        if (!CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->serialize(
             endpoint_data,
             sample->type,
             stream,
@@ -2279,7 +2279,7 @@ BAC_CLIENT_CONNECT_MESSAGEPlugin::deserialize_sample(
         }
         try{         
 
-            if (!SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->deserialize_sample(
+            if (!CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->deserialize_sample(
                 endpoint_data,
                 sample->type,
                 stream,
@@ -2352,7 +2352,7 @@ BAC_CLIENT_CONNECT_MESSAGEPlugin::skip(
 
             return true;
         }                
-        if (!SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->skip(
+        if (!CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->skip(
             endpoint_data,
             stream, 
             false, true, 
@@ -2409,7 +2409,7 @@ BAC_CLIENT_CONNECT_MESSAGEPlugin::get_serialized_sample_max_size(
         current_alignment += _cdrPrimitiveType->get_long_max_size_serialized(current_alignment);
     }
 
-    current_alignment +=  SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_max_size(
+    current_alignment +=  CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_max_size(
         endpoint_data, false, final_encapsulation_id, current_alignment);
 
     current_alignment +=_cdrPrimitiveType->get_string_max_size_serialized(
@@ -2455,7 +2455,7 @@ BAC_CLIENT_CONNECT_MESSAGEPlugin::get_serialized_sample_min_size(
         current_alignment += _cdrPrimitiveType->get_long_max_size_serialized(current_alignment);
     }
 
-    current_alignment +=  SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_min_size(
+    current_alignment +=  CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_min_size(
         endpoint_data, false, final_encapsulation_id, current_alignment);
 
     current_alignment +=_cdrPrimitiveType->get_string_max_size_serialized(
@@ -2504,7 +2504,7 @@ BAC_CLIENT_CONNECT_MESSAGEPlugin::get_serialized_sample_size(
         current_alignment += _cdrPrimitiveType->get_long_max_size_serialized(current_alignment);
     }
 
-    current_alignment += SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_size(
+    current_alignment += CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_sample_size(
         endpoint_data, false, final_encapsulation_id, current_alignment, sample->type);
 
     current_alignment += _cdrPrimitiveType->get_string_max_size_serialized(
@@ -2598,7 +2598,7 @@ BAC_CLIENT_CONNECT_MESSAGEPlugin::get_serialized_key_for_keyhash_max_size(
 
     }
 
-    current_alignment +=  SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_key_for_keyhash_max_size(
+    current_alignment +=  CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->get_serialized_key_for_keyhash_max_size(
         endpoint_data, false, final_encapsulation_id, current_alignment);
 
     current_alignment +=_cdrPrimitiveType->get_string_max_size_serialized(
@@ -2697,7 +2697,7 @@ BAC_CLIENT_CONNECT_MESSAGEPlugin::serialize_key_for_keyhash(
 
     if (serialize_key) {
 
-        if (!SERVER_CONNECT_MESSAGE_TYPEPlugin::get_instance()->serialize_key_for_keyhash(
+        if (!CLIENT_CONNECT_MESSAGE_TYPEPlugin::get_instance()->serialize_key_for_keyhash(
             endpoint_data,
             sample->type,
             stream,
