@@ -77,7 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseClass\ViewModelBase.cs" />
-    <Compile Include="ClientServices\ServerConnectingService.cs" />
+    <Compile Include="ClientServices\IGameManageService.cs" />
+    <Compile Include="ClientServices\IServerConnectingService.cs" />
     <Compile Include="Datas\CommonDatas.cs" />
     <Compile Include="Net\IDDSService.cs" />
     <Compile Include="BaseClass\DisposableService.cs" />

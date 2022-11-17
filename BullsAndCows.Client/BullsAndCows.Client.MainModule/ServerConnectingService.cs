@@ -11,11 +11,14 @@ namespace BullsAndCows.Client.MainModule
     using BullsAndCows.Infrastructure.Net;
     using BullsAndCows.Infrastructure.OperationManagement;
     using BullsAndCows.Infrastructure.Utils;
+    using BullsAndCows.Infrastructure.Utils.Regions;
+    using Prism.Regions;
 
     class ServerConnectingService : IServerConnectingService
     {
         IDDSService _dds;
         IConfigService _config;
+        //IRegionManager _regionManager;
         int cnt = 0;
         public ServerConnectingService(IDDSService dds, IConfigService config)
         {
@@ -44,6 +47,33 @@ namespace BullsAndCows.Client.MainModule
                 Thread.Sleep(_config.IsConnected.Value ? 1000 : 100);
                 cnt++;
             }
+        }
+
+        public void EnterRoom(uint id)
+        {
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                         new BAC_CLIENT_CONNECT_MESSAGE()
+                         {
+                             type = CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM,
+                             msg = id.ToString()
+                         });
+        }
+        public void CreateRoom()
+        {
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                         new BAC_CLIENT_CONNECT_MESSAGE()
+                         {
+                             type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM,
+                         });
+        }
+        public void RequestRoomList(int nPage)
+        {
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                         new BAC_CLIENT_CONNECT_MESSAGE()
+                         {
+                             type = CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_LIST,
+                             msg = nPage.ToString()
+                         });
         }
     }
 }

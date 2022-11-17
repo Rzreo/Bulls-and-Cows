@@ -149,10 +149,6 @@
       <Project>{282c3a69-fd93-4ff3-927d-7477e6efd452}</Project>
       <Name>Types</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BullsAndCows.Client.Net\BullsAndCows.Client.Net.csproj">
-      <Project>{266c4335-b887-4ccf-bd50-bffe253e2eec}</Project>
-      <Name>BullsAndCows.Client.Net</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -20,14 +20,12 @@ namespace BullsAndCows.Client.Views.ViewModels
 
     class ParticipantListsViewModel : ViewModelBase
     {
-        IRegionManager _regionManager;
         IDDSService _dds;
         IConfigService _config;
         object _lock = new object();
         public ReactiveCollection<BAC_PARTICIPANT_DATA> Participants { get; private set; }
         public ParticipantListsViewModel(IRegionManager regionManager, IDDSService dds, IConfigService config)
         {
-            _regionManager = regionManager;
             _dds = dds;
             _config = config;
 

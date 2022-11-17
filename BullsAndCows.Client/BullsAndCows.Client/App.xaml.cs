@@ -33,6 +33,7 @@ namespace BullsAndCows.Client
             ViewModelLocationProvider.Register<PlayFrame,  PlayViewModel>();
 
             containerRegistry.RegisterForNavigation<Views.LoginFrame>();
+            containerRegistry.RegisterForNavigation<Views.WaitingFrame>();
             containerRegistry.RegisterForNavigation<Views.PlayFrame>();
             containerRegistry.RegisterSingleton<IConfigService, ConfigService>();
         }

@@ -14,6 +14,7 @@
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<IServerConnectingService, ServerConnectingService>();
+            containerRegistry.RegisterSingleton<IGameManageService, GameManageService>();
         }
     }
 }
