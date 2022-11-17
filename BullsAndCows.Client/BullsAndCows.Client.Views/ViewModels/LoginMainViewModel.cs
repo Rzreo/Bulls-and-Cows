@@ -1,53 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BullsAndCows.Client.Views.ViewModels
+﻿namespace BullsAndCows.Client.Views.ViewModels
 {
+    using System;
     using BullsAndCows.Infrastructure;
     using BullsAndCows.Infrastructure.BaseClass;
     using BullsAndCows.Infrastructure.Net;
     using BullsAndCows.Infrastructure.OperationManagement;
     using BullsAndCows.Infrastructure.Utils;
+    using Newtonsoft.Json.Linq;
     using Prism.Commands;
+    using Reactive.Bindings;
     using System.Collections.ObjectModel;
+    using System.IO;
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Input;
     using System.Windows.Interop;
     using System.Windows.Threading;
+    using System.Linq;
+    using Newtonsoft.Json;
+    using System.Text;
+    using System.Windows.Controls.Primitives;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Windows;
+    using BullsAndCows.Infrastructure.ClientServices;
 
     class LoginMainViewModel : ViewModelBase
     {
         IDDSService _dds;
-        IConfigService _config;
+        IServerConnectingService _connect;
         object _lock = new object();
+        int cnt = 0;
+        public IConfigService Config { get; private set; }
         public ObservableCollection<BAC_ROOM_DATA> RoomDatas { get; private set; }
-        public LoginMainViewModel(IDDSService dds, IConfigService config)
+        public ReactiveProperty<int> CurrentPageNumber { get; private set; } = new ReactiveProperty<int>() { Value=0 };
+        public ReactiveProperty<int> LastPageNumber { get; private set; } = new ReactiveProperty<int>() { Value=0 };
+        public LoginMainViewModel(IDDSService dds, IConfigService config, IServerConnectingService connect)
         {
             this._dds = dds;
-            this._config = config;
+            this.Config = config;
+            this._connect = connect;
 
             RoomDatas = new ObservableCollection<BAC_ROOM_DATA>();
-            RoomDatas.Add(new BAC_ROOM_DATA() { RoomID = 10 });
-            RoomDatas.Add(new BAC_ROOM_DATA() { RoomID = 10 });
-            RoomDatas.Add(new BAC_ROOM_DATA() { RoomID = 10 });
-            RoomDatas.Add(new BAC_ROOM_DATA() { RoomID = 10 });
             BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
 
-            ConnectInit();
+            _connect.ReceiveServerMessage += ReceiveMessage;
+            _connect.StartConnect();
         }
-        void ConnectInit()
-        {
-            _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
-                new BAC_CONNECT_INIT_MESSAGE()
-                {
-                    CLIENT_ID = _config.ClientID()
-                });
-            _dds.RegisterEvent(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _config.ClientID(), ReceiveMessage);
-        }
+
         void ReceiveMessage(object s)
         {
             BAC_SERVER_CONNECT_MESSAGE msg = s as BAC_SERVER_CONNECT_MESSAGE;
@@ -62,29 +62,36 @@ namespace BullsAndCows.Client.Views.ViewModels
 
         void OnConnectSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
         {
+            if (Config.IsConnected.Value == true) return;
+
+            System.Diagnostics.Debug.WriteLine(cnt);
+            Config.IsConnected.Value = true;
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
-                _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
-               new BAC_CLIENT_CONNECT_MESSAGE()
-               {
-                   type = CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST
-               });
-            });        
+                RequestRoomList(CurrentPageNumber.Value = 1);
+            });    
         }
-
         void OnSendRoomList(BAC_SERVER_CONNECT_MESSAGE msg)
         {
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
-                RoomDatas = Newtonsoft.Json.JsonConvert.DeserializeObject<ObservableCollection<BAC_ROOM_DATA>>(msg.msg);
-                BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
+                JObject obj = JObject.Parse(msg.msg);
+                LastPageNumber.Value = obj["pageNum"].Value<int>();
+                foreach (var data in obj["RoomList"] as JArray)
+                {
+                    BAC_ROOM_DATA roomData = JsonConvert.DeserializeObject<BAC_ROOM_DATA>(data.ToString());
+                    RoomDatas.Add(roomData);
+                }
+
+                _RequestPrevRoomListCommand.RaiseCanExecuteChanged();
+                _RequestNextRoomListCommand.RaiseCanExecuteChanged();
             });
         }
         void OnCreateRoomSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
         {
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
-                _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + Config.ClientID(),
                 new BAC_CLIENT_CONNECT_MESSAGE()
                 {
                     type = CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM,
@@ -108,10 +115,50 @@ namespace BullsAndCows.Client.Views.ViewModels
         }
         void CreateRoom()
         {
-            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + Config.ClientID(),
                 new BAC_CLIENT_CONNECT_MESSAGE()
                 {
                     type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM
+                });
+            RequestRoomList(CurrentPageNumber.Value);
+            Config.IsConnected.Value = true;
+        }
+        #endregion
+
+        #region RequestRoomList
+        DelegateCommand _RequestNextRoomListCommand, _RequestPrevRoomListCommand;
+        public DelegateCommand RequestNextRoomListCommand
+        {
+            get
+            {
+                var k = new DelegateCommand(() => {  });
+                if (_RequestNextRoomListCommand == null)
+                {
+                    _RequestNextRoomListCommand = new DelegateCommand(()=>RequestRoomList(CurrentPageNumber.Value += 1), () => { return CurrentPageNumber.Value < LastPageNumber.Value; });
+                }
+                return _RequestNextRoomListCommand;
+            }
+        }
+        public DelegateCommand RequestPrevRoomListCommand
+        {
+            get
+            {
+                var k = new DelegateCommand(() => { });
+                if (_RequestPrevRoomListCommand == null)
+                {
+                    _RequestPrevRoomListCommand = new DelegateCommand(() => RequestRoomList(CurrentPageNumber.Value -= 1), () => { return CurrentPageNumber.Value > 1; });
+                }
+                return _RequestPrevRoomListCommand;
+            }
+        }
+        void RequestRoomList(int nPage)
+        {
+            RoomDatas.Clear();
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + Config.ClientID(),
+                new BAC_CLIENT_CONNECT_MESSAGE()
+                {
+                    type = CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST,
+                    msg = nPage.ToString()
                 });
         }
         #endregion
@@ -131,9 +178,9 @@ namespace BullsAndCows.Client.Views.ViewModels
         }
         void EnterRoom(MouseButtonEventArgs args)
         {
-            ListView listview = args.Source as ListView;
+            Selector listview = args.Source as Selector;
             var item = (BAC_ROOM_DATA)listview.SelectedItem;
-            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + Config.ClientID(),
                 new BAC_CLIENT_CONNECT_MESSAGE()
                 {
                     type = CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM,

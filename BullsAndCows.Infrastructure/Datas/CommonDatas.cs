@@ -10,4 +10,8 @@ namespace BullsAndCows.Infrastructure
     {
         public UInt32 RoomID { get; set; }
     };
+    public struct BAC_PARTICIPANT_DATA
+    {
+        public string ClientID { get; set; }
+    };
 }

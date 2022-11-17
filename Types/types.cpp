@@ -141,7 +141,7 @@ DDS_TypeCode* SERVER_CONNECT_MESSAGE_TYPE_get_typecode()
 {
     static RTIBool is_initialized = RTI_FALSE;
 
-    static DDS_TypeCode_Member SERVER_CONNECT_MESSAGE_TYPE_g_tc_members[3]=
+    static DDS_TypeCode_Member SERVER_CONNECT_MESSAGE_TYPE_g_tc_members[4]=
     {
 
         {
@@ -200,6 +200,25 @@ DDS_TypeCode* SERVER_CONNECT_MESSAGE_TYPE_get_typecode()
             1,
             NULL, /* Ignored */
             RTICdrTypeCodeAnnotations_INITIALIZER
+        }, 
+        {
+            (char *)"ENTER_ROOM_SUCCESS",/* Member name */
+            {
+                0, /* Ignored */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            (RTICdrLong)SERVER_CONNECT_MESSAGE_TYPE::ENTER_ROOM_SUCCESS, 
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PRIVATE_MEMBER,/* Member visibility */ 
+
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
         }
     };
 
@@ -213,7 +232,7 @@ DDS_TypeCode* SERVER_CONNECT_MESSAGE_TYPE_get_typecode()
             0, /* Ignored */
             0, /* Ignored */
             NULL, /* Ignored */
-            3, /* Number of members */
+            4, /* Number of members */
             SERVER_CONNECT_MESSAGE_TYPE_g_tc_members, /* Members */
             DDS_VM_NONE, /* Type Modifier */
             RTICdrTypeCodeAnnotations_INITIALIZER,

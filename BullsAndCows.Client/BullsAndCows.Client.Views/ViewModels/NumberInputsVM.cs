@@ -10,7 +10,11 @@ using Prism.Mvvm;
 namespace BullsAndCows.Client.Views.ViewModels
 {
     using BullsAndCows.Infrastructure.BaseClass;
+    using BullsAndCows.Infrastructure.Net;
+    using BullsAndCows.Infrastructure.OperationManagement;
+    using BullsAndCows.Infrastructure.Utils;
     using BullsAndCows.Infrastructure.Utils.Regions;
+    using Reactive.Bindings;
 
     public interface IDoCommand
     {
@@ -28,15 +32,18 @@ namespace BullsAndCows.Client.Views.ViewModels
     class NumberInputsVM : ViewModelBase
     {
         IRegionManager _regionManager;
-        //MyModel _model;
+        IDDSService _dds;
+        IConfigService _config;
         int _in_a = 0, _in_b = 0, _in_c = 0;
         public int IN_A { get { return _in_a; } set { SetProperty(ref _in_a, value % 10); } }
         public int IN_B { get { return _in_b; } set { SetProperty(ref _in_b, value % 10); } }
         public int IN_C { get { return _in_c; } set { SetProperty(ref _in_c, value % 10); } }
         public List<int> Numbers { get; private set; } = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        public NumberInputsVM(IRegionManager regionManager)
+        public NumberInputsVM(IRegionManager regionManager, IDDSService dds, IConfigService config)
         {
             _regionManager = regionManager;
+            _dds = dds;
+            _config = config;
             //_model = model as MyModel;
             //_model.PropertyChanged += (s, e) =>
             //{
@@ -52,7 +59,6 @@ namespace BullsAndCows.Client.Views.ViewModels
         }
 
         public DoCommand DoCommand { get; set; } = new DoCommand();
-        /*
         #region PlayNumbers
         DelegateCommand _PlayNumbersCommand;
         public DelegateCommand PlayNumbersCommand
@@ -61,13 +67,19 @@ namespace BullsAndCows.Client.Views.ViewModels
             {
                 if (_PlayNumbersCommand == null)
                 {
-                    _PlayNumbersCommand = new DelegateCommand(() => _model?.PlayNumbers(IN_A, IN_B, IN_C), () => _model != null ? _model.CanPlayNumbers() : true);
+                    _PlayNumbersCommand = new DelegateCommand(() => PlayNumbers(IN_A, IN_B, IN_C), () => true);
                 }
                 return _PlayNumbersCommand;
             }
         }
+        void PlayNumbers(int a, int b, int c)
+        {
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), typeof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                new BAC_CLIENT_CONNECT_MESSAGE() { type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM, msg = $"{a} {b} {c}" });
+        }
         #endregion
 
+        /*
         #region ResetNumbers
         DelegateCommand _ResetNumbersCommand;
         public DelegateCommand ResetNumbersCommand
@@ -82,7 +94,7 @@ namespace BullsAndCows.Client.Views.ViewModels
             }
         }
         #endregion
-
+        */
         #region ChangeView
         DelegateCommand _ChangeLogViewCommand;
         public DelegateCommand ChangeLogViewCommand
@@ -100,7 +112,7 @@ namespace BullsAndCows.Client.Views.ViewModels
         {
             // Hard Coding
             _regionManager.RequestNavigate(
-                       Region.PlayViewRegion,
+                       ClientRegions.Play_PlayRegion,
                        IsActivePlayView ? "PlayLogsView" : "PlayView");
             IsActivePlayView = !IsActivePlayView;
             RaisePropertyChanged(nameof(ViewToggleName));
@@ -123,12 +135,11 @@ namespace BullsAndCows.Client.Views.ViewModels
             {
                 if (_SelectedCommand == null)
                 {
-                    _SelectedCommand = new DelegateCommand(() => _model.PlayNumbers(IN_A, IN_B, IN_C), () => { return true; });
+                    _SelectedCommand = new DelegateCommand(() => { }, () => { return true; });
                 }
                 return _SelectedCommand;
             }
         }
         #endregion
-        */
     }
 }

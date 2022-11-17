@@ -469,6 +469,7 @@ SERVER_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
             case SERVER_CONNECT_MESSAGE_TYPE::SERVER_CONNECT_SUCCESS:
             case SERVER_CONNECT_MESSAGE_TYPE::CREATE_ROOM_SUCCESS:
             case SERVER_CONNECT_MESSAGE_TYPE::SEND_ROOM_LIST:
+            case SERVER_CONNECT_MESSAGE_TYPE::ENTER_ROOM_SUCCESS:
             {
             }  break;
             default:

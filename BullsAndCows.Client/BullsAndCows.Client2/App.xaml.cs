@@ -39,8 +39,8 @@ namespace BullsAndCows.Client
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<BullsAndCows.Client.Net.NetModule>();
-            moduleCatalog.AddModule<BullsAndCows.Client.MainModule.MainModule>();
             moduleCatalog.AddModule<BullsAndCows.Client.Views.ViewsModule>();
+            moduleCatalog.AddModule<BullsAndCows.Client.MainModule>();
         }
         protected override void OnInitialized()
         {
@@ -48,7 +48,7 @@ namespace BullsAndCows.Client
 
             var regionManager = this.Container.Resolve<IRegionManager>();
             regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.LoginFrame));
-            //regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.PlayFrame));
+            //regionManager.RequestNavigate(MyRegion.SenderRegion, nameof(MessageSender));
         }
     }
 }

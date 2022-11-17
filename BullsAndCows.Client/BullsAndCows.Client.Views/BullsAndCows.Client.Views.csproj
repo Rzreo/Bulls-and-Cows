@@ -82,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\LoginMainViewModel.cs" />
     <Compile Include="ViewModels\NumberInputsVM.cs" />
+    <Compile Include="ViewModels\ParticipantListsViewModel.cs" />
     <Compile Include="ViewModels\PlayLogsVM.cs" />
     <Compile Include="ViewModels\PlayVM.cs" />
     <Compile Include="ViewModels\SuccessVM.cs" />
@@ -91,6 +92,9 @@
     </Compile>
     <Compile Include="Views\NumberInputsView.xaml.cs">
       <DependentUpon>NumberInputsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParticipantListsView.xaml.cs">
+      <DependentUpon>ParticipantListsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlayLogsView.xaml.cs">
       <DependentUpon>PlayLogsView.xaml</DependentUpon>
@@ -110,6 +114,10 @@
     <Page Include="Views\NumberInputsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ParticipantListsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlayLogsView.xaml">
       <Generator>MSBuild:Compile</Generator>

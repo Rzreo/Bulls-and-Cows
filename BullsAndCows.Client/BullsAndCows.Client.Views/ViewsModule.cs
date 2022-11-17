@@ -14,10 +14,14 @@
         {
             ViewModelLocationProvider.Register<Views.PlayView, ViewModels.PlayVM>();
             ViewModelLocationProvider.Register<Views.LoginMain, ViewModels.LoginMainViewModel>();
+            ViewModelLocationProvider.Register<Views.NumberInputsView, ViewModels.NumberInputsVM>();
+            ViewModelLocationProvider.Register<Views.PlayLogsView, ViewModels.PlayLogsVM>();
             //ViewModelLocationProvider.Register<Views.MessageSender, ViewModels.MessageSenderViewModel>();
             
             containerRegistry.RegisterForNavigation<Views.PlayView>();
             containerRegistry.RegisterForNavigation<Views.LoginMain>();
+            containerRegistry.RegisterForNavigation<Views.NumberInputsView>();
+            containerRegistry.RegisterForNavigation<Views.PlayLogsView>();
             //containerRegistry.RegisterForNavigation<Views.MessageSender>();
         }
     }

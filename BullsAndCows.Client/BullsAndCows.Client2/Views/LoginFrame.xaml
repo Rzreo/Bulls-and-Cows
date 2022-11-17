@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="BullsAndCows.Client.Views.LoginFrame"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BullsAndCows.Client.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:infra="clr-namespace:BullsAndCows.Infrastructure.Utils.Regions;assembly=BullsAndCows.Infrastructure.Utils"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ContentControl prism:RegionManager.RegionName="{x:Static infra:ClientRegions.Login_PART1}"/>
+    </Grid>
+</UserControl>

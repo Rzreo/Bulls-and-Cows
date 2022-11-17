@@ -5,7 +5,7 @@
     {
         public static string ClientID(this IConfigService config)
         {
-            return $"{config.ComputerNumber}-{config.ProcessID}";
+            return $"{config.ComputerNumber.Value}-{config.ProcessID.Value}";
         }
     }
 }

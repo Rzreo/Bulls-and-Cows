@@ -11,14 +11,12 @@ namespace BullsAndCows.Infrastructure.Utils.Regions
     /// </summary>
     public static class ClientRegions
     {
-        /// <summary>
-        /// Input Region.
-        /// </summary>
         public const string MainRegion = "MainRegion";
-
-        /// <summary>
-        /// Output Region
-        /// </summary>
         public const string Login_PART1 = "Login_PART1";
+
+        public const string Waiting_ParticipantsListRegion = "Waiting_ParticipantsListRegion";
+
+        public const string Play_PlayRegion = "Play_PlayRegion";
+        public const string Play_InputRegion = "Play_InputRegion";
     }
 }

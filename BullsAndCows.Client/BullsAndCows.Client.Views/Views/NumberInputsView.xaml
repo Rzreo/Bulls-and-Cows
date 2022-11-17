@@ -17,6 +17,6 @@
         <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_B}" />
         <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_C}" />
         <Button Background="#666666" Foreground="White" Content="Do" Command="{Binding DoCommand.Cmds}" CommandParameter="{Binding }"/>
-        <Button Content="{Binding ViewToggleName }"  Command="{Binding ChangeLogViewCommand}"/>
+        <Button Content="{Binding ViewToggleName}"  Command="{Binding ChangeLogViewCommand}"/>
     </StackPanel>
 </UserControl>
