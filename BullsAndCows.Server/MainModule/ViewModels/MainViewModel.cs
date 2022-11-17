@@ -28,9 +28,9 @@
         }
         public ReactiveCollection<Clients> ConnectList { get; }
 
-        public ReactiveCollection<BAS_ROOM_DATA> JoinableList { get; }
+        public ReactiveCollection<BAC_ROOM_DATA> JoinableList { get; }
 
-        public ReactiveCollection<BAS_ROOM_DATA> PlayingList { get; }
+        public ReactiveCollection<BAC_ROOM_DATA> PlayingList { get; }
 
         private string _join;
         public string JoinableRooms
@@ -52,10 +52,10 @@
             ConnectList = new ReactiveCollection<Clients>();
             BindingOperations.EnableCollectionSynchronization(ConnectList, _lock);
 
-            JoinableList = new ReactiveCollection<BAS_ROOM_DATA>();
+            JoinableList = new ReactiveCollection<BAC_ROOM_DATA>();
             BindingOperations.EnableCollectionSynchronization(JoinableList, _lock);
 
-            PlayingList = new ReactiveCollection<BAS_ROOM_DATA>();
+            PlayingList = new ReactiveCollection<BAC_ROOM_DATA>();
             BindingOperations.EnableCollectionSynchronization(PlayingList, _lock);
 
             dds = dDSService;
@@ -74,6 +74,7 @@
             if (data is null) return;
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(_clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST) SendRoomList(_clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM) EnterRoom(data, _clientid);
             
         }
 
@@ -92,9 +93,16 @@
         {
             JoinableRooms = data.msg;
         }
+        struct RoomListContainer//페이지 전송을 위한 구조체
+        {
+            public double pageNum { get; set; }
+            public ReactiveCollection<BAC_ROOM_DATA> RoomList { get; set; }   
+        }
         private void SendRoomList(string _clientid) //입장 가능한 방 정보 전송
         {
-            string ans = Newtonsoft.Json.JsonConvert.SerializeObject(JoinableList);
+            RoomListContainer container = new RoomListContainer() { pageNum = Math.Ceiling((double)JoinableList.Count/8), RoomList = JoinableList };
+
+            string ans = Newtonsoft.Json.JsonConvert.SerializeObject(container);
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() => {
                 dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientid,
                     new BAC_SERVER_CONNECT_MESSAGE
@@ -107,7 +115,7 @@
         }
         private void RoomMake(string _clientid) //방 생성
         {
-            BAS_ROOM_DATA data = new BAS_ROOM_DATA() { RoomID = (uint)RoomCount++ };
+            BAC_ROOM_DATA data = new BAC_ROOM_DATA() { RoomID = (uint)RoomCount++ };
             JoinableList.Add(data);
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(data);
             Console.WriteLine(ans);
@@ -143,6 +151,32 @@
                 dds.RegisterEvent(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + clientId, data => ReceiveClientMsg(data as BAC_CLIENT_CONNECT_MESSAGE, clientId));
             });
 
+        }
+
+        private void EnterRoom(BAC_CLIENT_CONNECT_MESSAGE data, string clientId)
+        {
+            if (Int32.TryParse(data.msg, out int roolId))
+            {
+                bool exist = false;
+                BAC_ROOM_DATA playRoom = new  BAC_ROOM_DATA();
+                foreach (BAC_ROOM_DATA room in JoinableList)
+                {
+                    if(room.RoomID== roolId) 
+                    { 
+                        playRoom= room;
+                        exist = true;
+                        break;
+                    }
+                }
+                if (exist)
+                {
+                    PlayingList.Add(playRoom);
+                    JoinableList.Remove(playRoom);
+                    return;//들어갔다고 답변 전송
+                }
+               
+            }
+            return;//못들어갔다고 답변전송
         }
 
         private DelegateCommand msgsend;
