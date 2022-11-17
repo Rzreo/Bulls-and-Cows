@@ -13,6 +13,7 @@
 
         private const string RReader = "chocolate_factory_Profile";
         private const string RWriter = "chocolate_factory_Profile";
+        private const string DRWriter = "BAC_Durable_Writer_Profile";
 
 
         public Dictionary<Type, string> DataWriterQoSDic { get; }
@@ -35,9 +36,9 @@
         {
             var temp = new Dictionary<Type, string>();
 
-
+            temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), RWriter); //  추가
             temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), RWriter); //  추가
-            temp.Add(typeof(BAC_SERVER_CONNECT_MESSAGE), RWriter); //  추가
+            temp.Add(typeof(BAC_SERVER_CONNECT_MESSAGE), DRWriter); //  추가
             return temp;
         }
 
