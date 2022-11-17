@@ -1,14 +1,32 @@
 ﻿using BullsAndCows.Infrastructure.Net;
+using Reactive.Bindings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BullsAndCows.Server.Net
 {
+    public class MSGcontainer
+    {
+        public DateTime dateTime { get; set; }
+        public string sender { get; set; }
+        public object data { get; set; }
+
+        public MSGcontainer(DateTime dateTime, string sender, object data)
+        {
+            this.dateTime = dateTime;
+            this.sender = sender;
+            this.data = data;
+        }
+    }
+
     public class DDSService : IDDSService
     {
+        public ReactiveCollection<MSGcontainer> RCVmessages { get; set; } = new ReactiveCollection<MSGcontainer>();
+        public ReactiveCollection<MSGcontainer> SNDmessages { get; set; } = new ReactiveCollection<MSGcontainer>();
         private DDSManager DDSManagement;
 
         private Dictionary<Type, List<IDisposable>> SubscribedDDSObservable { get; } = new Dictionary<Type, List<IDisposable>>();
@@ -44,6 +62,7 @@ namespace BullsAndCows.Server.Net
                 return false;
             }
             writer.Write(message);
+            SNDmessages.Add(new MSGcontainer(DateTime.Now, topic, message));
             return true;
         }
         
@@ -57,8 +76,9 @@ namespace BullsAndCows.Server.Net
         }
         public void RegisterEvent(Type type, string topic, Action<object> readerAction)
         {
-            var disposable = this.DDSManagement.GetDataReader(type, topic).Samples.Subscribe(data =>
+            var disposable = this.DDSManagement.GetDataReader(type, topic).Samples.ObserveOn(UIDispatcherScheduler.Default).Subscribe(data =>
             {
+                RCVmessages.Add(new MSGcontainer(DateTime.Now, topic, data));
                 readerAction.Invoke(data);
             });
             this.SubscribedDDSObservable[type].Add(disposable);
@@ -66,11 +86,22 @@ namespace BullsAndCows.Server.Net
 
         public void RegisterEvent(Type type, string topic, Action callbackFunc)
         {
-            var disposable = this.DDSManagement.GetDataReader(type, topic).Samples.Subscribe(_ =>
+            var disposable = this.DDSManagement.GetDataReader(type, topic).Samples.ObserveOn(UIDispatcherScheduler.Default).Subscribe(_ =>
             {
+                RCVmessages.Add(new MSGcontainer(DateTime.Now, topic, _));
                 callbackFunc.Invoke();
             });
             this.SubscribedDDSObservable[type].Add(disposable);
+        }
+
+        public void SendClearEvent()
+        {
+            SNDmessages.Clear();
+        }
+
+        public void RecvClearEvent()
+        {
+            RCVmessages.Clear();
         }
     }
 }

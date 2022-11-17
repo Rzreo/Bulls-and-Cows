@@ -12,6 +12,7 @@
     using Server.Views;
     using System.IO;
     using System.Windows;
+    using SystemModule;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -63,7 +64,7 @@
             //DDS , Serial 통신
             //moduleCatalog.AddModule<MyModel>();
 
-            moduleCatalog.AddModule<MainModule.MainModuleModule>();
+            moduleCatalog.AddModule<SystemModuleModule>();
             moduleCatalog.AddModule<BullsAndCows.Server.Net.NetModule>();
             //moduleCatalog.AddModule<showModule>();
         }
@@ -79,7 +80,7 @@
             base.OnInitialized();
 
             var regionManager = this.Container.Resolve<IRegionManager>();
-            regionManager.RequestNavigate("ContentRegion", "MainView");
+            regionManager.RequestNavigate("ContentRegion", "SystemView");
 
 
         }
