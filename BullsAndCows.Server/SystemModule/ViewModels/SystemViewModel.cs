@@ -14,35 +14,29 @@
     using System.Reactive.Disposables;
     using System.Windows.Data;
     using ICSharpCode.AvalonEdit.Document;
+    using System.ComponentModel;
 
     public class SystemViewModel : BindableBase, IDisposable
     {
+        public class RoomInfoData
+        {
+            public BAC_ROOM_DATA RoomData { get; set; }
+            public List<string> Clients { get; set; }
+        }
         public class Clients
         {
             public string ClientInfo { get; set; }
         }
         public ReactiveCollection<Clients> ConnectList { get; }
 
-        public ReactiveCollection<BAC_ROOM_DATA> JoinableList { get; }
+        public ReactiveCollection<RoomInfoData> JoinableList { get; }
 
-        public ReactiveCollection<BAC_ROOM_DATA> PlayingList { get; }
+        public ReactiveCollection<RoomInfoData> PlayingList { get; }
 
-        private string _join;
-        public string JoinableRooms
-        {
-            get { return _join; }
-            set { SetProperty(ref _join, value); }
-        }
-        private string _connect;
-        public string SuccessConnect
-        {
-            get { return _connect; }
-            set { SetProperty(ref _connect, value); }
-        }
+
         /// <summary>
         /// //
         /// </summary>
-        public ReactiveCommand DoCSVLoad { get; set; } = new ReactiveCommand();
         public ReactiveCollection<MSGcontainer> RecvMessages { get; }
 
         public ReactiveCollection<MSGcontainer> SendMessages { get; }
@@ -56,6 +50,9 @@
 
         public ReactiveProperty<TextDocument> LogDocumentRight { get; } = new ReactiveProperty<TextDocument>();
 
+        public ReactiveProperty<RoomInfoData> SelectedJoinLeft { get; set; } = new ReactiveProperty<RoomInfoData>();
+        public ReactiveProperty<TextDocument> JoinDocumentLeft { get; } = new ReactiveProperty<TextDocument>();
+
         private DDSService dds;
         object _lock = new object();
         int RoomCount;
@@ -64,10 +61,10 @@
             ConnectList = new ReactiveCollection<Clients>();
             BindingOperations.EnableCollectionSynchronization(ConnectList, _lock);
 
-            JoinableList = new ReactiveCollection<BAC_ROOM_DATA>();
+            JoinableList = new ReactiveCollection<RoomInfoData>();
             BindingOperations.EnableCollectionSynchronization(JoinableList, _lock);
 
-            PlayingList = new ReactiveCollection<BAC_ROOM_DATA>();
+            PlayingList = new ReactiveCollection<RoomInfoData>();
             BindingOperations.EnableCollectionSynchronization(PlayingList, _lock);
 
             LogDocumentLeft.Value = new TextDocument();
@@ -76,6 +73,8 @@
             LogDocumentRight.Value = new TextDocument();
             LogDocumentRight.Value.UndoStack.SizeLimit = 0;
 
+            JoinDocumentLeft.Value = new TextDocument();
+            JoinDocumentLeft.Value.UndoStack.SizeLimit = 0;
 
             //unitTest.SelectedItem.Subscribe((data) =>
             //{
@@ -115,6 +114,17 @@
 
             });
 
+            SelectedJoinLeft.Subscribe(item =>
+            {
+                if (item is null) return;
+                JoinDocumentLeft.Value.Text = string.Empty;
+
+                if (item != null)
+                {
+                    OpenRoomInfo(item, true);
+                }
+            });
+
             this.dds = dds;
             RoomCount = 0;
             RecvMessages = dds.RCVmessages;
@@ -143,6 +153,15 @@
                 else LogDocumentRight.Value.Text = $"Type: {init.type}\nMsg: {init.msg.Replace(',', '\n')}";
             }
         }
+
+        public void OpenRoomInfo(RoomInfoData container, bool left)
+        {
+            string text = $"RoomID: {container.RoomData.RoomID}\nMaxMembers: {container.RoomData.Max_Num_Participants}\nCurmembers: {container.RoomData.Cur_Num_Participants}\nClients: \n";
+            foreach (string s in container.Clients) { text += $"{s}\n"; }
+            if (left) JoinDocumentLeft.Value.Text = text;
+            //else PlayingDocumentRight.Value.Text = text;
+            
+        }
         public void InitializeDDS()
         {
             dds.RegisterEvent(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE), data => ReceiveConnectMsg(data as BAC_CONNECT_INIT_MESSAGE));
@@ -152,27 +171,12 @@
         private void ReceiveClientMsg(BAC_CLIENT_CONNECT_MESSAGE data, string _clientid) // 메세지 수신 시
         {
             if (data is null) return;
-            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(_clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_LIST) SendRoomList(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM) EnterRoom(data, _clientid);
 
         }
 
-        private void ReceiveServerMsg(BAC_SERVER_CONNECT_MESSAGE data, string _clientid) // 메세지 수신 시
-        {
-            if (data is null) return;
-            else if (data.type == SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST) UpdateRoomList(data);
-            else if (data.type == SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS) UpdateSuccessConnect(data);
-        }
-
-        private void UpdateSuccessConnect(BAC_SERVER_CONNECT_MESSAGE data)
-        {
-            SuccessConnect = data.msg;
-        }
-        private void UpdateRoomList(BAC_SERVER_CONNECT_MESSAGE data)
-        {
-            JoinableRooms = data.msg;
-        }
         struct RoomListContainer//페이지 전송을 위한 구조체
         {
             public double pageNum { get; set; }
@@ -182,11 +186,17 @@
         {
             if (!Int32.TryParse(data.msg, out int pnum)) return;
             if (pnum > Math.Ceiling((double)JoinableList.Count / 8)) return;
-            List<BAC_ROOM_DATA> copy;
+            List<RoomInfoData> copy;
             if (pnum * 8 > JoinableList.Count) copy = JoinableList.ToList().GetRange((pnum - 1) * 8, JoinableList.Count - (pnum - 1) * 8);
             else copy = JoinableList.ToList().GetRange((pnum - 1) * 8, 8);
-            RoomListContainer container = new RoomListContainer() { pageNum = Math.Ceiling((double)JoinableList.Count / 8), RoomList = copy };
-            System.Diagnostics.Debug.WriteLine(container.RoomList.Count);
+
+            List<BAC_ROOM_DATA> temp = new List<BAC_ROOM_DATA>();
+            foreach(RoomInfoData r in copy)
+            {
+                temp.Add(r.RoomData);
+            }
+            RoomListContainer container = new RoomListContainer() { pageNum = Math.Ceiling((double)JoinableList.Count / 8), RoomList = temp };
+            //System.Diagnostics.Debug.WriteLine(container.RoomList.Count);
 
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(container);
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() => {
@@ -198,11 +208,14 @@
                     }
                 );
             });
+            
         }
-        private void RoomMake(string _clientid) //방 생성
+        private void RoomMake(BAC_CLIENT_CONNECT_MESSAGE d, string _clientid) //방 생성
         {
-            BAC_ROOM_DATA data = new BAC_ROOM_DATA() { RoomID = (uint)RoomCount++ };
+            if (!Int32.TryParse(d.msg, out int mem)) return;
+            RoomInfoData data = new RoomInfoData() { RoomData = new BAC_ROOM_DATA { RoomID=(uint)RoomCount++, Max_Num_Participants = (uint)mem, Cur_Num_Participants = 0} , Clients = new List<string>() };
             JoinableList.Add(data);
+            System.Diagnostics.Debug.WriteLine(JoinableList.Count);
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(data);
             Console.WriteLine(ans);
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
@@ -228,8 +241,8 @@
             {
                 Clients _client = new Clients() { ClientInfo = data.CLIENT_ID };
                 ConnectList.Add(_client);
-                SendJoinableList(data.CLIENT_ID);
             }
+            SendJoinableList(data.CLIENT_ID);
         }
 
         void SendJoinableList(string clientId) //연결응답 보내기
@@ -249,13 +262,13 @@
 
         private void EnterRoom(BAC_CLIENT_CONNECT_MESSAGE data, string clientId)
         {
-            if (Int32.TryParse(data.msg, out int roolId))
+            if (Int32.TryParse(data.msg, out int rId))
             {
                 bool exist = false;
-                BAC_ROOM_DATA playRoom = new BAC_ROOM_DATA();
-                foreach (BAC_ROOM_DATA room in JoinableList)
+                RoomInfoData playRoom = new RoomInfoData();
+                foreach (RoomInfoData room in JoinableList)
                 {
-                    if (room.RoomID == roolId)
+                    if (room.RoomData.RoomID == rId)
                     {
                         playRoom = room;
                         exist = true;
@@ -264,8 +277,15 @@
                 }
                 if (exist)
                 {
-                    PlayingList.Add(playRoom);
-                    JoinableList.Remove(playRoom);
+                    playRoom.RoomData = new BAC_ROOM_DATA() { RoomID = playRoom.RoomData.RoomID, Max_Num_Participants = playRoom.RoomData.Max_Num_Participants, Cur_Num_Participants = playRoom.RoomData.Cur_Num_Participants + 1 };
+                    playRoom.Clients.Add(clientId);
+                    dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + clientId,
+                        new BAC_SERVER_CONNECT_MESSAGE
+                        {
+                            type = SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS,
+                            msg = "enter room success"
+                        }
+                        );
                     return;//들어갔다고 답변 전송
                 }
 
@@ -295,7 +315,7 @@
                 new BAC_CLIENT_CONNECT_MESSAGE()
                 {
                     type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM,
-                    msg = "please make room"
+                    msg = "5"
                 });
         }
 
