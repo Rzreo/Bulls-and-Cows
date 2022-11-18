@@ -12,7 +12,7 @@
     using Newtonsoft.Json.Linq;
     using System.Windows.Interop;
 
-    public class LobbyStateModel
+    public class LobbyStateModel : StateModel
     {
         IServerConnectingService _connect;
         IGameManageService _game;
@@ -33,20 +33,21 @@
         }
 
         #region StateModel
-        void EnterState()
+        protected override void EnterState()
         {
             _connect.ReceiveServerMessage += ReceiveMessage;
             bValidState = true;
         }
-        void ExitState()
+        protected override void ExitState()
         {
             _connect.ReceiveServerMessage -= ReceiveMessage;
             bValidState = false;
         }
-        public bool bValidState { get; private set; } 
+        public override bool bValidState { get; protected set; }
         #endregion
 
         #region Receive Message
+
         public event Action<BAC_SERVER_CONNECT_MESSAGE>? ReceivedRoomList;
         void ReceiveMessage(object s)
         {
@@ -102,6 +103,7 @@
                 _game.GoToWaitting();
             });
         }
+
         #endregion
     }
 }

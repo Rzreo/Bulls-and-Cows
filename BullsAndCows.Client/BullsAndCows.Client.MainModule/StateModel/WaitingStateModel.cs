@@ -16,7 +16,7 @@ using System.Windows.Markup;
 
 namespace BullsAndCows.Client.MainModule
 {
-    public class WaitingStateModel
+    public class WaitingStateModel : StateModel
     {
         IServerConnectingService _connect;
         IGameManageService _game;
@@ -32,20 +32,20 @@ namespace BullsAndCows.Client.MainModule
             EnterState();
         }
 
-        #region Enter/Exit This State
-        void EnterState()
+        #region StateModel
+        protected override void EnterState()
         {
             bValidState = true;
             _connect.ReceiveServerMessage += ReceiveMessage;
             var t = new Thread(UpdateRoomData) { IsBackground = true };
             t.Start();
         }
-        void ExitState()
+        protected override void ExitState()
         {
             _connect.ReceiveServerMessage -= ReceiveMessage;
             bValidState = false;
         }
-        public bool bValidState { get; private set; }
+        public override bool bValidState { get; protected set; }
         #endregion
 
         void UpdateRoomData()
@@ -56,8 +56,6 @@ namespace BullsAndCows.Client.MainModule
                 Thread.Sleep(500);
             }
         }
-
-        public event Action<BAC_SERVER_CONNECT_MESSAGE>? ReceivedRoomList;
         void ReceiveMessage(object s)
         {
             if (s is BAC_SERVER_CONNECT_MESSAGE msg)
@@ -65,12 +63,18 @@ namespace BullsAndCows.Client.MainModule
                 switch (msg.type)
                 {
                     case SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_DATA: OnReceiveRoomData(msg); break;
+                    case SERVER_CONNECT_MESSAGE_TYPE.REQUEST_GAME_START: OnRequestedGameStart(msg); break;
                 }
             }
         }
         void OnReceiveRoomData(BAC_SERVER_CONNECT_MESSAGE msg)
         {
             RoomData.Value = JsonConvert.DeserializeObject<BAC_ROOM_DATA>(msg.msg);
+        }
+        void OnRequestedGameStart(BAC_SERVER_CONNECT_MESSAGE msg)
+        {
+            ExitState();
+            _game.GoToPlaying();           
         }
     }
 }

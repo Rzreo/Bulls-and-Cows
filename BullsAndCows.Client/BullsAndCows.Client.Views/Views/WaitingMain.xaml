@@ -8,15 +8,10 @@
              xmlns:bac="BullsAndCows"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <bac:RoomDataShowConverter x:Key="RoomDataConverter" />
+    </UserControl.Resources>
     <Grid>
-        <ListView ItemsSource="{Binding Participants}">
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type bac:BAC_PARTICIPANT_DATA}">
-                    <StackPanel Orientation="Horizontal" Width="100">
-                        <TextBlock Text="{Binding ClientID}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListView>
+        <TextBox Text="{Binding Model.RoomData, Converter={StaticResource RoomDataConverter}}"/>
     </Grid>
 </UserControl>

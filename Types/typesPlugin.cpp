@@ -473,6 +473,7 @@ SERVER_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
             case SERVER_CONNECT_MESSAGE_TYPE::SEND_ROOM_LIST:
             case SERVER_CONNECT_MESSAGE_TYPE::ENTER_ROOM_SUCCESS:
             case SERVER_CONNECT_MESSAGE_TYPE::SEND_ROOM_DATA:
+            case SERVER_CONNECT_MESSAGE_TYPE::REQUEST_GAME_START:
             {
             }  break;
             default:
