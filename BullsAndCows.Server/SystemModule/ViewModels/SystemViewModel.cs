@@ -15,6 +15,7 @@
     using System.Windows.Data;
     using ICSharpCode.AvalonEdit.Document;
     using System.ComponentModel;
+    using System.Threading;
 
     public class SystemViewModel : BindableBase, IDisposable
     {
@@ -174,7 +175,7 @@
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_LIST) SendRoomList(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM) EnterRoom(data, _clientid);
-            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CONNECTTING) ResendRoomData(data, _clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_DATA) ResendRoomData(data, _clientid);
         }
 
         struct RoomListContainer//페이지 전송을 위한 구조체
@@ -216,7 +217,7 @@
             RoomInfoData data = new RoomInfoData() { RoomData = new BAC_ROOM_DATA { RoomID=(uint)RoomCount++, Max_Num_Participants = (uint)mem, Cur_Num_Participants = 0} , Clients = new List<string>() };
             JoinableList.Add(data);
             System.Diagnostics.Debug.WriteLine(JoinableList.Count);
-            string ans = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+            string ans = Newtonsoft.Json.JsonConvert.SerializeObject(data.RoomData);
             Console.WriteLine(ans);
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
@@ -286,7 +287,7 @@
                                 msg = "enter room success"
                             }
                         );
-                   // if (playRoom.RoomData.Cur_Num_Participants >= playRoom.RoomData.Max_Num_Participants) GameStart(playRoom);
+                    if (playRoom.RoomData.Cur_Num_Participants >= playRoom.RoomData.Max_Num_Participants) GameStart(playRoom);
                     return;//들어갔다고 답변 전송
                 }
 
@@ -299,13 +300,17 @@
             PlayingList.Add(playRoom);
             foreach(string CleintId in playRoom.Clients)
             {
-                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + CleintId,
+                for (int i = 0; i < 10; i++)
+                {
+                    dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + CleintId,
                     new BAC_SERVER_CONNECT_MESSAGE
                     {
-                        type = SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS,
+                        type = SERVER_CONNECT_MESSAGE_TYPE.REQUEST_GAME_START,
                         msg = "game start"
                     }
-                );
+                    );
+                }
+
             }
             JoinableList.Remove(playRoom);
         }
@@ -334,7 +339,7 @@
                     dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
                             new BAC_SERVER_CONNECT_MESSAGE
                             {
-                                type = SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS,
+                                type = SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_DATA,
                                 msg = ans
                             }
                         );
@@ -362,7 +367,7 @@
                     dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
                             new BAC_SERVER_CONNECT_MESSAGE
                             {
-                                type = SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS,
+                                type = SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_DATA,
                                 msg = ans
                             }
                         );
