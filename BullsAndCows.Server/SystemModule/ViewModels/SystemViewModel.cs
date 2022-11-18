@@ -126,7 +126,7 @@
             });
 
             this.dds = dds;
-            RoomCount = 0;
+            RoomCount = 1;
             RecvMessages = dds.RCVmessages;
             SendMessages = dds.SNDmessages;
             InitializeDDS();
@@ -174,7 +174,6 @@
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_LIST) SendRoomList(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM) EnterRoom(data, _clientid);
-
         }
 
         struct RoomListContainer//페이지 전송을 위한 구조체
@@ -280,17 +279,34 @@
                     playRoom.RoomData = new BAC_ROOM_DATA() { RoomID = playRoom.RoomData.RoomID, Max_Num_Participants = playRoom.RoomData.Max_Num_Participants, Cur_Num_Participants = playRoom.RoomData.Cur_Num_Participants + 1 };
                     playRoom.Clients.Add(clientId);
                     dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + clientId,
-                        new BAC_SERVER_CONNECT_MESSAGE
-                        {
-                            type = SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS,
-                            msg = "enter room success"
-                        }
+                            new BAC_SERVER_CONNECT_MESSAGE
+                            {
+                                type = SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS,
+                                msg = "enter room success"
+                            }
                         );
+                   // if (playRoom.RoomData.Cur_Num_Participants >= playRoom.RoomData.Max_Num_Participants) GameStart(playRoom);
                     return;//들어갔다고 답변 전송
                 }
 
             }
             return;//못들어갔다고 답변전송
+        }
+
+        private void GameStart(RoomInfoData playRoom)
+        {
+            PlayingList.Add(playRoom);
+            foreach(string CleintId in playRoom.Clients)
+            {
+                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + CleintId,
+                    new BAC_SERVER_CONNECT_MESSAGE
+                    {
+                        type = SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS,
+                        msg = "game start"
+                    }
+                );
+            }
+            JoinableList.Remove(playRoom);
         }
 
         private DelegateCommand msgsend;
