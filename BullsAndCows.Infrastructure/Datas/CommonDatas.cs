@@ -16,4 +16,16 @@ namespace BullsAndCows.Infrastructure
     {
         public string ClientID { get; set; }
     };
+    public struct BAC_GAME_INPUT_DATA
+    {
+        public int A;
+        public int B;
+        public int C;
+    };
+    public struct BAC_GAME_OUTPUT_DATA
+    {
+        public int nStrike;
+        public int nBall;
+        public int nOut;
+    };
 }

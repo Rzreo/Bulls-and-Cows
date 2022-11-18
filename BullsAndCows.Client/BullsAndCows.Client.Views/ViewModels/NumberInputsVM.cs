@@ -9,7 +9,9 @@ using Prism.Mvvm;
 
 namespace BullsAndCows.Client.Views.ViewModels
 {
+    using BullsAndCows.Client.MainModule;
     using BullsAndCows.Infrastructure.BaseClass;
+    using BullsAndCows.Infrastructure.ClientServices;
     using BullsAndCows.Infrastructure.Net;
     using BullsAndCows.Infrastructure.OperationManagement;
     using BullsAndCows.Infrastructure.Utils;
@@ -31,19 +33,18 @@ namespace BullsAndCows.Client.Views.ViewModels
 
     class NumberInputsVM : ViewModelBase
     {
-        IRegionManager _regionManager;
-        IDDSService _dds;
-        IConfigService _config;
+        IRegionManager _regionMgr;
+        PlayStateModel _model;
         int _in_a = 0, _in_b = 0, _in_c = 0;
         public int IN_A { get { return _in_a; } set { SetProperty(ref _in_a, value % 10); } }
         public int IN_B { get { return _in_b; } set { SetProperty(ref _in_b, value % 10); } }
         public int IN_C { get { return _in_c; } set { SetProperty(ref _in_c, value % 10); } }
         public List<int> Numbers { get; private set; } = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        public NumberInputsVM(IRegionManager regionManager, IDDSService dds, IConfigService config)
+        public NumberInputsVM(PlayStateModel model, IRegionManager region)
         {
-            _regionManager = regionManager;
-            _dds = dds;
-            _config = config;
+            _model = model;
+            _regionMgr = region;
+
             //_model = model as MyModel;
             //_model.PropertyChanged += (s, e) =>
             //{
@@ -55,12 +56,14 @@ namespace BullsAndCows.Client.Views.ViewModels
             //    PlayNumbersCommand.RaiseCanExecuteChanged();
             //};
             //
-            //DoCommand.Cmds.RegisterCommand(PlayNumbersCommand);
+
+            DoCommand.Cmds.RegisterCommand(PlayNumbersCommand);
         }
 
         public DoCommand DoCommand { get; set; } = new DoCommand();
+
         #region PlayNumbers
-        DelegateCommand _PlayNumbersCommand;
+        DelegateCommand? _PlayNumbersCommand;
         public DelegateCommand PlayNumbersCommand
         {
             get
@@ -74,29 +77,12 @@ namespace BullsAndCows.Client.Views.ViewModels
         }
         void PlayNumbers(int a, int b, int c)
         {
-            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), typeof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
-                new BAC_CLIENT_CONNECT_MESSAGE() { type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM, msg = $"{a} {b} {c}" });
+            _model.SendInput(a, b, c);
         }
         #endregion
 
-        /*
-        #region ResetNumbers
-        DelegateCommand _ResetNumbersCommand;
-        public DelegateCommand ResetNumbersCommand
-        {
-            get
-            {
-                if (_ResetNumbersCommand == null)
-                {
-                    _ResetNumbersCommand = new DelegateCommand(()=>_model?.ResetNumbers(), () => { return true; });
-                }
-                return _ResetNumbersCommand;
-            }
-        }
-        #endregion
-        */
         #region ChangeView
-        DelegateCommand _ChangeLogViewCommand;
+        DelegateCommand? _ChangeLogViewCommand;
         public DelegateCommand ChangeLogViewCommand
         {
             get
@@ -111,9 +97,7 @@ namespace BullsAndCows.Client.Views.ViewModels
         void ChangeLogView()
         {
             // Hard Coding
-            _regionManager.RequestNavigate(
-                       ClientRegions.Play_PlayRegion,
-                       IsActivePlayView ? "PlayLogsView" : "PlayView");
+            _regionMgr.RequestNavigate(ClientRegions.Play_PlayRegion, IsActivePlayView ? "PlayLogsView" : "PlayView");
             IsActivePlayView = !IsActivePlayView;
             RaisePropertyChanged(nameof(ViewToggleName));
         }
@@ -123,21 +107,6 @@ namespace BullsAndCows.Client.Views.ViewModels
             get
             {
                 return IsActivePlayView ? "Log" : "Play";
-            }
-        }
-        #endregion
-
-        #region SelectedCommand
-        DelegateCommand _SelectedCommand;
-        public DelegateCommand SelectedCommand
-        {
-            get
-            {
-                if (_SelectedCommand == null)
-                {
-                    _SelectedCommand = new DelegateCommand(() => { }, () => { return true; });
-                }
-                return _SelectedCommand;
             }
         }
         #endregion

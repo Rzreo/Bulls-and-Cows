@@ -7,13 +7,7 @@
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d"  >
     <StackPanel Orientation="Horizontal" Margin="5">
-        <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_A}">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <prism:InvokeCommandAction Command="{Binding SelectedCommand}" TriggerParameterPath="AddedItems" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </ComboBox>
+        <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_A}"/>
         <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_B}" />
         <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_C}" />
         <Button Background="#666666" Foreground="White" Content="Do" Command="{Binding DoCommand.Cmds}" CommandParameter="{Binding }"/>

@@ -82,7 +82,7 @@
                 </Button>
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                     <TextBlock Text="Page : "/>
-                    <TextBlock Text="{Binding CurrentPageNumber.Value}"/>
+                    <TextBlock Text="{Binding Model.CurrentPageNumber.Value}"/>
                 </StackPanel>
                 <Button     Grid.Column="3" Command="{Binding RequestNextRoomListCommand}">
                     <Button.CommandParameter>

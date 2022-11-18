@@ -35,12 +35,14 @@
         #region StateModel
         protected override void EnterState()
         {
-            _connect.ReceiveServerMessage += ReceiveMessage;
+            base.EnterState();
             bValidState = true;
+            _connect.ReceiveServerMessageOnUI += ReceiveMessageOnUI;
         }
         protected override void ExitState()
         {
-            _connect.ReceiveServerMessage -= ReceiveMessage;
+            base.ExitState();
+            _connect.ReceiveServerMessageOnUI -= ReceiveMessageOnUI;
             bValidState = false;
         }
         public override bool bValidState { get; protected set; }
@@ -49,7 +51,7 @@
         #region Receive Message
 
         public event Action<BAC_SERVER_CONNECT_MESSAGE>? ReceivedRoomList;
-        void ReceiveMessage(object s)
+        void ReceiveMessageOnUI(object s)
         {
             if (s is BAC_SERVER_CONNECT_MESSAGE msg)
             {

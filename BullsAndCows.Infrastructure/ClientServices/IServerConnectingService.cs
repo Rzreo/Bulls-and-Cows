@@ -14,8 +14,10 @@ namespace BullsAndCows.Infrastructure.ClientServices
         void EnterRoom(uint id);
         void RequestRoomList(int nPage);
         void RequestRoomData(uint id);
+        void SendGameInput(BAC_GAME_INPUT_DATA data);
 
         event Action<object> ReceiveServerMessage;
+        event Action<object> ReceiveServerMessageOnUI;
 
     }
 }

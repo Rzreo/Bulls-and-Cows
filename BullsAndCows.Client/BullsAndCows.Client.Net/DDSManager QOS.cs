@@ -28,7 +28,6 @@ namespace BullsAndCows.Client.Net
             var temp = new Dictionary<Type, string>();
 
             temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), DWriter);
-            //temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), RWriter);
             temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), DWriter);
 
             return temp;

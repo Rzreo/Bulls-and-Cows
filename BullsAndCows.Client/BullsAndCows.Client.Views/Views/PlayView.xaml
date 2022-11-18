@@ -21,8 +21,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Image Grid.ColumnSpan="3" Source="https://yagongso.com/wp-content/uploads/2018/08/IMG_9106-678x381.jpg" Stretch="Fill" />
-        <ctrl:CircleText Content="{Binding GameOutput.Strike}" Grid.Column="0"   Background="#5500FF00"/>
-        <ctrl:CircleText Content="{Binding GameOutput.Ball}"   Grid.Column="1"   Background="#55FFFF00"/>
-        <ctrl:CircleText Content="{Binding GameOutput.Out}"    Grid.Column="2"   Background="#55FF0000"/>
+        <ctrl:CircleText Content="{Binding Strike.Value}" Grid.Column="0"   Background="#5500FF00"/>
+        <ctrl:CircleText Content="{Binding Ball.Value}"   Grid.Column="1"   Background="#55FFFF00"/>
+        <ctrl:CircleText Content="{Binding Out.Value}"    Grid.Column="2"   Background="#55FF0000"/>
     </Grid>
 </UserControl>

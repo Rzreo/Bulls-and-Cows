@@ -35,14 +35,18 @@ namespace BullsAndCows.Client.MainModule
         #region StateModel
         protected override void EnterState()
         {
+            base.EnterState();
+
             bValidState = true;
-            _connect.ReceiveServerMessage += ReceiveMessage;
+            _connect.ReceiveServerMessage += ReceiveMessageOnUI;
             var t = new Thread(UpdateRoomData) { IsBackground = true };
             t.Start();
         }
         protected override void ExitState()
         {
-            _connect.ReceiveServerMessage -= ReceiveMessage;
+            base.ExitState();
+
+            _connect.ReceiveServerMessage -= ReceiveMessageOnUI;
             bValidState = false;
         }
         public override bool bValidState { get; protected set; }
@@ -56,7 +60,7 @@ namespace BullsAndCows.Client.MainModule
                 Thread.Sleep(500);
             }
         }
-        void ReceiveMessage(object s)
+        void ReceiveMessageOnUI(object s)
         {
             if (s is BAC_SERVER_CONNECT_MESSAGE msg)
             {
@@ -73,8 +77,11 @@ namespace BullsAndCows.Client.MainModule
         }
         void OnRequestedGameStart(BAC_SERVER_CONNECT_MESSAGE msg)
         {
-            ExitState();
-            _game.GoToPlaying();           
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
+            {
+                ExitState();
+                _game.GoToPlaying();
+            });          
         }
     }
 }

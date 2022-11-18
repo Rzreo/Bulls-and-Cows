@@ -3,15 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:BullsAndCows.Client.Views.Views"
-             xmlns:vm="clr-namespace:BullsAndCows.Client.Views.ViewModels"
              xmlns:bac="BullsAndCows"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <bac:RoomDataShowConverter x:Key="RoomDataConverter" />
     </UserControl.Resources>
-    <Grid>
-        <TextBox Text="{Binding Model.RoomData, Converter={StaticResource RoomDataConverter}}"/>
-    </Grid>
+    <StackPanel>
+        <TextBox Text="{Binding Model.RoomData.Value, Converter={StaticResource RoomDataConverter}}"/>
+    </StackPanel>
 </UserControl>

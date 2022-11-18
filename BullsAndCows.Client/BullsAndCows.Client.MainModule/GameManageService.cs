@@ -28,7 +28,7 @@ namespace BullsAndCows.Client.MainModule
         }
         public void GoToPlaying()
         {
-            _regionMgr.RequestNavigate(ClientRegions.MainRegion, "PlayingFrame");
+            _regionMgr.RequestNavigate(ClientRegions.MainRegion, "PlayFrame");
         }
     }
 }

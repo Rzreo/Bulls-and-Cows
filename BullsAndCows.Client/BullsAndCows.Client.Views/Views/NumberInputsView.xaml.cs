@@ -24,7 +24,7 @@ namespace BullsAndCows.Client.Views.Views
     {
         public NumberInputsView()
         {
-            //InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -8,8 +8,10 @@ namespace BullsAndCows.Client.MainModule
 {
     public abstract class StateModel
     {
-        protected abstract void EnterState();
-        protected abstract void ExitState();
+        public event Action? StateEntered;
+        public event Action? StateExited;
+        protected virtual void EnterState() { StateEntered?.Invoke(); }
+        protected virtual void ExitState() { StateExited?.Invoke(); }
         public abstract bool bValidState { get; protected set; }
     }
 }

@@ -51,8 +51,8 @@ namespace BullsAndCows.Client
             base.OnInitialized();
 
             var regionManager = this.Container.Resolve<IRegionManager>();
-            regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.LobbyFrame));
-            //regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.PlayFrame));
+            //regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.LobbyFrame));
+            regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.PlayFrame));
         }
     }
 }

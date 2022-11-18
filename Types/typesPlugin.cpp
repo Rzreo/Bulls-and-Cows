@@ -91,6 +91,7 @@ CLIENT_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
             case CLIENT_CONNECT_MESSAGE_TYPE::REQUEST_ROOM_LIST:
             case CLIENT_CONNECT_MESSAGE_TYPE::ENTER_ROOM:
             case CLIENT_CONNECT_MESSAGE_TYPE::REQUEST_ROOM_DATA:
+            case CLIENT_CONNECT_MESSAGE_TYPE::SEND_GAME_INPUT:
             {
             }  break;
             default:
@@ -474,6 +475,8 @@ SERVER_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
             case SERVER_CONNECT_MESSAGE_TYPE::ENTER_ROOM_SUCCESS:
             case SERVER_CONNECT_MESSAGE_TYPE::SEND_ROOM_DATA:
             case SERVER_CONNECT_MESSAGE_TYPE::REQUEST_GAME_START:
+            case SERVER_CONNECT_MESSAGE_TYPE::REQUEST_GAME_END:
+            case SERVER_CONNECT_MESSAGE_TYPE::SEND_GAME_OUTPUT_DATA:
             {
             }  break;
             default:

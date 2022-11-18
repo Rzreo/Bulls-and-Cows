@@ -27,11 +27,20 @@ namespace BullsAndCows.Client.MainModule
             ReceiveServerMessage += OnReceiveServerMessage;
         }
         public event Action<object>? ReceiveServerMessage;
+        public event Action<object>? ReceiveServerMessageOnUI;
+        private void CallReceiveServerMessageEvent(object arg)
+        {
+            ReceiveServerMessage?.Invoke(arg);
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
+            {
+                ReceiveServerMessageOnUI?.Invoke(arg);
+            });
+        }
 
         public void StartConnect()
         {
             _config.IsConnected.Value = false;
-            _dds.RegisterEvent(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _config.ClientID(), ReceiveServerMessage);
+            _dds.RegisterEvent(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _config.ClientID(), CallReceiveServerMessageEvent);
 
             var t = new Thread(Connecting) { IsBackground = true };
             t.Start();
@@ -66,6 +75,8 @@ namespace BullsAndCows.Client.MainModule
 
             _config.IsConnected.Value = true;
         }
+
+        #region Client Message
         public void EnterRoom(uint id)
         {
             _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
@@ -102,5 +113,15 @@ namespace BullsAndCows.Client.MainModule
                             msg = id.ToString()
                         });
         }
+        public void SendGameInput(BAC_GAME_INPUT_DATA data)
+        {
+            //_dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+            //                    new BAC_CLIENT_CONNECT_MESSAGE()
+            //                    {
+            //                        type = CLIENT_CONNECT_MESSAGE_TYPE.,
+            //                        msg = id.ToString()
+            //                    });
+        }
+        #endregion
     }
 }

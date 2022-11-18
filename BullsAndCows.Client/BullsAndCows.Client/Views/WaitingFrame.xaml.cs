@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BullsAndCows.Infrastructure.Utils.Regions;
+using Prism.Ioc;
+using Prism.Regions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +23,15 @@ namespace BullsAndCows.Client.Views
     /// </summary>
     public partial class WaitingFrame : UserControl
     {
-        public WaitingFrame()
+        public WaitingFrame(IContainerProvider ioc)
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            
+            Loaded += (s, e) =>
+            {
+                var regionManager = ioc.Resolve<IRegionManager>();
+                regionManager.RequestNavigate(ClientRegions.Waiting_ParticipantsListRegion, nameof(Views.WaitingMain));
+            };
         }
     }
 }

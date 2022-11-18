@@ -1,24 +1,31 @@
-﻿using BullsAndCows.Infrastructure.ClientServices;
+﻿using BullsAndCows.Infrastructure;
+using BullsAndCows.Infrastructure.ClientServices;
 using BullsAndCows.Infrastructure.OperationManagement;
+using Newtonsoft.Json;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace BullsAndCows.Client.MainModule
 {
-    internal class PlayStateModel : StateModel
+    public class PlayStateModel : StateModel
     {
         IServerConnectingService _connect;
         IGameManageService _game;
-        IConfigService _config;
-        public PlayStateModel(IDialogService dialog, IServerConnectingService connect, IGameManageService game, IConfigService config)
+        object _lock = new object();
+        public ObservableCollection<BAC_GAME_OUTPUT_DATA> GameLogs { get; private set; }
+        public PlayStateModel(IDialogService dialog, IServerConnectingService connect, IGameManageService game)
         {
-            this._config = config;
             this._connect = connect;
             this._game = game;
+
+            GameLogs = new ObservableCollection<BAC_GAME_OUTPUT_DATA>();
+            BindingOperations.EnableCollectionSynchronization(GameLogs, _lock);
 
             EnterState();
         }
@@ -26,26 +33,47 @@ namespace BullsAndCows.Client.MainModule
         #region StateModel
         protected override void EnterState()
         {
+            base.EnterState();
+
             bValidState = true;
-            _connect.ReceiveServerMessage += ReceiveMessage;
+            _connect.ReceiveServerMessageOnUI += ReceiveMessageOnUI;
         }
         protected override void ExitState()
         {
-            _connect.ReceiveServerMessage -= ReceiveMessage;
+            base.ExitState();
+
+            _connect.ReceiveServerMessageOnUI -= ReceiveMessageOnUI;
             bValidState = false;
         }
         public override bool bValidState { get; protected set; }
         #endregion
 
-        void ReceiveMessage(object s)
+        public void SendInput(int a, int b, int c)
+        {
+            _connect.SendGameInput(new Infrastructure.BAC_GAME_INPUT_DATA() { A = a, B = b, C = c });
+        }
+
+
+        public event Action<BAC_SERVER_CONNECT_MESSAGE>? ReceivedGameOutputData;
+        void ReceiveMessageOnUI(object s)
         {
             if (s is BAC_SERVER_CONNECT_MESSAGE msg)
             {
                 switch (msg.type)
                 {
-                    //case SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_DATA: OnReceiveRoomData(msg); break;
+                    case SERVER_CONNECT_MESSAGE_TYPE.REQUEST_GAME_END: OnGameEnded(msg); break;
+                    case SERVER_CONNECT_MESSAGE_TYPE.SEND_GAME_OUTPUT_DATA: OnReceivedGameOutputData(msg); break;
                 }
             }
+        }
+        void OnReceivedGameOutputData(BAC_SERVER_CONNECT_MESSAGE msg)
+        {
+            GameLogs.Add(JsonConvert.DeserializeObject<BAC_GAME_OUTPUT_DATA>(msg.msg));
+            ReceivedGameOutputData?.Invoke(msg);
+        }
+        void OnGameEnded(BAC_SERVER_CONNECT_MESSAGE msg)
+        {
+            _game.GoToLobby();
         }
     }
 }

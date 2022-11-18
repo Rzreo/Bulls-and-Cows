@@ -120,7 +120,7 @@
         }
         void EnterRoom(MouseButtonEventArgs args)
         {
-            if(args.Source is Selector selector)
+            if(args.Source is Selector selector && selector.SelectedItem != null)
             {
                 var item = (BAC_ROOM_DATA)selector.SelectedItem;
                 _connect.EnterRoom(item.RoomID);
