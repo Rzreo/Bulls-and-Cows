@@ -75,7 +75,7 @@
          {
             if (data is null) return;
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(_clientid);
-            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST) SendRoomList(_clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_LIST) SendRoomList(_clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM) EnterRoom(data, _clientid);
             
         }
@@ -217,7 +217,7 @@
             dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + cid,
                 new BAC_CLIENT_CONNECT_MESSAGE()
                 {
-                    type = CLIENT_CONNECT_MESSAGE_TYPE.GIVE_ROOM_LIST,
+                    type = CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_LIST,
                     msg = "please give room"
                 });
         }

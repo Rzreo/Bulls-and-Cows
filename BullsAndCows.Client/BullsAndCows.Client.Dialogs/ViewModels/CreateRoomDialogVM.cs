@@ -51,8 +51,10 @@ namespace BullsAndCows.Client.Dialogs.ViewModels
                 result = ButtonResult.OK;
             else if (parameter?.ToLower() == "false")
                 result = ButtonResult.Cancel;
-
-            RequestClose?.Invoke(new DialogResult(result));
+            
+            var res = new DialogResult(result);
+            res.Parameters.Add(nameof(Capacity), Capacity);
+            RequestClose?.Invoke(res);
         }
     }
 

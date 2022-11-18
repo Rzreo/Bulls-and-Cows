@@ -30,7 +30,6 @@
         IGameManageService _game;
         IDialogService _dialog;
         object _lock = new object();
-        int cnt = 0;
         public IConfigService Config { get; private set; }
         public ObservableCollection<BAC_ROOM_DATA> RoomDatas { get; private set; }
         public ReactiveProperty<int> CurrentPageNumber { get; private set; } = new ReactiveProperty<int>() { Value=0 };
@@ -67,7 +66,6 @@
         {
             if (Config.IsConnected.Value == true) return;
 
-            System.Diagnostics.Debug.WriteLine(cnt);
             Config.IsConnected.Value = true;
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
@@ -96,7 +94,8 @@
         {
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
-                _connect.EnterRoom(uint.Parse(msg.msg));
+                BAC_ROOM_DATA room_data = JsonConvert.DeserializeObject<BAC_ROOM_DATA>(msg.msg);
+                _connect.EnterRoom(room_data.RoomID);
             });
         }
         void OnEnterRoomSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
@@ -126,7 +125,7 @@
             {
                 if (r.Result == ButtonResult.OK)
                 {
-                    _connect.CreateRoom(1);
+                    _connect.CreateRoom(r.Parameters.GetValue<uint>("Capacity"));
                     _connect.RequestRoomList(CurrentPageNumber.Value);
                 }
             }, "DialogWindow");

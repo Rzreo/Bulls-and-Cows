@@ -99,10 +99,12 @@
             }
             if (number < Minimum)
             {
+                AssociatedObject.Text = Minimum.ToString();
                 return false;
             }
             if (number > Maximum)
             {
+                AssociatedObject.Text = Maximum.ToString();
                 return false;
             }
             return true;

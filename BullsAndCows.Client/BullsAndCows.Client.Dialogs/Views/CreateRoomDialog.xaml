@@ -20,13 +20,12 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="최대 인원수 : "/>
-            <TextBox Text="{Binding Capacity}" IsReadOnly="False">
+            <TextBox Text="{Binding Capacity}">
                 <i:Interaction.Behaviors>
                     <bac:IntegerRangeBehavior Minimum="{StaticResource MinCap}" Maximum="{StaticResource MaxCap}"/>
                 </i:Interaction.Behaviors>
             </TextBox>
         </StackPanel>
-        <TextBlock Text="{Binding Message}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" TextWrapping="Wrap" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,5" Grid.Row="1" >
             <Button Command="{Binding CloseDialogCommand}" CommandParameter="true" Content="OK" Width="75" Height="25" IsDefault="True" />
             <Button Command="{Binding CloseDialogCommand}" CommandParameter="false" Content="Cancel" Width="75" Height="25" Margin="10,0,0,0" IsCancel="True" />

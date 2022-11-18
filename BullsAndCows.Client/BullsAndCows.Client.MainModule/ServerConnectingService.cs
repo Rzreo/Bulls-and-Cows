@@ -37,17 +37,17 @@ namespace BullsAndCows.Client.MainModule
         }
         void Connecting()
         {
-            while (true)
+            //while (_config.IsConnected.Value == false)
             {
                 _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
                     new BAC_CONNECT_INIT_MESSAGE()
                     {
-                        CLIENT_ID = _config.ClientID(),
-                        msg
+                        CLIENT_ID = _config.ClientID(),                       
                     });
-                Thread.Sleep(_config.IsConnected.Value ? 1000 : 100);
+                Thread.Sleep(200);
                 cnt++;
             }
+            System.Diagnostics.Debug.WriteLine(cnt);
         }
 
         public void EnterRoom(uint id)
