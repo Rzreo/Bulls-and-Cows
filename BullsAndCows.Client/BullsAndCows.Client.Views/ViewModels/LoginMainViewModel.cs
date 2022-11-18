@@ -18,25 +18,29 @@
     using System.Windows.Threading;
     using System.Linq;
     using Newtonsoft.Json;
-    using System.Text;
     using System.Windows.Controls.Primitives;
     using BullsAndCows.Infrastructure.ClientServices;
+    using Prism.Services.Dialogs;
+    using System.Runtime.InteropServices;
+    using BullsAndCows.Client.Dialogs.Views;
 
     class LoginMainViewModel : ViewModelBase
     {
         IServerConnectingService _connect;
         IGameManageService _game;
+        IDialogService _dialog;
         object _lock = new object();
         int cnt = 0;
         public IConfigService Config { get; private set; }
         public ObservableCollection<BAC_ROOM_DATA> RoomDatas { get; private set; }
         public ReactiveProperty<int> CurrentPageNumber { get; private set; } = new ReactiveProperty<int>() { Value=0 };
         public ReactiveProperty<int> LastPageNumber { get; private set; } = new ReactiveProperty<int>() { Value=0 };
-        public LoginMainViewModel(IServerConnectingService connect, IGameManageService game, IConfigService config)
+        public LoginMainViewModel(IDialogService dialog, IServerConnectingService connect, IGameManageService game, IConfigService config)
         {
             this._connect = connect;
             this._game = game;
-            Config = config;
+            this._dialog = dialog;
+            this.Config = config;
 
             RoomDatas = new ObservableCollection<BAC_ROOM_DATA>();
             BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
@@ -47,14 +51,15 @@
 
         void ReceiveMessage(object s)
         {
-            BAC_SERVER_CONNECT_MESSAGE msg = s as BAC_SERVER_CONNECT_MESSAGE;
-
-            switch(msg.type)
+            if(s is BAC_SERVER_CONNECT_MESSAGE msg)
             {
-                case SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS: OnConnectSuccess(msg); break;
-                case SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST: OnSendRoomList(msg); break;
-                case SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS: OnCreateRoomSuccess(msg); break;
-                case SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS: OnEnterRoomSuccess(msg); break;
+                switch (msg.type)
+                {
+                    case SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS: OnConnectSuccess(msg); break;
+                    case SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST: OnSendRoomList(msg); break;
+                    case SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS: OnCreateRoomSuccess(msg); break;
+                    case SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS: OnEnterRoomSuccess(msg); break;
+                }
             }
         }
 
@@ -103,7 +108,7 @@
         }
 
         #region CreateRoom
-        DelegateCommand _CreateRoomCommand;
+        DelegateCommand? _CreateRoomCommand;
         public DelegateCommand CreateRoomCommand
         {
             get
@@ -117,19 +122,23 @@
         }
         void CreateRoom()
         {
-            _connect.CreateRoom();
-            _connect.RequestRoomList(CurrentPageNumber.Value);
-            Config.IsConnected.Value = true;
+            _dialog.ShowDialog(nameof(CreateRoomDialog), new DialogParameters($"message={"ㅋㅋㅋㅋ"}"), r =>
+            {
+                if (r.Result == ButtonResult.OK)
+                {
+                    _connect.CreateRoom(1);
+                    _connect.RequestRoomList(CurrentPageNumber.Value);
+                }
+            }, "DialogWindow");
         }
         #endregion
 
         #region RequestRoomList
-        DelegateCommand _RequestNextRoomListCommand, _RequestPrevRoomListCommand;
+        DelegateCommand? _RequestNextRoomListCommand, _RequestPrevRoomListCommand;
         public DelegateCommand RequestNextRoomListCommand
         {
             get
             {
-                var k = new DelegateCommand(() => {  });
                 if (_RequestNextRoomListCommand == null)
                 {
                     _RequestNextRoomListCommand = new DelegateCommand(()=> _connect.RequestRoomList(CurrentPageNumber.Value += 1), () => { return CurrentPageNumber.Value < LastPageNumber.Value; });
@@ -152,7 +161,7 @@
         #endregion
 
         #region EnterRoom
-        DelegateCommand<MouseButtonEventArgs> _EnterRoomCommand;
+        DelegateCommand<MouseButtonEventArgs>? _EnterRoomCommand;
         public DelegateCommand<MouseButtonEventArgs> EnterRoomCommand
         {
             get
@@ -166,9 +175,11 @@
         }
         void EnterRoom(MouseButtonEventArgs args)
         {
-            Selector listview = args.Source as Selector;
-            var item = (BAC_ROOM_DATA)listview.SelectedItem;
-            _connect.EnterRoom(item.RoomID);
+            if(args.Source is Selector selector)
+            {
+                var item = (BAC_ROOM_DATA)selector.SelectedItem;
+                _connect.EnterRoom(item.RoomID);
+            }
         }
         #endregion
     }

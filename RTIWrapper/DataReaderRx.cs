@@ -34,6 +34,26 @@
             }
            
         }
+        public DataReaderRx(DDS.Subscriber subscriber, DDS.Topic topic, string libraryName = default, string profileName = default)
+        {
+            this.subscriber = subscriber;
+            this.Topic = topic;
+
+            var type = topic.GetDataType();
+            var constructed = typeof(Listener<>).MakeGenericType(new Type[] { type });
+            var listener = (DDS.DataReaderListener)Activator.CreateInstance(constructed, new object[] { this.sampleSubject });
+
+            this.dataReader = subscriber.CreateDataReaderWithProfile(topic, libraryName, profileName, listener);
+            if (this.dataReader == default)
+            {
+                this.dataReader = subscriber.CreateDataReader(topic, listener);
+            }
+
+            if (this.dataReader == default)
+            {
+                throw new InvalidOperationException();
+            }
+        }
 
         /// <summary>
         /// Gets the value of the samples.

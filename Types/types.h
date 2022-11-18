@@ -52,6 +52,7 @@ public ref class MSG_STRING_LEN sealed {
 };
 
 public enum class CLIENT_CONNECT_MESSAGE_TYPE : System::Int32 {
+    CONNECTTING ,
     CREATE_ROOM ,
     REQUEST_ROOM_LIST ,
     ENTER_ROOM 

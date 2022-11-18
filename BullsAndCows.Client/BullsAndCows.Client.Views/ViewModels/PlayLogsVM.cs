@@ -13,7 +13,7 @@ namespace BullsAndCows.Client.Views.ViewModels
 
     class PlayLogsVM : ViewModelBase
     {
-        IRegionManager _regionManager;
+        //IRegionManager _regionManager;
         //MyModel _model;
         //public MyModel Model => _model;
         //public PlayLogsVM(IRegionManager regionManager, MyModel model)

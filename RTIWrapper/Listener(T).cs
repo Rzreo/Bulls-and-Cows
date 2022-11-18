@@ -46,10 +46,12 @@ namespace RTIWrapper
             }
             catch (DDS.Retcode_NoData)
             {
+                System.Diagnostics.Debug.WriteLine($"{typeof(T).Name}|{nameof(on_data_available)}|{nameof(DDS.Retcode_NoData)}");
                 // logger.Error($"{typeof(T).Name}|{nameof(on_data_available)}|{nameof(DDS.Retcode_NoData)}");
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine($"{typeof(T).Name}|{nameof(on_data_available)}|{e.GetType().Name}");
                 // logger.Error($"{typeof(T).Name}|{nameof(on_data_available)}|{nameof(Exception)}");
             }
             finally

@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullsAndCows.Client", "Bull
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullsAndCows.Client.MainModule", "BullsAndCows.Client.MainModule\BullsAndCows.Client.MainModule.csproj", "{A08BF99C-10A0-42F1-BFF7-5800902D7258}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BullsAndCows.Client.Dialogs", "BullsAndCows.Client.Dialogs\BullsAndCows.Client.Dialogs.csproj", "{904C4251-F58E-49BB-B160-1192581C829B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,18 @@ Global
 		{A08BF99C-10A0-42F1-BFF7-5800902D7258}.Release|x64.Build.0 = Release|Any CPU
 		{A08BF99C-10A0-42F1-BFF7-5800902D7258}.Release|x86.ActiveCfg = Release|Any CPU
 		{A08BF99C-10A0-42F1-BFF7-5800902D7258}.Release|x86.Build.0 = Release|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Debug|x64.Build.0 = Debug|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Debug|x86.Build.0 = Debug|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Release|x64.ActiveCfg = Release|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Release|x64.Build.0 = Release|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Release|x86.ActiveCfg = Release|Any CPU
+		{904C4251-F58E-49BB-B160-1192581C829B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

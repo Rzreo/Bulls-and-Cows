@@ -10,7 +10,7 @@ namespace BullsAndCows.Infrastructure.ClientServices
     public interface IServerConnectingService
     {
         void StartConnect();
-        void CreateRoom();
+        void CreateRoom(uint MaxParticipants);
         void EnterRoom(uint id);
         void RequestRoomList(int nPage);
 

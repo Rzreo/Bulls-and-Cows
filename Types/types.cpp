@@ -23,16 +23,35 @@ CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPE_get_default_value() {
 }
 
 CLIENT_CONNECT_MESSAGE_TYPE CLIENT_CONNECT_MESSAGE_TYPEHelper::CLIENT_CONNECT_MESSAGE_TYPE_get_default_value() {
-    return CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM;
+    return CLIENT_CONNECT_MESSAGE_TYPE::CONNECTTING;
 }
 #ifndef NDDS_STANDALONE_TYPE
 DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode()
 {
     static RTIBool is_initialized = RTI_FALSE;
 
-    static DDS_TypeCode_Member CLIENT_CONNECT_MESSAGE_TYPE_g_tc_members[3]=
+    static DDS_TypeCode_Member CLIENT_CONNECT_MESSAGE_TYPE_g_tc_members[4]=
     {
 
+        {
+            (char *)"CONNECTTING",/* Member name */
+            {
+                0, /* Ignored */
+                DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                -1, /* Bitfield bits */
+                NULL/* Member type code is assigned later */
+            },
+            (RTICdrLong)CLIENT_CONNECT_MESSAGE_TYPE::CONNECTTING, 
+            0, /* Ignored */
+            0, /* Ignored */
+            NULL, /* Ignored */
+            RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+            DDS_PRIVATE_MEMBER,/* Member visibility */ 
+
+            1,
+            NULL, /* Ignored */
+            RTICdrTypeCodeAnnotations_INITIALIZER
+        }, 
         {
             (char *)"CREATE_ROOM",/* Member name */
             {
@@ -102,7 +121,7 @@ DDS_TypeCode* CLIENT_CONNECT_MESSAGE_TYPE_get_typecode()
             0, /* Ignored */
             0, /* Ignored */
             NULL, /* Ignored */
-            3, /* Number of members */
+            4, /* Number of members */
             CLIENT_CONNECT_MESSAGE_TYPE_g_tc_members, /* Members */
             DDS_VM_NONE, /* Type Modifier */
             RTICdrTypeCodeAnnotations_INITIALIZER,
@@ -514,12 +533,12 @@ DDS_TypeCode* BAC_SERVER_CONNECT_MESSAGE_get_typecode()
 #endif
 /* ========================================================================= */
 BAC_CLIENT_CONNECT_MESSAGE::BAC_CLIENT_CONNECT_MESSAGE() {
-    type = CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM;
+    type = CLIENT_CONNECT_MESSAGE_TYPE::CONNECTTING;
     msg = "";
 }
 
 void BAC_CLIENT_CONNECT_MESSAGE::clear(){
-    type = CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM;
+    type = CLIENT_CONNECT_MESSAGE_TYPE::CONNECTTING;
     msg = "";
 }
 

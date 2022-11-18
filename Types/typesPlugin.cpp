@@ -86,6 +86,7 @@ CLIENT_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
         sample = stream.deserialize_enum<CLIENT_CONNECT_MESSAGE_TYPE>();
 
         switch (sample){
+            case CLIENT_CONNECT_MESSAGE_TYPE::CONNECTTING:
             case CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM:
             case CLIENT_CONNECT_MESSAGE_TYPE::REQUEST_ROOM_LIST:
             case CLIENT_CONNECT_MESSAGE_TYPE::ENTER_ROOM:
@@ -97,7 +98,7 @@ CLIENT_CONNECT_MESSAGE_TYPEPlugin::deserialize_sample(
                 (TypePluginDefaultEndpointData^)endpoint_data;
 
                 if (epd == nullptr || epd->sample_assignability_property.acceptUnknownEnumValue) {
-                    sample = CLIENT_CONNECT_MESSAGE_TYPE::CREATE_ROOM;
+                    sample = CLIENT_CONNECT_MESSAGE_TYPE::CONNECTTING;
                 } else {
                     throw gcnew Unassignable("invalid enumerator " + sample.ToString());
                 }

@@ -22,7 +22,7 @@ namespace BullsAndCows.Client.Views.Views
     {
         public ParticipantListsView()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

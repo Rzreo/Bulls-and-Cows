@@ -35,12 +35,15 @@ namespace BullsAndCows.Client
             containerRegistry.RegisterForNavigation<Views.LoginFrame>();
             containerRegistry.RegisterForNavigation<Views.WaitingFrame>();
             containerRegistry.RegisterForNavigation<Views.PlayFrame>();
+            containerRegistry.RegisterDialogWindow<Views.DialogWindow>(nameof(DialogWindow));
+
             containerRegistry.RegisterSingleton<IConfigService, ConfigService>();
         }
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<BullsAndCows.Client.Net.NetModule>();
             moduleCatalog.AddModule<BullsAndCows.Client.MainModule.MainModule>();
+            moduleCatalog.AddModule<BullsAndCows.Client.Dialogs.DialogsModule>();
             moduleCatalog.AddModule<BullsAndCows.Client.Views.ViewsModule>();
         }
         protected override void OnInitialized()

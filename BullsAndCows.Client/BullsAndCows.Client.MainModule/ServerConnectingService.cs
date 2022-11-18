@@ -42,7 +42,8 @@ namespace BullsAndCows.Client.MainModule
                 _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
                     new BAC_CONNECT_INIT_MESSAGE()
                     {
-                        CLIENT_ID = _config.ClientID()
+                        CLIENT_ID = _config.ClientID(),
+                        msg
                     });
                 Thread.Sleep(_config.IsConnected.Value ? 1000 : 100);
                 cnt++;
@@ -58,12 +59,13 @@ namespace BullsAndCows.Client.MainModule
                              msg = id.ToString()
                          });
         }
-        public void CreateRoom()
+        public void CreateRoom(uint nMaxParticipants)
         {
             _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
                          new BAC_CLIENT_CONNECT_MESSAGE()
                          {
                              type = CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM,
+                             msg = nMaxParticipants.ToString()
                          });
         }
         public void RequestRoomList(int nPage)

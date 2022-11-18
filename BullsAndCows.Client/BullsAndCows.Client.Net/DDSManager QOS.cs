@@ -11,14 +11,15 @@ namespace BullsAndCows.Client.Net
 
         private const string RReader = "chocolate_factory_Profile";
         private const string RWriter = "chocolate_factory_Profile";
-        private const string DWWriter = "BAC_Durable_Writer_Profile";
+        private const string DWriter = "BAC_Durable_Profile";
+        private const string DReader = "BAC_Durable_Profile";
         public Dictionary<Type, string> DataReaderQOSDic { get; }
         public Dictionary<Type, string> DataWriterQoSDic { get; }
         private static Dictionary<Type, string> BuildDataReaderQOS()
         {
             var temp = new Dictionary<Type, string>();
 
-            temp.Add(typeof(BAC_SERVER_CONNECT_MESSAGE), RReader);
+            temp.Add(typeof(BAC_SERVER_CONNECT_MESSAGE), DReader);
 
             return temp;
         }
@@ -26,9 +27,9 @@ namespace BullsAndCows.Client.Net
         {
             var temp = new Dictionary<Type, string>();
 
-            temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), DWWriter);
+            temp.Add(typeof(BAC_CONNECT_INIT_MESSAGE), DWriter);
             //temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), RWriter);
-            temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), DWWriter);
+            temp.Add(typeof(BAC_CLIENT_CONNECT_MESSAGE), DWriter);
 
             return temp;
         }

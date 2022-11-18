@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Utils\BullsAndCows.Infrastructure.Utils.csproj" />
     <ProjectReference Include="..\..\BullsAndCows.Infrastructure\BullsAndCows.Infrastructure.csproj" />
+    <ProjectReference Include="..\BullsAndCows.Client.Dialogs\BullsAndCows.Client.Dialogs.csproj" />
     <ProjectReference Include="..\BullsAndCows.Client.MainModule\BullsAndCows.Client.MainModule.csproj" />
     <ProjectReference Include="..\BullsAndCows.Client.Net\BullsAndCows.Client.Net.csproj" />
     <ProjectReference Include="..\BullsAndCows.Client.Views\BullsAndCows.Client.Views.csproj" />

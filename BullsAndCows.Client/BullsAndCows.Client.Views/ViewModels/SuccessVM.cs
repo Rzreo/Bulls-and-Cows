@@ -10,8 +10,8 @@ namespace BullsAndCows.Client.Views.ViewModels
 
     class SuccessVM : ViewModelBase, INavigationAware
     {
-        IDialogService _dialogService;
-        IRegionNavigationJournal _naviJournal;
+        //IDialogService _dialogService;
+        //IRegionNavigationJournal _naviJournal;
         /*
         MyModel _model;
         int _in_a = 0, _in_b = 0, _in_c = 0;
@@ -55,7 +55,7 @@ namespace BullsAndCows.Client.Views.ViewModels
         #region NavigationAware
         public void OnNavigatedTo(NavigationContext navigationContext)
         {
-            _naviJournal = navigationContext.NavigationService.Journal;
+            //_naviJournal = navigationContext.NavigationService.Journal;
 
         }
 

@@ -16,7 +16,7 @@ namespace BullsAndCows.Infrastructure
                 throw new Exception("Value DFF");
 
             BAC_ROOM_DATA data = (BAC_ROOM_DATA)value;
-            return $"ID : {data.RoomID}";
+            return $"ID : {data.RoomID}, {data.Cur_Num_Participants} / {data.Max_Num_Participants}";
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
