@@ -23,88 +23,34 @@
     using Prism.Services.Dialogs;
     using System.Runtime.InteropServices;
     using BullsAndCows.Client.Dialogs.Views;
+    using BullsAndCows.Client.MainModule;
 
     class LoginMainViewModel : ViewModelBase
     {
         IServerConnectingService _connect;
-        IGameManageService _game;
         IDialogService _dialog;
-        object _lock = new object();
         public IConfigService Config { get; private set; }
-        public ObservableCollection<BAC_ROOM_DATA> RoomDatas { get; private set; }
-        public ReactiveProperty<int> CurrentPageNumber { get; private set; } = new ReactiveProperty<int>() { Value=0 };
-        public ReactiveProperty<int> LastPageNumber { get; private set; } = new ReactiveProperty<int>() { Value=0 };
-        public LoginMainViewModel(IDialogService dialog, IServerConnectingService connect, IGameManageService game, IConfigService config)
+        public LobbyStateModel Model { get; private set; }
+        public LoginMainViewModel(LobbyStateModel model, IDialogService dialog, IServerConnectingService connect, IConfigService config)
         {
             this._connect = connect;
-            this._game = game;
             this._dialog = dialog;
             this.Config = config;
+            this.Model = model;
 
-            RoomDatas = new ObservableCollection<BAC_ROOM_DATA>();
-            BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
-
-            _connect.ReceiveServerMessage += ReceiveMessage;
-            _connect.StartConnect();
+            model.ReceivedRoomList += OnReceiveRoomList;
         }
 
-        void ReceiveMessage(object s)
-        {
-            if(s is BAC_SERVER_CONNECT_MESSAGE msg)
-            {
-                switch (msg.type)
-                {
-                    case SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS: OnConnectSuccess(msg); break;
-                    case SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST: OnSendRoomList(msg); break;
-                    case SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS: OnCreateRoomSuccess(msg); break;
-                    case SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS: OnEnterRoomSuccess(msg); break;
-                }
-            }
-        }
-
-        void OnConnectSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
-        {
-            if (Config.IsConnected.Value == true) return;
-
-            Config.IsConnected.Value = true;
-            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
-            {
-                _connect.RequestRoomList(CurrentPageNumber.Value = 1);
-            });    
-        }
-        void OnSendRoomList(BAC_SERVER_CONNECT_MESSAGE msg)
+        #region Receive Message
+        void OnReceiveRoomList(BAC_SERVER_CONNECT_MESSAGE msg)
         {
             UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
             {
-                JObject obj = JObject.Parse(msg.msg);
-                LastPageNumber.Value = obj["pageNum"].Value<int>();
-
-                RoomDatas.Clear();
-                foreach (var data in obj["RoomList"] as JArray)
-                {
-                    BAC_ROOM_DATA roomData = JsonConvert.DeserializeObject<BAC_ROOM_DATA>(data.ToString());
-                    RoomDatas.Add(roomData);
-                }
-
-                _RequestPrevRoomListCommand.RaiseCanExecuteChanged();
-                _RequestNextRoomListCommand.RaiseCanExecuteChanged();
+                _RequestPrevRoomListCommand?.RaiseCanExecuteChanged();
+                _RequestNextRoomListCommand?.RaiseCanExecuteChanged();
             });
         }
-        void OnCreateRoomSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
-        {
-            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
-            {
-                BAC_ROOM_DATA room_data = JsonConvert.DeserializeObject<BAC_ROOM_DATA>(msg.msg);
-                _connect.EnterRoom(room_data.RoomID);
-            });
-        }
-        void OnEnterRoomSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
-        {
-            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
-            {
-                _game.GoToWaitting();
-            });
-        }
+        #endregion
 
         #region CreateRoom
         DelegateCommand? _CreateRoomCommand;
@@ -126,7 +72,7 @@
                 if (r.Result == ButtonResult.OK)
                 {
                     _connect.CreateRoom(r.Parameters.GetValue<uint>("Capacity"));
-                    _connect.RequestRoomList(CurrentPageNumber.Value);
+                    _connect.RequestRoomList(Model.CurrentPageNumber.Value);
                 }
             }, "DialogWindow");
         }
@@ -140,7 +86,7 @@
             {
                 if (_RequestNextRoomListCommand == null)
                 {
-                    _RequestNextRoomListCommand = new DelegateCommand(()=> _connect.RequestRoomList(CurrentPageNumber.Value += 1), () => { return CurrentPageNumber.Value < LastPageNumber.Value; });
+                    _RequestNextRoomListCommand = new DelegateCommand(()=> _connect.RequestRoomList(Model.CurrentPageNumber.Value += 1), () => { return Model.CurrentPageNumber.Value < Model.LastPageNumber.Value; });
                 }
                 return _RequestNextRoomListCommand;
             }
@@ -152,7 +98,7 @@
                 var k = new DelegateCommand(() => { });
                 if (_RequestPrevRoomListCommand == null)
                 {
-                    _RequestPrevRoomListCommand = new DelegateCommand(() => _connect.RequestRoomList(CurrentPageNumber.Value -= 1), () => { return CurrentPageNumber.Value > 1; });
+                    _RequestPrevRoomListCommand = new DelegateCommand(() => _connect.RequestRoomList(Model.CurrentPageNumber.Value -= 1), () => { return Model.CurrentPageNumber.Value > 1; });
                 }
                 return _RequestPrevRoomListCommand;
             }

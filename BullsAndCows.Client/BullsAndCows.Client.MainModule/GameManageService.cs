@@ -17,9 +17,18 @@ namespace BullsAndCows.Client.MainModule
         {
             this._regionMgr = regionMgr;
         }
+
+        public void GoToLobby()
+        {
+            _regionMgr.RequestNavigate(ClientRegions.MainRegion, "LobbyFrame");
+        }
         public void GoToWaitting()
         {
             _regionMgr.RequestNavigate(ClientRegions.MainRegion, "WaitingFrame");
+        }
+        public void GoToPlaying()
+        {
+            _regionMgr.RequestNavigate(ClientRegions.MainRegion, "PlayingFrame");
         }
     }
 }

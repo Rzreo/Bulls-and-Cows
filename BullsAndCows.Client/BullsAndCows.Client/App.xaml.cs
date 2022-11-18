@@ -29,10 +29,10 @@ namespace BullsAndCows.Client
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             ViewModelLocationProvider.Register<MainWindow, MainWindowVM>();
-            ViewModelLocationProvider.Register<LoginFrame, LoginViewModel>();
+            ViewModelLocationProvider.Register<LobbyFrame, LobbyViewModel>();
             ViewModelLocationProvider.Register<PlayFrame,  PlayViewModel>();
 
-            containerRegistry.RegisterForNavigation<Views.LoginFrame>();
+            containerRegistry.RegisterForNavigation<Views.LobbyFrame>();
             containerRegistry.RegisterForNavigation<Views.WaitingFrame>();
             containerRegistry.RegisterForNavigation<Views.PlayFrame>();
             containerRegistry.RegisterDialogWindow<Views.DialogWindow>(nameof(DialogWindow));
@@ -51,7 +51,7 @@ namespace BullsAndCows.Client
             base.OnInitialized();
 
             var regionManager = this.Container.Resolve<IRegionManager>();
-            regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.LoginFrame));
+            regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.LobbyFrame));
             //regionManager.RequestNavigate(ClientRegions.MainRegion, nameof(Views.PlayFrame));
         }
     }

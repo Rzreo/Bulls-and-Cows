@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace BullsAndCows.Client.ViewModels
 {
+    using BullsAndCows.Client.MainModule;
     using BullsAndCows.Infrastructure.BaseClass;
-
-    class LoginViewModel : ViewModelBase
+    internal class WaitingFrameViewModel : ViewModelBase
     {
-        public LoginViewModel()
+        WaitingStateModel _model;
+        public WaitingFrameViewModel(WaitingStateModel model)
         {
+            _model = model;
         }
     }
 }

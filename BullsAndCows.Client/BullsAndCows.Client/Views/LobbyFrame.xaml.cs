@@ -20,16 +20,16 @@ namespace BullsAndCows.Client.Views
     using Prism.Ioc;
     using Prism.Regions;
 
-    public partial class LoginFrame : UserControl
+    public partial class LobbyFrame : UserControl
     {
-        public LoginFrame(IContainerProvider ioc)
+        public LobbyFrame(IContainerProvider ioc)
         {
             InitializeComponent();
 
             Loaded += (s, e) =>
             {
                 var regionManager = ioc.Resolve<IRegionManager>();
-                regionManager.RequestNavigate(ClientRegions.Login_PART1, nameof(Views.LoginMain));
+                regionManager.RequestNavigate(ClientRegions.Login_PART1, nameof(Views.LobbyMain));
             };
         }
     }

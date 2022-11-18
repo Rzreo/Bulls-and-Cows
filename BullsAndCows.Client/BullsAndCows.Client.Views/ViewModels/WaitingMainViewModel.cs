@@ -18,13 +18,13 @@ namespace BullsAndCows.Client.Views.ViewModels
     using Reactive.Bindings;
     using System.Windows.Data;
 
-    class ParticipantListsViewModel : ViewModelBase
+    class WaitingMainViewModel : ViewModelBase
     {
         IDDSService _dds;
         IConfigService _config;
         object _lock = new object();
         public ReactiveCollection<BAC_PARTICIPANT_DATA> Participants { get; private set; }
-        public ParticipantListsViewModel(IRegionManager regionManager, IDDSService dds, IConfigService config)
+        public WaitingMainViewModel(IRegionManager regionManager, IDDSService dds, IConfigService config)
         {
             _dds = dds;
             _config = config;

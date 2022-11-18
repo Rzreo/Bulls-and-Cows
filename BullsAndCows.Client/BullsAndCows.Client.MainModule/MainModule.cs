@@ -15,6 +15,9 @@
         {
             containerRegistry.RegisterSingleton<IServerConnectingService, ServerConnectingService>();
             containerRegistry.RegisterSingleton<IGameManageService, GameManageService>();
+            containerRegistry.RegisterSingleton<LobbyStateModel>();
+            containerRegistry.RegisterSingleton<WaitingStateModel>();
+            containerRegistry.RegisterSingleton<PlayStateModel>();
         }
     }
 }

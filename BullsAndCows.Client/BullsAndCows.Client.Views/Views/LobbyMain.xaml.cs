@@ -15,14 +15,11 @@ using System.Windows.Shapes;
 
 namespace BullsAndCows.Client.Views.Views
 {
-    /// <summary>
-    /// Interaction logic for ParticipantListsView.xaml
-    /// </summary>
-    public partial class ParticipantListsView : UserControl
+    public partial class LobbyMain : UserControl
     {
-        public ParticipantListsView()
+        public LobbyMain()
         {
-            //InitializeComponent();
+            InitializeComponent();
         }
     }
 }

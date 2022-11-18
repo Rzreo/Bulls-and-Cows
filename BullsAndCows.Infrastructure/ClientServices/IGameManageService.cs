@@ -8,6 +8,8 @@ namespace BullsAndCows.Infrastructure.ClientServices
 {
     public interface IGameManageService
     {
+        void GoToLobby();
         void GoToWaitting();
+        void GoToPlaying();
     }
 }

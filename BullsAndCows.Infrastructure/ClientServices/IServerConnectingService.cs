@@ -13,6 +13,7 @@ namespace BullsAndCows.Infrastructure.ClientServices
         void CreateRoom(uint MaxParticipants);
         void EnterRoom(uint id);
         void RequestRoomList(int nPage);
+        void RequestRoomData(uint id);
 
         event Action<object> ReceiveServerMessage;
 
