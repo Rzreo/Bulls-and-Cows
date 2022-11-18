@@ -72,6 +72,14 @@
         </StackPanel>
 
         <StackPanel Grid.Column="2" Grid.Row="0">
+            <DataGrid AutoGenerateColumns="False" Width="290" Height="310" HorizontalAlignment="Left" ItemsSource="{Binding PlayingList}"  SelectedItem="{Binding SelectedJoinLeft.Value}" VerticalAlignment="Top" VerticalScrollBarVisibility="Visible">
+                <DataGrid.Columns>
+                    <DataGridTextColumn CellStyle="{StaticResource DataGridCellCentered}" HeaderStyle="{StaticResource CenterGridHeaderStyle}" Header="실행중인 방" Width="270"  Binding="{Binding Path=RoomData.RoomID}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
+
+        <StackPanel Grid.Column="3" Grid.Row="0">
             <avalonEdit:TextEditor Grid.Column="0" Width="290" Height="330" x:Name="JoinableRoomInfo" ShowLineNumbers="True" Document="{Binding JoinDocumentLeft.Value}" IsReadOnly="True" Padding="10" />
         </StackPanel>
 

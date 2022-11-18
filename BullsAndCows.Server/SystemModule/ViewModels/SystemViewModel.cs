@@ -174,6 +174,7 @@
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CREATE_ROOM) RoomMake(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_LIST) SendRoomList(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM) EnterRoom(data, _clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.CONNECTTING) ResendRoomData(data, _clientid);
         }
 
         struct RoomListContainer//페이지 전송을 위한 구조체
@@ -307,6 +308,67 @@
                 );
             }
             JoinableList.Remove(playRoom);
+        }
+        public void ResendRoomData(BAC_CLIENT_CONNECT_MESSAGE data, string _clientId)
+        {
+            if (!Int32.TryParse(data.msg, out int Rnum)) return;
+
+            if(Rnum == 0)
+            {
+                bool exist = false;
+                BAC_ROOM_DATA RoomData = new BAC_ROOM_DATA();
+                foreach(RoomInfoData room in JoinableList)
+                {
+                    if(room.Clients.Contains(_clientId)) { exist= true; RoomData = room.RoomData; break; }
+                }
+                if (!exist)
+                {
+                    foreach (RoomInfoData room in PlayingList)
+                    {
+                        if (room.Clients.Contains(_clientId)) { exist = true; RoomData = room.RoomData; break; }
+                    }
+                }
+                if (exist)
+                {
+                    string ans = Newtonsoft.Json.JsonConvert.SerializeObject(RoomData);
+                    dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
+                            new BAC_SERVER_CONNECT_MESSAGE
+                            {
+                                type = SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS,
+                                msg = ans
+                            }
+                        );
+                }
+                return;
+            }
+            else
+            {
+                bool exist = false;
+                BAC_ROOM_DATA RoomData = new BAC_ROOM_DATA();
+                foreach (RoomInfoData room in JoinableList)
+                {
+                    if (room.RoomData.RoomID == (uint)Rnum) { exist = true; RoomData = room.RoomData; break; }
+                }
+                if (!exist)
+                {
+                    foreach (RoomInfoData room in PlayingList)
+                    {
+                        if (room.RoomData.RoomID == (uint)Rnum) { exist = true; RoomData = room.RoomData; break; }
+                    }
+                }
+                if (exist)
+                {
+                    string ans = Newtonsoft.Json.JsonConvert.SerializeObject(RoomData);
+                    dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
+                            new BAC_SERVER_CONNECT_MESSAGE
+                            {
+                                type = SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS,
+                                msg = ans
+                            }
+                        );
+                }
+                return;
+            }
         }
 
         private DelegateCommand msgsend;
