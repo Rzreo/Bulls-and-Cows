@@ -164,7 +164,7 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
             </participant_qos>
         </qos_profile>
 
-		<qos_profile name="BAC_Durable_Writer_Profile">
+		<qos_profile name="BAC_Durable_Profile">
 			<datawriter_qos >
 				<durability_service>
 					<history_kind>KEEP_ALL_HISTORY_QOS</history_kind>
@@ -199,6 +199,34 @@ XML" chapter in the RTI Connext DDS Core Libraries User's Manual.
 				</resource_limits>
 				
 			</datawriter_qos>
+			
+			<datareader_qos >
+				<durability>
+					<kind>TRANSIENT_LOCAL_DURABILITY_QOS</kind>
+				</durability>
+
+				<history>
+					<kind>KEEP_ALL_HISTORY_QOS</kind>
+				</history>
+
+				<reliability>
+					<kind>RELIABLE_RELIABILITY_QOS</kind>
+					<max_blocking_time>
+						<sec>1</sec>
+						<nanosec>DURATION_ZERO_NSEC</nanosec>
+					</max_blocking_time>
+				</reliability>
+
+				<resource_limits>
+					<max_samples>LENGTH_UNLIMITED</max_samples>
+					<max_instances>LENGTH_UNLIMITED</max_instances>
+					<max_samples_per_instance>LENGTH_UNLIMITED</max_samples_per_instance>
+					<initial_samples>32</initial_samples>
+					<initial_instances>32</initial_instances>
+					<instance_hash_buckets>1</instance_hash_buckets>
+				</resource_limits>
+
+			</datareader_qos>
 		</qos_profile>
 		
     </qos_library>
