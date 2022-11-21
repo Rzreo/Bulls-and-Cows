@@ -435,7 +435,7 @@
                 }
                 if (exist)
                 {
-                    BAC_GAME_RESULT_DATA endData = new BAC_GAME_RESULT_DATA() { TryCount = "" , WinnerClientID = _clientId };
+                    BAC_GAME_RESULT_DATA endData = new BAC_GAME_RESULT_DATA() { TryCount = output.tryCount.ToString() , WinnerClientID = _clientId };
                     string ans2 = JsonConvert.SerializeObject(endData);
                     foreach (string cid in room1.Clients)
                     {
