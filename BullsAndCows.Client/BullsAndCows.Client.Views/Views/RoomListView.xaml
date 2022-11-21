@@ -19,7 +19,7 @@
         <ListView Grid.Row="0" ItemsSource="{Binding Model.RoomDatas}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-       
+					<prism:InvokeCommandAction Command="{Binding EnterRoomCommand}"/> <!---TriggerParameterPath="MouseButtonEventArgs"-->	
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <ListView.ItemTemplate>
@@ -59,7 +59,7 @@
                 <TextBlock Text="Page : "/>
                 <TextBlock Text="{Binding Model.CurrentPageNumber.Value}"/>
             </StackPanel>
-            <Button     Grid.Column="3" Command="{Binding RequestNextRoomListCommand}">
+            <Button Grid.Column="3" Command="{Binding RequestNextRoomListCommand}">
                 <Button.CommandParameter>
                     <sys:Int32>1</sys:Int32>
                 </Button.CommandParameter>
