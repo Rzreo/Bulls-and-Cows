@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>87ac1051-1bc3-41e2-a672-eed66e36512e</ProjectGuid>
+    <ProjectGuid>{87AC1051-1BC3-41E2-A672-EED66E36512E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GameModel</RootNamespace>
@@ -31,24 +31,40 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="GameModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Bulls-and-Cows\RTIWrapper\RTIWrapper.csproj">
+      <Project>{02f44350-cac1-4f69-82da-28d0f180946a}</Project>
+      <Name>RTIWrapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Style\BullsAndCows.Infrastructure.Style.csproj">
+      <Project>{5c247225-c2f7-4c9f-803d-1d78db601a5b}</Project>
+      <Name>BullsAndCows.Infrastructure.Style</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure.Utils\BullsAndCows.Infrastructure.Utils.csproj">
+      <Project>{f3957b95-008f-4eee-b28e-b61614d171a9}</Project>
+      <Name>BullsAndCows.Infrastructure.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BullsAndCows.Infrastructure\BullsAndCows.Infrastructure.csproj">
+      <Project>{6c694380-4b17-4956-b4df-e3f7f0d5219d}</Project>
+      <Name>BullsAndCows.Infrastructure</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Types\Types.vcxproj">
+      <Project>{282c3a69-fd93-4ff3-927d-7477e6efd452}</Project>
+      <Name>Types</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>
