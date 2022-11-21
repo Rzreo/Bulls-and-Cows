@@ -53,12 +53,6 @@ namespace BullsAndCows.Client.MainModule
         #endregion
 
         public event Action<BAC_GAME_RESULT_DATA>? GameEnded;
-
-        public void SendInput(int a, int b, int c)
-        {
-            _connect.SendGameInput(new Infrastructure.BAC_GAME_INPUT_DATA() { A = a, B = b, C = c });
-        }
-
         public event Action<BAC_SERVER_CONNECT_MESSAGE>? ReceivedGameOutputData;
         void ReceiveMessageOnUI(object s)
         {
@@ -81,6 +75,10 @@ namespace BullsAndCows.Client.MainModule
             RESULT = JsonConvert.DeserializeObject<BAC_GAME_RESULT_DATA>(msg.msg);
             bWin = RESULT.WinnerClientID == _config.ClientID();
             GameEnded?.Invoke(RESULT);
+        }
+        public void SendInput(int a, int b, int c)
+        {
+            _connect.SendGameInput(new Infrastructure.BAC_GAME_INPUT_DATA() { A = a, B = b, C = c });
         }
     }
 }
