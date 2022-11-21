@@ -25,6 +25,7 @@ namespace BullsAndCows.Client.Views.ViewModels
             this.Model = model;
 
             model.ReceivedRoomList += OnReceiveRoomList;
+            model.ConnectedChanged += (_) => EnterRoomCommand.RaiseCanExecuteChanged();
         }
 
         #region EnterRoom

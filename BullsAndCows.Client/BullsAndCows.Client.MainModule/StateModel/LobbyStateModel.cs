@@ -57,7 +57,7 @@
 
         void UpdateRoomData()
         {
-            while (bValidState && _connect.IsConnected.Value)
+            while (bValidState)
             {
                 Thread.Sleep(500);
                 _connect.RequestRoomList(CurrentPageNumber.Value);

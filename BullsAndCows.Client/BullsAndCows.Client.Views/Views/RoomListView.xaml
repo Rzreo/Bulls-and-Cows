@@ -19,7 +19,7 @@
         <ListView Grid.Row="0" ItemsSource="{Binding Model.RoomDatas}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
-       
+                    <prism:InvokeCommandAction Command="{Binding EnterRoomCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <ListView.ItemTemplate>
