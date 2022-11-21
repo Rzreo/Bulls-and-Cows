@@ -61,7 +61,8 @@ namespace GameModel
             if (!RoomInfo[roomId].Clients.ContainsKey(clientId)) return gameOutput;
 
             RoomInfo[roomId].Clients[clientId].BeforeNum = input;
-            int tryCnt = RoomInfo[roomId].Clients[clientId].TryCount + 1;
+            int tryCnt = ++RoomInfo[roomId].Clients[clientId].TryCount;
+            System.Diagnostics.Debug.WriteLine(tryCnt.ToString() + RoomInfo[roomId].Clients[clientId].TryCount);
             string num = RoomInfo[roomId].CorrectNum;
             int s = 0, b = 0, o = 0;
             for (int i = 0; i < 3; i++)

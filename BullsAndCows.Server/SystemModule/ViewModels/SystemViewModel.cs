@@ -18,11 +18,13 @@
     using System.Threading;
     using GameModel;
     using Newtonsoft.Json;
+    using static SystemModule.ViewModels.SystemViewModel;
 
     public class SystemViewModel : BindableBase, IDisposable
     {
         public class RoomInfoData
         {
+            public string Host { get; set; }
             public BAC_ROOM_DATA RoomData { get; set; }
             public List<string> Clients { get; set; }
         }
@@ -164,7 +166,7 @@
 
         public void OpenRoomInfo(RoomInfoData container, bool left)
         {
-            string text = $"RoomID: {container.RoomData.RoomID}\nMaxMembers: {container.RoomData.Max_Num_Participants}\nCurmembers: {container.RoomData.Cur_Num_Participants}\nClients: \n";
+            string text = $"Host: {container.Host}\nRoomID: {container.RoomData.RoomID}\nMaxMembers: {container.RoomData.Max_Num_Participants}\nCurmembers: {container.RoomData.Cur_Num_Participants}\nClients: \n";
             foreach (string s in container.Clients) { text += $"{s}\n"; }
             if (left) JoinDocumentLeft.Value.Text = text;
             //else PlayingDocumentRight.Value.Text = text;
@@ -230,7 +232,9 @@
         private void RoomMake(BAC_CLIENT_CONNECT_MESSAGE d, string _clientid) //방 생성
         {
             if (!Int32.TryParse(d.msg, out int mem)) return;
-            RoomInfoData data = new RoomInfoData() { RoomData = new BAC_ROOM_DATA { RoomID=(uint)RoomCount++, Max_Num_Participants = (uint)mem, Cur_Num_Participants = 0} , Clients = new List<string>() };
+            foreach (RoomInfoData r in JoinableList) if (r.Host.Equals(_clientid)) return;
+            foreach (RoomInfoData r in PlayingList) if (r.Host.Equals(_clientid)) return;
+            RoomInfoData data = new RoomInfoData() { Host = _clientid, RoomData = new BAC_ROOM_DATA {RoomID=(uint)RoomCount++, Max_Num_Participants = (uint)mem, Cur_Num_Participants = 0} , Clients = new List<string>() };
             JoinableList.Add(data);
             System.Diagnostics.Debug.WriteLine(JoinableList.Count);
             string ans = Newtonsoft.Json.JsonConvert.SerializeObject(data.RoomData);
@@ -259,6 +263,10 @@
                 Clients _client = new Clients() { ClientInfo = data.CLIENT_ID };
                 ConnectList.Add(_client);
                 ClientRoomPair.Add(data.CLIENT_ID, 0);
+                UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
+                {
+                    dds.RegisterEvent(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + data.CLIENT_ID, d => ReceiveClientMsg(d as BAC_CLIENT_CONNECT_MESSAGE, data.CLIENT_ID));
+                });
             }
             SendJoinableList(data.CLIENT_ID);
         }
@@ -273,7 +281,6 @@
                         msg = "connect success"
                     }
                 );
-                dds.RegisterEvent(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + clientId, data => ReceiveClientMsg(data as BAC_CLIENT_CONNECT_MESSAGE, clientId));
             });
 
         }
@@ -421,16 +428,16 @@
             if (output.nStrike == 3)
             {
                 bool exist = false;
-                List<string> cs = new List<string>();
+                RoomInfoData room1 = new RoomInfoData();
                 foreach (RoomInfoData room in PlayingList)
                 {
-                    if (room.RoomData.RoomID == (uint)ClientRoomPair[_clientId]) { exist = true; cs = room.Clients; break; }
+                    if (room.RoomData.RoomID == (uint)ClientRoomPair[_clientId]) { exist = true; room1 = room; break; }
                 }
                 if (exist)
                 {
                     BAC_GAME_RESULT_DATA endData = new BAC_GAME_RESULT_DATA() { TryCount = "" , WinnerClientID = _clientId };
                     string ans2 = JsonConvert.SerializeObject(endData);
-                    foreach (string cid in cs)
+                    foreach (string cid in room1.Clients)
                     {
                         dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + cid,
                                 new BAC_SERVER_CONNECT_MESSAGE
@@ -440,6 +447,7 @@
                                 }
                             );
                     }
+                    PlayingList.Remove(room1);
                 }
             }
 
