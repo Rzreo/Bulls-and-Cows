@@ -293,7 +293,7 @@
                         break;
                     }
                 }
-                if (exist)
+                if (exist && !playRoom.Clients.Contains(clientId))
                 {
                     playRoom.RoomData = new BAC_ROOM_DATA() { RoomID = playRoom.RoomData.RoomID, Max_Num_Participants = playRoom.RoomData.Max_Num_Participants, Cur_Num_Participants = playRoom.RoomData.Cur_Num_Participants + 1 };
                     playRoom.Clients.Add(clientId);
@@ -409,6 +409,14 @@
             BAC_GAME_OUTPUT_DATA output = model.CountResult(ClientRoomPair[_clientId], _clientId, str);
             string ans = JsonConvert.SerializeObject(output);
 
+            dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
+                           new BAC_SERVER_CONNECT_MESSAGE
+                           {
+                               type = SERVER_CONNECT_MESSAGE_TYPE.SEND_GAME_OUTPUT_DATA,
+                               msg = ans
+                           }
+                   );
+
             /////////////게임 종료 메세지
             if (output.nStrike == 3)
             {
@@ -434,17 +442,8 @@
                     }
                 }
             }
-            else
-            {
-                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
-                        new BAC_SERVER_CONNECT_MESSAGE
-                        {
-                            type = SERVER_CONNECT_MESSAGE_TYPE.SEND_GAME_OUTPUT_DATA,
-                            msg = ans
-                        }
-                    );
 
-            }
+           
         }
 
         private DelegateCommand msgsend;

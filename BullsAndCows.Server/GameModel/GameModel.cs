@@ -56,7 +56,7 @@ namespace GameModel
 
         public BAC_GAME_OUTPUT_DATA CountResult(int roomId, string clientId, string input)
         {
-            BAC_GAME_OUTPUT_DATA gameOutput = new BAC_GAME_OUTPUT_DATA() { nStrike = -1, nBall = -1, nOut = -1 };
+            BAC_GAME_OUTPUT_DATA gameOutput = new BAC_GAME_OUTPUT_DATA() { nStrike = -1, nBall = -1, nOut = -1, tryCount = 0 };
             if (!RoomInfo.ContainsKey(roomId)) return gameOutput;
             if (!RoomInfo[roomId].Clients.ContainsKey(clientId)) return gameOutput;
 
@@ -71,7 +71,7 @@ namespace GameModel
                 else o++;
             }
             RoomInfo[roomId].Clients[clientId].History.Add($"\n시도횟수:{tryCnt}  입력숫자:{input}  S:{s} B:{b} O:{o}");
-            gameOutput = new BAC_GAME_OUTPUT_DATA() { nStrike=s, nBall=b ,nOut=o };
+            gameOutput = new BAC_GAME_OUTPUT_DATA() { nStrike=s, nBall=b ,nOut=o, tryCount = tryCnt };
             return gameOutput;
         }
     }
