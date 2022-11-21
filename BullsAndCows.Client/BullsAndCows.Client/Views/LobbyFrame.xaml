@@ -9,6 +9,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ContentControl prism:RegionManager.RegionName="{x:Static infra:ClientRegions.Login_PART1}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ContentControl Grid.Column="0" prism:RegionManager.RegionName="{x:Static infra:ClientRegions.Lobby_PART1}"/>
+        <ContentControl Grid.Column="1" prism:RegionManager.RegionName="{x:Static infra:ClientRegions.Lobby_PART2}"/>
     </Grid>
 </UserControl>

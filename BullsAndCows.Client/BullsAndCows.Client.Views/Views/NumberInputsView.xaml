@@ -6,10 +6,13 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d"  >
+    <UserControl.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding DoCommand.Cmds}"/>
+    </UserControl.InputBindings>
     <StackPanel Orientation="Horizontal" Margin="5">
-        <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_A}"/>
-        <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_B}" />
-        <ComboBox IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_C}" />
+        <ComboBox Width="50" IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_A}"/>
+        <ComboBox Width="50" IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_B}" />
+        <ComboBox Width="50" IsEditable="True" ItemsSource="{Binding Numbers}" SelectedItem="{Binding IN_C}" />
         <Button Background="#666666" Foreground="White" Content="Do" Command="{Binding DoCommand.Cmds}" CommandParameter="{Binding }"/>
         <Button Content="{Binding ViewToggleName}"  Command="{Binding ChangeLogViewCommand}"/>
     </StackPanel>

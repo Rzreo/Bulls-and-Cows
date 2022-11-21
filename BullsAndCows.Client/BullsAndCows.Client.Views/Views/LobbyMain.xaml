@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:local="clr-namespace:BullsAndCows.Client.Views.Views"
              xmlns:vm="clr-namespace:BullsAndCows.Client.Views.ViewModels"
@@ -28,70 +26,8 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <bac:RoomDataShowConverter x:Key="RoomDataConverter" />
     </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="20" />
-            </Grid.RowDefinitions>
-            <ListBox Grid.Row="0" ItemsSource="{Binding Model.RoomDatas}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type bac:BAC_ROOM_DATA}">
-                        <StackPanel Orientation="Horizontal" Width="100">
-                            <TextBlock Text="{Binding Converter={StaticResource RoomDataConverter}}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel/>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <prism:InvokeCommandAction Command="{Binding EnterRoomCommand}" /><!---TriggerParameterPath="MouseButtonEventArgs"-->
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ListBox>
-            <Grid Grid.Row="1">
-                <Grid.Resources>
-                    <Style TargetType="Button">
-                        <Setter Property="Margin" Value="5,3"/>
-                        <Setter Property="Padding" Value="0"/>
-                    </Style>
-                </Grid.Resources>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Button     Grid.Column="1" Command="{Binding RequestPrevRoomListCommand}">
-                    <Button.CommandParameter>
-                        <sys:Int32>-1</sys:Int32>
-                    </Button.CommandParameter>
-                    <TextBlock Text="&lt;"/> 
-                </Button>
-                <StackPanel Grid.Column="2" Orientation="Horizontal">
-                    <TextBlock Text="Page : "/>
-                    <TextBlock Text="{Binding Model.CurrentPageNumber.Value}"/>
-                </StackPanel>
-                <Button     Grid.Column="3" Command="{Binding RequestNextRoomListCommand}">
-                    <Button.CommandParameter>
-                        <sys:Int32>1</sys:Int32>
-                    </Button.CommandParameter>
-                    <TextBlock Text="&gt;"/>
-                </Button>
-            </Grid>
-        </Grid>
         <StackPanel Grid.Column="1">
             <TextBlock Style="{StaticResource ConnectVisible}"/>
             <Button Content="Create Room" Command="{Binding CreateRoomCommand}"/>

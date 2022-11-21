@@ -38,18 +38,15 @@ namespace BullsAndCows.Client.MainModule
         #region StateModel
         protected override void EnterState()
         {
-            base.EnterState();
-
-            bValidState = true;
             _connect.ReceiveServerMessageOnUI += ReceiveMessageOnUI;
+            
+            base.EnterState();
         }
         protected override void ExitState()
         {
             base.ExitState();
 
             _connect.ReceiveServerMessageOnUI -= ReceiveMessageOnUI;
-            bValidState = false;
-
             bWin = false;
         }
         public override bool bValidState { get; protected set; }
@@ -61,7 +58,6 @@ namespace BullsAndCows.Client.MainModule
         {
             _connect.SendGameInput(new Infrastructure.BAC_GAME_INPUT_DATA() { A = a, B = b, C = c });
         }
-
 
         public event Action<BAC_SERVER_CONNECT_MESSAGE>? ReceivedGameOutputData;
         void ReceiveMessageOnUI(object s)

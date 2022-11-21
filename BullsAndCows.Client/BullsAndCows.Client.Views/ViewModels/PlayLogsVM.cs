@@ -17,7 +17,7 @@ namespace BullsAndCows.Client.Views.ViewModels
         //IRegionManager _regionManager;
         //MyModel _model;
         public PlayStateModel Model { get; private set; }
-        public PlayLogsVM(IRegionManager regionManager, PlayStateModel model)
+        public PlayLogsVM(PlayStateModel model)
         {
             Model = model;
         }

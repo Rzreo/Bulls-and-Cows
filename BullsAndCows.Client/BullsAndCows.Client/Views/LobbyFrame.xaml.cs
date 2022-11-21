@@ -29,7 +29,8 @@ namespace BullsAndCows.Client.Views
             Loaded += (s, e) =>
             {
                 var regionManager = ioc.Resolve<IRegionManager>();
-                regionManager.RequestNavigate(ClientRegions.Login_PART1, nameof(Views.LobbyMain));
+                regionManager.RequestNavigate(ClientRegions.Lobby_PART1, nameof(Views.RoomListView)); ;
+                regionManager.RequestNavigate(ClientRegions.Lobby_PART2, nameof(Views.LobbyMain));
             };
         }
     }

@@ -5,7 +5,18 @@
 
 
         <ResourceDictionary Source="/BullsAndCows.Infrastructure.Style;component/Themes/CircleText.xaml"/>
-
+        <ResourceDictionary>
+            <Style TargetType="TextBlock">
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="FontSize" Value="15"/>
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="FontSize" Value="15"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

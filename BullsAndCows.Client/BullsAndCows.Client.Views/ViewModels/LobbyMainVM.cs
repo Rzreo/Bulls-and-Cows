@@ -25,12 +25,12 @@
     using BullsAndCows.Client.Dialogs.Views;
     using BullsAndCows.Client.MainModule;
 
-    class LoginMainViewModel : ViewModelBase
+    class LobbyMainVM : ViewModelBase
     {
         IDialogService _dialog;
         public IServerConnectingService Connect { get; private set; }
         public LobbyStateModel Model { get; private set; }
-        public LoginMainViewModel(LobbyStateModel model, IDialogService dialog, IServerConnectingService connect)
+        public LobbyMainVM(LobbyStateModel model, IDialogService dialog, IServerConnectingService connect)
         {
             this._dialog = dialog;
             this.Connect = connect;
@@ -100,29 +100,6 @@
                     _RequestPrevRoomListCommand = new DelegateCommand(() => Connect.RequestRoomList(Model.CurrentPageNumber.Value -= 1), () => { return Model.CurrentPageNumber.Value > 1; });
                 }
                 return _RequestPrevRoomListCommand;
-            }
-        }
-        #endregion
-
-        #region EnterRoom
-        DelegateCommand<MouseButtonEventArgs>? _EnterRoomCommand;
-        public DelegateCommand<MouseButtonEventArgs> EnterRoomCommand
-        {
-            get
-            {
-                if (_EnterRoomCommand == null)
-                {
-                    _EnterRoomCommand = new DelegateCommand<MouseButtonEventArgs>(EnterRoom, (_) => { return Connect.IsConnected.Value; });
-                }
-                return _EnterRoomCommand;
-            }
-        }
-        void EnterRoom(MouseButtonEventArgs args)
-        {
-            if(args.Source is Selector selector && selector.SelectedItem != null)
-            {
-                var item = (BAC_ROOM_DATA)selector.SelectedItem;
-                Connect.EnterRoom(item.RoomID);
             }
         }
         #endregion

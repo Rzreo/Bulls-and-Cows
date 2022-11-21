@@ -12,7 +12,9 @@ namespace BullsAndCows.Infrastructure.Utils.Regions
     public static class ClientRegions
     {
         public const string MainRegion = "MainRegion";
-        public const string Login_PART1 = "Login_PART1";
+
+        public const string Lobby_PART1 = "Lobby_PART1";
+        public const string Lobby_PART2 = "Lobby_PART2";
 
         public const string Waiting_ParticipantsListRegion = "Waiting_ParticipantsListRegion";
 

@@ -1,6 +1,4 @@
-﻿using BullsAndCows.Infrastructure.Utils.Regions;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +15,12 @@ using System.Windows.Shapes;
 
 namespace BullsAndCows.Client.Views.Views
 {
-    public partial class LobbyMain : UserControl
+    /// <summary>
+    /// Interaction logic for RoomListView.xaml
+    /// </summary>
+    public partial class RoomListView : UserControl
     {
-        public LobbyMain()
+        public RoomListView()
         {
             InitializeComponent();
         }

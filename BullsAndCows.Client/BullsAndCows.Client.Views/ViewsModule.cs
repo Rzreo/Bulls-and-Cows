@@ -12,7 +12,8 @@
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            ViewModelLocationProvider.Register<Views.LobbyMain, ViewModels.LoginMainViewModel>();
+            ViewModelLocationProvider.Register<Views.LobbyMain, ViewModels.LobbyMainVM>();
+            ViewModelLocationProvider.Register<Views.RoomListView, ViewModels.RoomListVM>();
             ViewModelLocationProvider.Register<Views.WaitingMain, ViewModels.WaitingMainViewModel>();
             ViewModelLocationProvider.Register<Views.PlayView, ViewModels.PlayVM>();
             ViewModelLocationProvider.Register<Views.NumberInputsView, ViewModels.NumberInputsVM>();
@@ -20,6 +21,7 @@
             //ViewModelLocationProvider.Register<Views.MessageSender, ViewModels.MessageSenderViewModel>();
             
             containerRegistry.RegisterForNavigation<Views.LobbyMain>();
+            containerRegistry.RegisterForNavigation<Views.RoomListView>();
             containerRegistry.RegisterForNavigation<Views.WaitingMain>();
             containerRegistry.RegisterForNavigation<Views.PlayView>();
             containerRegistry.RegisterForNavigation<Views.NumberInputsView>();

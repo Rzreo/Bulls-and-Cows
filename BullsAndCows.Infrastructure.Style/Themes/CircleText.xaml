@@ -24,7 +24,7 @@
         <Setter Property="ContentTemplate" >
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
