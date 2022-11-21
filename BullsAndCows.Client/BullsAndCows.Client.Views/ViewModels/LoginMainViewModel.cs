@@ -27,18 +27,17 @@
 
     class LoginMainViewModel : ViewModelBase
     {
-        IServerConnectingService _connect;
         IDialogService _dialog;
-        public IConfigService Config { get; private set; }
+        public IServerConnectingService Connect { get; private set; }
         public LobbyStateModel Model { get; private set; }
-        public LoginMainViewModel(LobbyStateModel model, IDialogService dialog, IServerConnectingService connect, IConfigService config)
+        public LoginMainViewModel(LobbyStateModel model, IDialogService dialog, IServerConnectingService connect)
         {
-            this._connect = connect;
             this._dialog = dialog;
-            this.Config = config;
+            this.Connect = connect;
             this.Model = model;
 
             model.ReceivedRoomList += OnReceiveRoomList;
+            model.ConnectedChanged += (_) => CreateRoomCommand.RaiseCanExecuteChanged();
         }
 
         #region Receive Message
@@ -60,7 +59,7 @@
             {
                 if (_CreateRoomCommand == null)
                 {
-                    _CreateRoomCommand = new DelegateCommand(CreateRoom, () => { return true; });
+                    _CreateRoomCommand = new DelegateCommand(CreateRoom, () => { return Connect.IsConnected.Value; });
                 }
                 return _CreateRoomCommand;
             }
@@ -71,8 +70,8 @@
             {
                 if (r.Result == ButtonResult.OK)
                 {
-                    _connect.CreateRoom(r.Parameters.GetValue<uint>("Capacity"));
-                    _connect.RequestRoomList(Model.CurrentPageNumber.Value);
+                    Connect.CreateRoom(r.Parameters.GetValue<uint>("Capacity"));
+                    Connect.RequestRoomList(Model.CurrentPageNumber.Value);
                 }
             }, "DialogWindow");
         }
@@ -86,7 +85,7 @@
             {
                 if (_RequestNextRoomListCommand == null)
                 {
-                    _RequestNextRoomListCommand = new DelegateCommand(()=> _connect.RequestRoomList(Model.CurrentPageNumber.Value += 1), () => { return Model.CurrentPageNumber.Value < Model.LastPageNumber.Value; });
+                    _RequestNextRoomListCommand = new DelegateCommand(()=> Connect.RequestRoomList(Model.CurrentPageNumber.Value += 1), () => { return Model.CurrentPageNumber.Value < Model.LastPageNumber.Value; });
                 }
                 return _RequestNextRoomListCommand;
             }
@@ -98,7 +97,7 @@
                 var k = new DelegateCommand(() => { });
                 if (_RequestPrevRoomListCommand == null)
                 {
-                    _RequestPrevRoomListCommand = new DelegateCommand(() => _connect.RequestRoomList(Model.CurrentPageNumber.Value -= 1), () => { return Model.CurrentPageNumber.Value > 1; });
+                    _RequestPrevRoomListCommand = new DelegateCommand(() => Connect.RequestRoomList(Model.CurrentPageNumber.Value -= 1), () => { return Model.CurrentPageNumber.Value > 1; });
                 }
                 return _RequestPrevRoomListCommand;
             }
@@ -113,7 +112,7 @@
             {
                 if (_EnterRoomCommand == null)
                 {
-                    _EnterRoomCommand = new DelegateCommand<MouseButtonEventArgs>(EnterRoom, (_) => { return true; });
+                    _EnterRoomCommand = new DelegateCommand<MouseButtonEventArgs>(EnterRoom, (_) => { return Connect.IsConnected.Value; });
                 }
                 return _EnterRoomCommand;
             }
@@ -123,7 +122,7 @@
             if(args.Source is Selector selector && selector.SelectedItem != null)
             {
                 var item = (BAC_ROOM_DATA)selector.SelectedItem;
-                _connect.EnterRoom(item.RoomID);
+                Connect.EnterRoom(item.RoomID);
             }
         }
         #endregion

@@ -18,6 +18,7 @@ namespace BullsAndCows.Infrastructure.ClientServices
 
         event Action<object> ReceiveServerMessage;
         event Action<object> ReceiveServerMessageOnUI;
+        ReactiveProperty<bool> IsConnected { get; }
 
     }
 }

@@ -12,6 +12,7 @@
     using Newtonsoft.Json.Linq;
     using System.Windows.Interop;
     using System.Windows;
+    using System.ComponentModel;
 
     public class LobbyStateModel : StateModel
     {
@@ -20,8 +21,8 @@
         object _lock = new object();
         Task? background;
         public ObservableCollection<BAC_ROOM_DATA> RoomDatas { get; private set; }
-        public ReactiveProperty<int> CurrentPageNumber { get; private set; } = new ReactiveProperty<int>() { Value = 0 };
-        public ReactiveProperty<int> LastPageNumber { get; private set; } = new ReactiveProperty<int>() { Value = 0 };
+        public ReactiveProperty<int> CurrentPageNumber { get; private set; } = new ReactiveProperty<int>() { Value = 1 };
+        public ReactiveProperty<int> LastPageNumber { get; private set; } = new ReactiveProperty<int>() { Value = 1 };
         public LobbyStateModel(IServerConnectingService connect, IGameManageService game)
         {
             this._connect = connect;
@@ -37,7 +38,8 @@
         #region StateModel
         protected override void EnterState()
         {
-            _connect.ReceiveServerMessageOnUI += ReceiveMessageOnUI;           
+            _connect.IsConnected.PropertyChanged += OnConnectedChange;
+            _connect.ReceiveServerMessageOnUI += ReceiveMessageOnUI;
             background = Task.Factory.StartNew(UpdateRoomData);
 
             base.EnterState();
@@ -47,6 +49,7 @@
             base.ExitState();
 
             _connect.ReceiveServerMessageOnUI -= ReceiveMessageOnUI;
+            _connect.IsConnected.PropertyChanged -= OnConnectedChange;
             background?.Wait();
         }
         public override bool bValidState { get; protected set; }
@@ -54,36 +57,33 @@
 
         void UpdateRoomData()
         {
-            Application.Current.Dispatcher.Invoke(() => _connect.RequestRoomList(0));
-            while (bValidState)
+            while (bValidState && _connect.IsConnected.Value)
             {
                 Thread.Sleep(500);
-                _connect.RequestRoomList(0);
+                _connect.RequestRoomList(CurrentPageNumber.Value);
             }
         }
 
         #region Receive Message
 
         public event Action<BAC_SERVER_CONNECT_MESSAGE>? ReceivedRoomList;
+        public event Action<bool>? ConnectedChanged;
         void ReceiveMessageOnUI(object s)
         {
             if (s is BAC_SERVER_CONNECT_MESSAGE msg)
             {
                 switch (msg.type)
                 {
-                    case SERVER_CONNECT_MESSAGE_TYPE.SERVER_CONNECT_SUCCESS: OnConnectSuccess(msg); break;
                     case SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST: OnReceiveRoomList(msg); break;
                     case SERVER_CONNECT_MESSAGE_TYPE.CREATE_ROOM_SUCCESS: OnCreateRoomSuccess(msg); break;
                     case SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS: OnEnterRoomSuccess(msg); break;
                 }
             }
         }
-        void OnConnectSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
+        void OnConnectedChange(object? sender, PropertyChangedEventArgs args)
         {
-            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
-            {
-                _connect.RequestRoomList(CurrentPageNumber.Value = 1);
-            });
+            ConnectedChanged?.Invoke(_connect.IsConnected.Value);
+            _connect.RequestRoomList(CurrentPageNumber.Value = 1);
         }
         void OnReceiveRoomList(BAC_SERVER_CONNECT_MESSAGE msg)
         {

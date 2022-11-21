@@ -23,7 +23,7 @@ namespace BullsAndCows.Client.MainModule
         IGameManageService _game;
         Task? background;
         public ReactiveProperty<BAC_ROOM_DATA> RoomData { get; private set; } = new ReactiveProperty<BAC_ROOM_DATA>();
-        public WaitingStateModel( IServerConnectingService connect, IGameManageService game)
+        public WaitingStateModel(IServerConnectingService connect, IGameManageService game)
         {
             this._connect = connect;
             this._game = game;
@@ -52,6 +52,7 @@ namespace BullsAndCows.Client.MainModule
         void UpdateRoomData()
         {
             Application.Current.Dispatcher.Invoke(() => _connect.RequestRoomData(0));
+
             while (bValidState)
             {
                 Thread.Sleep(500);

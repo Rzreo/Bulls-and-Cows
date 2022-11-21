@@ -14,6 +14,7 @@ namespace BullsAndCows.Client.MainModule
     using BullsAndCows.Infrastructure.Utils.Regions;
     using Newtonsoft.Json;
     using Prism.Regions;
+    using Reactive.Bindings;
     using System.Windows;
 
     class ServerConnectingService : IServerConnectingService
@@ -21,6 +22,7 @@ namespace BullsAndCows.Client.MainModule
         IDDSService _dds;
         IConfigService _config;
         long connect_last_time = 0u;
+        public ReactiveProperty<bool> IsConnected { get; } = new ReactiveProperty<bool>(false);
         public ServerConnectingService(IDDSService dds, IConfigService config)
         {
             this._dds = dds;
@@ -55,7 +57,7 @@ namespace BullsAndCows.Client.MainModule
         #region Connecting
         public void StartConnect()
         {
-            _config.IsConnected.Value = false;
+            IsConnected.Value = false;
             _dds.RegisterEvent(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _config.ClientID(), CallReceiveServerMessageEvent);
    
             var t = new Thread(CheckConnectedRegular) { IsBackground = true };
@@ -67,24 +69,27 @@ namespace BullsAndCows.Client.MainModule
             {
                 _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE), new BAC_CONNECT_INIT_MESSAGE(){ CLIENT_ID = _config.ClientID() });
             });
-            connect_last_time = DateTime.Now.Ticks;
+            connect_last_time = DateTime.Now.ToMilli();
+
             while (true)
             {
                 _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE), new BAC_CONNECT_INIT_MESSAGE() { CLIENT_ID = _config.ClientID() });
-                if (DateTime.Now.Ticks - connect_last_time > 2000)
+                if (DateTime.Now.ToMilli() - connect_last_time > 1500)
                 {
-                    _config.IsConnected.Value = false;
+                    IsConnected.Value = false;
                 }
                 Thread.Sleep(1000);
             }
         }
         void OnConnectSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
         {
-            connect_last_time = DateTime.Now.Millisecond;
+            connect_last_time = DateTime.Now.ToMilli();
 
-            if (_config.IsConnected.Value == true) return;
+            if (!IsConnected.Value)
+            {
+               IsConnected.Value = true;
 
-            _config.IsConnected.Value = true;
+            }
         }
         #endregion
 

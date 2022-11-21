@@ -5,6 +5,5 @@
     {
         ReactiveProperty<int> ComputerNumber { get; }
         ReactiveProperty<int> ProcessID { get; }
-        ReactiveProperty<bool> IsConnected { get; }
     }
 }

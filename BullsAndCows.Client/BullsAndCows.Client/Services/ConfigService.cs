@@ -22,11 +22,9 @@ namespace BullsAndCows.Client.Services
             this.ComputerNumber = new ReactiveProperty<int>(int.Parse(computerNumber));
             this.ComputerNumber.AddTo(this.Disposables);
             this.ProcessID = new ReactiveProperty<int>(System.Diagnostics.Process.GetCurrentProcess().Id);
-            this.IsConnected = new ReactiveProperty<bool>(false);
         }
 
         public ReactiveProperty<int> ComputerNumber { get; } = new ReactiveProperty<int>();
         public ReactiveProperty<int> ProcessID { get; } = new ReactiveProperty<int>();
-        public ReactiveProperty<bool> IsConnected { get; }
     }
 }
