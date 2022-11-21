@@ -31,6 +31,10 @@
             RoomDatas = new ObservableCollection<BAC_ROOM_DATA>();
             BindingOperations.EnableCollectionSynchronization(RoomDatas, _lock);
 
+            RoomDatas.Add(new BAC_ROOM_DATA());
+            RoomDatas.Add(new BAC_ROOM_DATA());
+            RoomDatas.Add(new BAC_ROOM_DATA());
+
             EnterState();
             _connect.StartConnect();
         }

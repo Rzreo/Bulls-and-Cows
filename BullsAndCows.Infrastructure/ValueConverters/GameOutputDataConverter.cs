@@ -19,7 +19,7 @@ namespace BullsAndCows.Infrastructure
                 throw new Exception("Value DFF");
 
             BAC_GAME_OUTPUT_DATA data = (BAC_GAME_OUTPUT_DATA)value;
-            return $"{data.tryCount} Try => Strike : {data.nStrike}, Ball : {data.nBall}, Out : {data.nOut}";
+            return $"{1} Try => Strike : {data.nStrike}, Ball : {data.nBall}, Out : {data.nOut}";
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

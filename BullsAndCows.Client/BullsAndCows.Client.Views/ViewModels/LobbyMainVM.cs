@@ -36,8 +36,20 @@
             this.Connect = connect;
             this.Model = model;
 
+            model.ReceivedRoomList += OnReceiveRoomList;
             model.ConnectedChanged += (_) => CreateRoomCommand.RaiseCanExecuteChanged();
         }
+
+        #region Receive Message
+        void OnReceiveRoomList(BAC_SERVER_CONNECT_MESSAGE msg)
+        {
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
+            {
+                _RequestPrevRoomListCommand?.RaiseCanExecuteChanged();
+                _RequestNextRoomListCommand?.RaiseCanExecuteChanged();
+            });
+        }
+        #endregion
 
         #region CreateRoom
         DelegateCommand? _CreateRoomCommand;
@@ -62,6 +74,33 @@
                     Connect.RequestRoomList(Model.CurrentPageNumber.Value);
                 }
             }, "DialogWindow");
+        }
+        #endregion
+
+        #region RequestRoomList
+        DelegateCommand? _RequestNextRoomListCommand, _RequestPrevRoomListCommand;
+        public DelegateCommand RequestNextRoomListCommand
+        {
+            get
+            {
+                if (_RequestNextRoomListCommand == null)
+                {
+                    _RequestNextRoomListCommand = new DelegateCommand(()=> Connect.RequestRoomList(Model.CurrentPageNumber.Value += 1), () => { return Model.CurrentPageNumber.Value < Model.LastPageNumber.Value; });
+                }
+                return _RequestNextRoomListCommand;
+            }
+        }
+        public DelegateCommand RequestPrevRoomListCommand
+        {
+            get
+            {
+                var k = new DelegateCommand(() => { });
+                if (_RequestPrevRoomListCommand == null)
+                {
+                    _RequestPrevRoomListCommand = new DelegateCommand(() => Connect.RequestRoomList(Model.CurrentPageNumber.Value -= 1), () => { return Model.CurrentPageNumber.Value > 1; });
+                }
+                return _RequestPrevRoomListCommand;
+            }
         }
         #endregion
     }
