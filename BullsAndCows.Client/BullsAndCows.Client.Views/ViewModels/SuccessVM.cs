@@ -6,15 +6,18 @@ using Prism.Services.Dialogs;
 
 namespace BullsAndCows.Client.Views.ViewModels
 {
+    using BullsAndCows.Client.MainModule;
     using BullsAndCows.Infrastructure.BaseClass;
     using BullsAndCows.Infrastructure.ClientServices;
 
     class SuccessVM : ViewModelBase, INavigationAware
     {
         IGameManageService _game;
-        public SuccessVM(IGameManageService game)
+        public PlayStateModel Model { get; private set; }
+        public SuccessVM(PlayStateModel model, IGameManageService game)
         {
             _game = game;
+            Model = model;
         }
 
         #region Reset

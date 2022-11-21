@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace BullsAndCows.Client.Views
+namespace BullsAndCows.Client.Views.Views
 {
     /// <summary>
     /// Interaction logic for SuccessView.xaml

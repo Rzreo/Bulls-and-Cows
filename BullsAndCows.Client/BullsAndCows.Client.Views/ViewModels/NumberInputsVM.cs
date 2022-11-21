@@ -48,18 +48,6 @@ namespace BullsAndCows.Client.Views.ViewModels
             _game = game;
             _regionMgr = region;
 
-            //_model = model as MyModel;
-            //_model.PropertyChanged += (s, e) =>
-            //{
-            //    if (e.PropertyName != nameof(MyModel.State)) return;
-            //    var t = (s as MyModel).State;
-            //    _regionManager.RequestNavigate(
-            //          Region.PlayViewRegion,
-            //          t == MyModel.EState.Success ? "SuccessView" : "PlayView");
-            //    PlayNumbersCommand.RaiseCanExecuteChanged();
-            //};
-            //
-
             DoCommand.Cmds.RegisterCommand(PlayNumbersCommand);
             model.GameEnded += OnGameEnded;
         }
@@ -117,7 +105,7 @@ namespace BullsAndCows.Client.Views.ViewModels
 
         void OnGameEnded(BAC_GAME_RESULT_DATA data)
         {
-            _regionMgr.RequestNavigate(ClientRegions.Play_PlayRegion, nameof(SuccessView));
+            _regionMgr.RequestNavigate(ClientRegions.Play_PlayRegion, nameof(Views.SuccessView));
         }
     }
 }
