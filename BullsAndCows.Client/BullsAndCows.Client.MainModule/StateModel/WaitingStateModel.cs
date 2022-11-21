@@ -13,6 +13,7 @@ using System.Windows.Data;
 using BullsAndCows.Infrastructure.Utils;
 using Newtonsoft.Json;
 using System.Windows.Markup;
+using System.Windows;
 
 namespace BullsAndCows.Client.MainModule
 {
@@ -50,10 +51,11 @@ namespace BullsAndCows.Client.MainModule
 
         void UpdateRoomData()
         {
+            Application.Current.Dispatcher.Invoke(() => _connect.RequestRoomData(0));
             while (bValidState)
             {
-                _connect.RequestRoomData(0);
                 Thread.Sleep(500);
+                _connect.RequestRoomData(0);
             }
         }
         void ReceiveMessageOnUI(object s)

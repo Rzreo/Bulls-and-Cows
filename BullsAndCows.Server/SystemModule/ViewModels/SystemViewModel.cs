@@ -185,30 +185,38 @@
         }
         private void SendRoomList(BAC_CLIENT_CONNECT_MESSAGE data, string _clientid) //입장 가능한 방 정보 전송
         {
-            if (!Int32.TryParse(data.msg, out int pnum)) return;
-            if (pnum > Math.Ceiling((double)JoinableList.Count / 8)) return;
-            List<RoomInfoData> copy;
-            if (pnum * 8 > JoinableList.Count) copy = JoinableList.ToList().GetRange((pnum - 1) * 8, JoinableList.Count - (pnum - 1) * 8);
-            else copy = JoinableList.ToList().GetRange((pnum - 1) * 8, 8);
-
-            List<BAC_ROOM_DATA> temp = new List<BAC_ROOM_DATA>();
-            foreach(RoomInfoData r in copy)
+            try
             {
-                temp.Add(r.RoomData);
-            }
-            RoomListContainer container = new RoomListContainer() { pageNum = Math.Ceiling((double)JoinableList.Count / 8), RoomList = temp };
-            //System.Diagnostics.Debug.WriteLine(container.RoomList.Count);
+                if (!Int32.TryParse(data.msg, out int pnum)) return;
+                if (pnum > Math.Ceiling((double)JoinableList.Count / 8)) return;
+                List<RoomInfoData> copy;
+                if (pnum * 8 > JoinableList.Count) copy = JoinableList.ToList().GetRange((pnum - 1) * 8, JoinableList.Count - (pnum - 1) * 8);
+                else copy = JoinableList.ToList().GetRange((pnum - 1) * 8, 8);
 
-            string ans = Newtonsoft.Json.JsonConvert.SerializeObject(container);
-            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() => {
-                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientid,
-                    new BAC_SERVER_CONNECT_MESSAGE
-                    {
-                        type = SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST,
-                        msg = ans
-                    }
-                );
-            });
+                List<BAC_ROOM_DATA> temp = new List<BAC_ROOM_DATA>();
+                foreach (RoomInfoData r in copy)
+                {
+                    temp.Add(r.RoomData);
+                }
+                RoomListContainer container = new RoomListContainer() { pageNum = Math.Ceiling((double)JoinableList.Count / 8), RoomList = temp };
+                //System.Diagnostics.Debug.WriteLine(container.RoomList.Count);
+
+                string ans = Newtonsoft.Json.JsonConvert.SerializeObject(container);
+                UIThreadHelper.CheckAndInvokeOnUIDispatcher(() => {
+                    dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientid,
+                        new BAC_SERVER_CONNECT_MESSAGE
+                        {
+                            type = SERVER_CONNECT_MESSAGE_TYPE.SEND_ROOM_LIST,
+                            msg = ans
+                        }
+                    );
+                });
+            }
+            catch(Exception e)
+            {
+                return;
+            }
+
             
         }
         private void RoomMake(BAC_CLIENT_CONNECT_MESSAGE d, string _clientid) //방 생성

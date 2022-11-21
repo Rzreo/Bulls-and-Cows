@@ -11,6 +11,7 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using System.Windows.Interop;
+    using System.Windows;
 
     public class LobbyStateModel : StateModel
     {
@@ -53,10 +54,11 @@
 
         void UpdateRoomData()
         {
+            Application.Current.Dispatcher.Invoke(() => _connect.RequestRoomList(0));
             while (bValidState)
             {
-                _connect.RequestRoomList(0);
                 Thread.Sleep(500);
+                _connect.RequestRoomList(0);
             }
         }
 
