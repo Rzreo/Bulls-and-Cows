@@ -10,6 +10,6 @@
         <bac:RoomDataShowConverter x:Key="RoomDataConverter" />
     </UserControl.Resources>
     <StackPanel>
-        <TextBox Text="{Binding Model.RoomData.Value, Converter={StaticResource RoomDataConverter}}"/>
+        <TextBlock Text="{Binding Model.RoomData.Value, Converter={StaticResource RoomDataConverter}}"/>
     </StackPanel>
 </UserControl>

@@ -28,4 +28,9 @@ namespace BullsAndCows.Infrastructure
         public int nBall;
         public int nOut;
     };
+    public struct BAC_GAME_RESULT_DATA
+    {
+        public string WinnerClientID;
+        public string TryCount;
+    };
 }

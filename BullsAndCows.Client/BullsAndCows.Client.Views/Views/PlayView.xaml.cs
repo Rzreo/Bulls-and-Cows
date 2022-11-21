@@ -17,7 +17,7 @@ namespace BullsAndCows.Client.Views.Views
             RegionContext.GetObservableContext(this).PropertyChanged += PlayView_PropertyChanged;
         }
 
-        private void PlayView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void PlayView_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             //var context = (ObservableObject<object>)sender;
             //(DataContext as PlayVM).GameOutput = context.Value as GameOutput;

@@ -10,6 +10,7 @@ using Prism.Mvvm;
 namespace BullsAndCows.Client.Views.ViewModels
 {
     using BullsAndCows.Client.MainModule;
+    using BullsAndCows.Infrastructure;
     using BullsAndCows.Infrastructure.BaseClass;
     using BullsAndCows.Infrastructure.ClientServices;
     using BullsAndCows.Infrastructure.Net;
@@ -34,15 +35,17 @@ namespace BullsAndCows.Client.Views.ViewModels
     class NumberInputsVM : ViewModelBase
     {
         IRegionManager _regionMgr;
+        IGameManageService _game;
         PlayStateModel _model;
         int _in_a = 0, _in_b = 0, _in_c = 0;
         public int IN_A { get { return _in_a; } set { SetProperty(ref _in_a, value % 10); } }
         public int IN_B { get { return _in_b; } set { SetProperty(ref _in_b, value % 10); } }
         public int IN_C { get { return _in_c; } set { SetProperty(ref _in_c, value % 10); } }
         public List<int> Numbers { get; private set; } = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        public NumberInputsVM(PlayStateModel model, IRegionManager region)
+        public NumberInputsVM(PlayStateModel model, IGameManageService game, IRegionManager region)
         {
             _model = model;
+            _game = game;
             _regionMgr = region;
 
             //_model = model as MyModel;
@@ -58,6 +61,7 @@ namespace BullsAndCows.Client.Views.ViewModels
             //
 
             DoCommand.Cmds.RegisterCommand(PlayNumbersCommand);
+            model.GameEnded += OnGameEnded;
         }
 
         public DoCommand DoCommand { get; set; } = new DoCommand();
@@ -110,5 +114,10 @@ namespace BullsAndCows.Client.Views.ViewModels
             }
         }
         #endregion
+
+        void OnGameEnded(BAC_GAME_RESULT_DATA data)
+        {
+            _regionMgr.RequestNavigate(ClientRegions.Play_PlayRegion, nameof(SuccessView));
+        }
     }
 }

@@ -20,12 +20,10 @@ namespace BullsAndCows.Client.MainModule
     {
         IServerConnectingService _connect;
         IGameManageService _game;
-        IConfigService _config;
-        object _lock = new object();
+        Task? background;
         public ReactiveProperty<BAC_ROOM_DATA> RoomData { get; private set; } = new ReactiveProperty<BAC_ROOM_DATA>();
-        public WaitingStateModel(IDialogService dialog, IServerConnectingService connect, IGameManageService game, IConfigService config)
+        public WaitingStateModel( IServerConnectingService connect, IGameManageService game)
         {
-            this._config = config;
             this._connect = connect;
             this._game = game;
 
@@ -35,19 +33,17 @@ namespace BullsAndCows.Client.MainModule
         #region StateModel
         protected override void EnterState()
         {
-            base.EnterState();
+            _connect.ReceiveServerMessageOnUI += ReceiveMessageOnUI;
+            background = Task.Factory.StartNew(UpdateRoomData);
 
-            bValidState = true;
-            _connect.ReceiveServerMessage += ReceiveMessageOnUI;
-            var t = new Thread(UpdateRoomData) { IsBackground = true };
-            t.Start();
+            base.EnterState();
         }
         protected override void ExitState()
         {
             base.ExitState();
 
-            _connect.ReceiveServerMessage -= ReceiveMessageOnUI;
-            bValidState = false;
+            _connect.ReceiveServerMessageOnUI -= ReceiveMessageOnUI;
+            background?.Wait();
         }
         public override bool bValidState { get; protected set; }
         #endregion

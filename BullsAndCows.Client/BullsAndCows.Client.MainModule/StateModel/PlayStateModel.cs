@@ -1,6 +1,7 @@
 ﻿using BullsAndCows.Infrastructure;
 using BullsAndCows.Infrastructure.ClientServices;
 using BullsAndCows.Infrastructure.OperationManagement;
+using BullsAndCows.Infrastructure.Utils;
 using Newtonsoft.Json;
 using Prism.Services.Dialogs;
 using System;
@@ -15,12 +16,16 @@ namespace BullsAndCows.Client.MainModule
 {
     public class PlayStateModel : StateModel
     {
+        IConfigService _config;
         IServerConnectingService _connect;
         IGameManageService _game;
         object _lock = new object();
         public ObservableCollection<BAC_GAME_OUTPUT_DATA> GameLogs { get; private set; }
-        public PlayStateModel(IDialogService dialog, IServerConnectingService connect, IGameManageService game)
+        public BAC_GAME_RESULT_DATA RESULT { get; private set; }
+        public bool bWin { get; private set; } = false;
+        public PlayStateModel( IServerConnectingService connect, IGameManageService game, IConfigService config)
         {
+            this._config = config;
             this._connect = connect;
             this._game = game;
 
@@ -44,9 +49,13 @@ namespace BullsAndCows.Client.MainModule
 
             _connect.ReceiveServerMessageOnUI -= ReceiveMessageOnUI;
             bValidState = false;
+
+            bWin = false;
         }
         public override bool bValidState { get; protected set; }
         #endregion
+
+        public event Action<BAC_GAME_RESULT_DATA>? GameEnded;
 
         public void SendInput(int a, int b, int c)
         {
@@ -73,7 +82,9 @@ namespace BullsAndCows.Client.MainModule
         }
         void OnGameEnded(BAC_SERVER_CONNECT_MESSAGE msg)
         {
-            _game.GoToLobby();
+            RESULT = JsonConvert.DeserializeObject<BAC_GAME_RESULT_DATA>(msg.msg);
+            bWin = RESULT.WinnerClientID == _config.ClientID();
+            GameEnded?.Invoke(RESULT);
         }
     }
 }

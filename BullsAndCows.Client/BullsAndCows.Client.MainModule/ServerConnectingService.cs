@@ -12,6 +12,7 @@ namespace BullsAndCows.Client.MainModule
     using BullsAndCows.Infrastructure.OperationManagement;
     using BullsAndCows.Infrastructure.Utils;
     using BullsAndCows.Infrastructure.Utils.Regions;
+    using Newtonsoft.Json;
     using Prism.Regions;
 
     class ServerConnectingService : IServerConnectingService
@@ -26,6 +27,8 @@ namespace BullsAndCows.Client.MainModule
 
             ReceiveServerMessage += OnReceiveServerMessage;
         }
+
+        #region SERVER MESSAGE EVENT
         public event Action<object>? ReceiveServerMessage;
         public event Action<object>? ReceiveServerMessageOnUI;
         private void CallReceiveServerMessageEvent(object arg)
@@ -35,29 +38,6 @@ namespace BullsAndCows.Client.MainModule
             {
                 ReceiveServerMessageOnUI?.Invoke(arg);
             });
-        }
-
-        public void StartConnect()
-        {
-            _config.IsConnected.Value = false;
-            _dds.RegisterEvent(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _config.ClientID(), CallReceiveServerMessageEvent);
-
-            var t = new Thread(Connecting) { IsBackground = true };
-            t.Start();
-        }
-        void Connecting()
-        {
-            //while (_config.IsConnected.Value == false)
-            {
-                _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
-                    new BAC_CONNECT_INIT_MESSAGE()
-                    {
-                        CLIENT_ID = _config.ClientID(),                       
-                    });
-                Thread.Sleep(200);
-                cnt++;
-            }
-            System.Diagnostics.Debug.WriteLine(cnt);
         }
         void OnReceiveServerMessage(object s)
         {
@@ -69,12 +49,38 @@ namespace BullsAndCows.Client.MainModule
                 }
             }
         }
+        #endregion
+
+        #region Connecting
+        public void StartConnect()
+        {
+            _config.IsConnected.Value = false;
+            _dds.RegisterEvent(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _config.ClientID(), CallReceiveServerMessageEvent);
+
+            var t = new Thread(Connecting) { IsBackground = true };
+            t.Start();
+        }
+        void Connecting()
+        {
+            UIThreadHelper.CheckAndInvokeOnUIDispatcher(() =>
+            {
+                _dds.Write(typeof(BAC_CONNECT_INIT_MESSAGE), nameof(BAC_CONNECT_INIT_MESSAGE),
+                            new BAC_CONNECT_INIT_MESSAGE()
+                            {
+                                CLIENT_ID = _config.ClientID(),
+                            });
+                Thread.Sleep(200);
+                cnt++;
+                System.Diagnostics.Debug.WriteLine(cnt);
+            });
+        }
         void OnConnectSuccess(BAC_SERVER_CONNECT_MESSAGE msg)
         {
             if (_config.IsConnected.Value == true) return;
 
             _config.IsConnected.Value = true;
         }
+        #endregion
 
         #region Client Message
         public void EnterRoom(uint id)
@@ -115,12 +121,12 @@ namespace BullsAndCows.Client.MainModule
         }
         public void SendGameInput(BAC_GAME_INPUT_DATA data)
         {
-            //_dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
-            //                    new BAC_CLIENT_CONNECT_MESSAGE()
-            //                    {
-            //                        type = CLIENT_CONNECT_MESSAGE_TYPE.,
-            //                        msg = id.ToString()
-            //                    });
+            _dds.Write(typeof(BAC_CLIENT_CONNECT_MESSAGE), nameof(BAC_CLIENT_CONNECT_MESSAGE) + _config.ClientID(),
+                                new BAC_CLIENT_CONNECT_MESSAGE()
+                                {
+                                    type = CLIENT_CONNECT_MESSAGE_TYPE.SEND_GAME_INPUT,
+                                    msg = JsonConvert.SerializeObject(data)
+                                });
         }
         #endregion
     }

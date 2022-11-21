@@ -17,6 +17,7 @@
         IServerConnectingService _connect;
         IGameManageService _game;
         object _lock = new object();
+        Task? background;
         public ObservableCollection<BAC_ROOM_DATA> RoomDatas { get; private set; }
         public ReactiveProperty<int> CurrentPageNumber { get; private set; } = new ReactiveProperty<int>() { Value = 0 };
         public ReactiveProperty<int> LastPageNumber { get; private set; } = new ReactiveProperty<int>() { Value = 0 };
@@ -35,18 +36,29 @@
         #region StateModel
         protected override void EnterState()
         {
+            _connect.ReceiveServerMessageOnUI += ReceiveMessageOnUI;           
+            background = Task.Factory.StartNew(UpdateRoomData);
+
             base.EnterState();
-            bValidState = true;
-            _connect.ReceiveServerMessageOnUI += ReceiveMessageOnUI;
         }
         protected override void ExitState()
         {
             base.ExitState();
+
             _connect.ReceiveServerMessageOnUI -= ReceiveMessageOnUI;
-            bValidState = false;
+            background?.Wait();
         }
         public override bool bValidState { get; protected set; }
         #endregion
+
+        void UpdateRoomData()
+        {
+            while (bValidState)
+            {
+                _connect.RequestRoomList(0);
+                Thread.Sleep(500);
+            }
+        }
 
         #region Receive Message
 
