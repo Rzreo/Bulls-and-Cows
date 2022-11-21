@@ -16,6 +16,8 @@
     using ICSharpCode.AvalonEdit.Document;
     using System.ComponentModel;
     using System.Threading;
+    using GameModel;
+    using Newtonsoft.Json;
 
     public class SystemViewModel : BindableBase, IDisposable
     {
@@ -29,10 +31,12 @@
             public string ClientInfo { get; set; }
         }
         public ReactiveCollection<Clients> ConnectList { get; }
+        public Dictionary<string,int> ClientRoomPair { get; set; }
 
         public ReactiveCollection<RoomInfoData> JoinableList { get; }
 
         public ReactiveCollection<RoomInfoData> PlayingList { get; }
+
 
 
         /// <summary>
@@ -57,7 +61,8 @@
         private DDSService dds;
         object _lock = new object();
         int RoomCount;
-        public SystemViewModel(DDSService dds)
+        GameModel model;
+        public SystemViewModel(DDSService dds, GameModel _model)
         {
             ConnectList = new ReactiveCollection<Clients>();
             BindingOperations.EnableCollectionSynchronization(ConnectList, _lock);
@@ -126,7 +131,9 @@
                 }
             });
 
+            ClientRoomPair = new Dictionary<string, int>();
             this.dds = dds;
+            this.model = _model;
             RoomCount = 1;
             RecvMessages = dds.RCVmessages;
             SendMessages = dds.SNDmessages;
@@ -176,6 +183,7 @@
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_LIST) SendRoomList(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.ENTER_ROOM) EnterRoom(data, _clientid);
             else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.REQUEST_ROOM_DATA) ResendRoomData(data, _clientid);
+            else if (data.type == CLIENT_CONNECT_MESSAGE_TYPE.SEND_GAME_INPUT) SendGameoutput(data, _clientid); 
         }
 
         struct RoomListContainer//페이지 전송을 위한 구조체
@@ -242,6 +250,7 @@
             {
                 Clients _client = new Clients() { ClientInfo = data.CLIENT_ID };
                 ConnectList.Add(_client);
+                ClientRoomPair.Add(data.CLIENT_ID, 0);
             }
             SendJoinableList(data.CLIENT_ID);
         }
@@ -280,6 +289,7 @@
                 {
                     playRoom.RoomData = new BAC_ROOM_DATA() { RoomID = playRoom.RoomData.RoomID, Max_Num_Participants = playRoom.RoomData.Max_Num_Participants, Cur_Num_Participants = playRoom.RoomData.Cur_Num_Participants + 1 };
                     playRoom.Clients.Add(clientId);
+                    ClientRoomPair[clientId] = (int)playRoom.RoomData.RoomID;
                     dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + clientId,
                             new BAC_SERVER_CONNECT_MESSAGE
                             {
@@ -292,6 +302,14 @@
                 }
 
             }
+
+            dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + clientId,
+                    new BAC_SERVER_CONNECT_MESSAGE
+                    {
+                        type = SERVER_CONNECT_MESSAGE_TYPE.ENTER_ROOM_SUCCESS,
+                        msg = ""
+                    }
+                );
             return;//못들어갔다고 답변전송
         }
 
@@ -310,8 +328,8 @@
                     }
                     );
                 }
-
             }
+            model.GameStart((int)playRoom.RoomData.RoomID, playRoom.Clients);
             JoinableList.Remove(playRoom);
         }
         public void ResendRoomData(BAC_CLIENT_CONNECT_MESSAGE data, string _clientId)
@@ -373,6 +391,46 @@
                         );
                 }
                 return;
+            }
+        }
+
+        public void SendGameoutput(BAC_CLIENT_CONNECT_MESSAGE data, string _clientId)
+        {
+            BAC_GAME_INPUT_DATA input = JsonConvert.DeserializeObject<BAC_GAME_INPUT_DATA>(data.msg);
+            string str = ""+input.A+input.B+input.C;
+            BAC_GAME_OUTPUT_DATA output = model.CountResult(ClientRoomPair[_clientId], _clientId, str);
+            string ans = JsonConvert.SerializeObject(output);
+
+            dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
+                    new BAC_SERVER_CONNECT_MESSAGE
+                    {
+                        type = SERVER_CONNECT_MESSAGE_TYPE.SEND_GAME_OUTPUT_DATA,
+                        msg = ans
+                    }
+                );
+
+            /////////////게임 종료 메세지
+            if (output.nStrike == 3)
+            {
+                bool exist = false;
+                List<string> cs = new List<string>();
+                foreach (RoomInfoData room in PlayingList)
+                {
+                    if (room.RoomData.RoomID == (uint)ClientRoomPair[_clientId]) { exist = true; cs = room.Clients; break; }
+                }
+                if (exist)
+                {
+                    foreach (string cid in cs)
+                    {
+                        dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + cid,
+                                new BAC_SERVER_CONNECT_MESSAGE
+                                {
+                                    type = SERVER_CONNECT_MESSAGE_TYPE.SEND_GAME_OUTPUT_DATA,
+                                    msg = $"game end, winner is {_clientId}"
+                                }
+                            );
+                    }
+                }
             }
         }
 
