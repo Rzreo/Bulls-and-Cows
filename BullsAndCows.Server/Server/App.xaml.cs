@@ -1,9 +1,6 @@
 ﻿namespace Server
 {
     using BullsAndCows.Infrastructure.Utils.Regions;
-    using MainModule;
-    using MainModule.ViewModels;
-    using MainModule.Views;
     using Prism.DryIoc;
     using Prism.Ioc;
     using Prism.Modularity;

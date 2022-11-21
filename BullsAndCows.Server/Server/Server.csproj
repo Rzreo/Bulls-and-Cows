@@ -17,7 +17,6 @@
     <ProjectReference Include="..\..\BullsAndCows.Infrastructure\BullsAndCows.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Types\Types.vcxproj" />
     <ProjectReference Include="..\BullsAndCows.Server.Net\BullsAndCows.Server.Net.csproj" />
-    <ProjectReference Include="..\MainModule\MainModule.csproj" />
     <ProjectReference Include="..\SystemModule\SystemModule.csproj" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
