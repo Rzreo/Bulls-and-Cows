@@ -409,14 +409,6 @@
             BAC_GAME_OUTPUT_DATA output = model.CountResult(ClientRoomPair[_clientId], _clientId, str);
             string ans = JsonConvert.SerializeObject(output);
 
-            dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
-                    new BAC_SERVER_CONNECT_MESSAGE
-                    {
-                        type = SERVER_CONNECT_MESSAGE_TYPE.SEND_GAME_OUTPUT_DATA,
-                        msg = ans
-                    }
-                );
-
             /////////////게임 종료 메세지
             if (output.nStrike == 3)
             {
@@ -428,17 +420,30 @@
                 }
                 if (exist)
                 {
+                    BAC_GAME_RESULT_DATA endData = new BAC_GAME_RESULT_DATA() { TryCount = "" + output.tryCount, WinnerClientID = _clientId };
+                    string ans2 = JsonConvert.SerializeObject(endData);
                     foreach (string cid in cs)
                     {
                         dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + cid,
                                 new BAC_SERVER_CONNECT_MESSAGE
                                 {
-                                    type = SERVER_CONNECT_MESSAGE_TYPE.SEND_GAME_OUTPUT_DATA,
-                                    msg = $"game end, winner is {_clientId}"
+                                    type = SERVER_CONNECT_MESSAGE_TYPE.REQUEST_GAME_END,
+                                    msg = ans2
                                 }
                             );
                     }
                 }
+            }
+            else
+            {
+                dds.Write(typeof(BAC_SERVER_CONNECT_MESSAGE), nameof(BAC_SERVER_CONNECT_MESSAGE) + _clientId,
+                        new BAC_SERVER_CONNECT_MESSAGE
+                        {
+                            type = SERVER_CONNECT_MESSAGE_TYPE.SEND_GAME_OUTPUT_DATA,
+                            msg = ans
+                        }
+                    );
+
             }
         }
 
