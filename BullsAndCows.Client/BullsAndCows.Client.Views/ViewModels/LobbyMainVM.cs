@@ -47,14 +47,14 @@
             {
                 if (_CreateRoomCommand == null)
                 {
-                    _CreateRoomCommand = new DelegateCommand(CreateRoom, () => { return Connect.IsConnected.Value; });
+                    _CreateRoomCommand = new DelegateCommand(CreateRoom);
                 }
                 return _CreateRoomCommand;
             }
         }
         void CreateRoom()
         {
-            _dialog.ShowDialog(nameof(CreateRoomDialog), new DialogParameters($"message={"ㅋㅋㅋㅋ"}"), r =>
+            _dialog.Show(nameof(CreateRoomDialog), new DialogParameters($"message={"ㅋㅋㅋㅋ"}"), r =>
             {
                 if (r.Result == ButtonResult.OK)
                 {
